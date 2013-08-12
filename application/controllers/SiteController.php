@@ -8,7 +8,6 @@
  */
 class SiteController extends CController{
 	public function actionIndex(){
-		$app = Yii::app();
-		echo isset($app['test']);
+		echo 'test';
 	}
 }
