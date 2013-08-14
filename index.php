@@ -7,6 +7,7 @@
  * Encoding UTF-8
  */
 require dirname(__FILE__).'/../XCms1.0/cms.php';
-$environment = new Environment(Environment::DEBUG);
+require dirname(__FILE__).'/application/config/SqbConfig.php';
+$environment = new Environment(new SqbConfig());
 $environment->basePath = dirname(__FILE__).DS.'application'.DS;
 $environment->run();
