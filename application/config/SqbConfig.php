@@ -32,10 +32,10 @@ class SqbConfig extends ConfigBase{
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
-								'connectionString' => 'mysql:host=www.caixiao2.com;dbname=shequbao',
+								'connectionString' => 'mysql:host=121.199.54.87;dbname=shequbao',
 								'emulatePrepare' => true,
 								'username' => 'sqb-sandbox',
-								'password' => 'sqb-sandbox@caixiao2',
+								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),

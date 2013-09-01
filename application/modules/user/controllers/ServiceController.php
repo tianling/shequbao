@@ -10,7 +10,11 @@ class ServiceController extends CmsController{
 	
 	public function actionSignUp(){
 		$user = new SqbUser();
-		$user->attributes = $this->getPost();
+		$attributes = $this->getPost();
+		$attributes['last_login_time'] = time();
+		$attributes['last_login_ip'] = $this->request->userHostAddress;
+		
+		$user->attributes = $attributes;
 		
 		if ( $user->save() ){
 			$this->response(200,'注册成功');

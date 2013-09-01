@@ -39,7 +39,7 @@ class SqbUser extends SingleInheritanceModel
 	{
 		return array(
 			array('id','required','on'=>'update','message'=>'{attribute}不存在'),
-			array('mobile', 'required','message'=>'{attribute}不能为空'),
+			array('mobile,email', 'required','message'=>'{attribute}不能为空'),
 			array('mobile','unique','message'=>'{attribute}已存在'),
 			array('mobile', 'length', 'is'=>11, 'message'=>'{attribute}不正确'),
 			array('email', 'length', 'max'=>50, 'message'=>'{attribute}过长'),
