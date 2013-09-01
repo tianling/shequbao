@@ -15,6 +15,9 @@ class SqbConfig extends ConfigBase{
 								'password'=>'lancelot!410',
 								'ipFilters'=>array('127.0.0.1','::1'),
 						),
+						'user' => array(
+								'class' => 'application.modules.user.UserModule'
+						),
 				),
 				'components' => array(
 						'log'=>array(
@@ -34,6 +37,13 @@ class SqbConfig extends ConfigBase{
 								'username' => 'sqb-sandbox',
 								'password' => 'sqb-sandbox@caixiao2',
 								'charset' => 'utf8',
+								'tablePrefix' => 'xcms_'
+						),
+						'urlManager'=>array(
+								'urlFormat'=>'path',
+								'urlSuffix' => '.html',
+								'showScriptName' => false,
+								'rules' => require dirname(__FILE__).'/RestApiRules.php'
 						),
 				),
 				'params' => array(
