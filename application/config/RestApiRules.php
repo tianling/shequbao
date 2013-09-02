@@ -8,4 +8,5 @@
  */
 return array(
 		array('user/service/signUp','pattern'=>'user','verb'=>'POST'),
+		array('user/service/login','pattern'=>'user/login','verb'=>'POST')
 );

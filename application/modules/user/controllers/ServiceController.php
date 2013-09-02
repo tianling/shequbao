@@ -19,7 +19,18 @@ class ServiceController extends CmsController{
 		if ( $user->save() ){
 			$this->response(200,'注册成功');
 		}else {
-			$this->response(405,$user->getErrors());
+			$this->response(400,$user->getErrors());
+		}
+	}
+	
+	public function actionLogin(){
+		$model = new SqbLoginForm('app');
+		$model->attributes = $this->getPost();
+		
+		if ( $model->login() ){
+			$this->response(200,'登录成功');
+		}else {
+			$this->response(400,'登录失败',$model->getErrors());
 		}
 	}
 }

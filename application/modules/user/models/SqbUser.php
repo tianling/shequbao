@@ -11,7 +11,7 @@
  * @property string $phone
  * @property string $groups
  * @property string $attention
- * @property string $be_concerned
+ * @property string $be_attentioned
  * @property integer $online_status
  *
  * The followings are the available model relations:
@@ -43,10 +43,11 @@ class SqbUser extends SingleInheritanceModel
 			array('mobile','unique','message'=>'{attribute}已存在'),
 			array('mobile', 'length', 'is'=>11, 'message'=>'{attribute}不正确'),
 			array('email', 'length', 'max'=>50, 'message'=>'{attribute}过长'),
+			array('email', 'email', 'message'=>'{attribute}格式不正确'),
 			array('email', 'unique', 'message'=>'{attribute}已被注册'),
 			array('identity_id', 'length', 'max'=>18,'message'=>'{attribute}过长'),
 			array('phone', 'length', 'max'=>20,'message'=>'{attribute}过长'),
-			array('identity_id,gender,online_status,be_concerned,attention,groups','safe'),
+			array('identity_id,gender,online_status,be_attentioned,attention,groups','safe'),
 		);
 	}
 
@@ -80,7 +81,7 @@ class SqbUser extends SingleInheritanceModel
 			'phone' => '座机号码',
 			'groups' => '群数量',
 			'attention' => '关注的用户数量',
-			'be_concerned' => '关注我的用户数量',
+			'be_attentioned' => '关注我的用户数量',
 			'online_status' => '在线状态',
 		);
 	}
@@ -110,7 +111,7 @@ class SqbUser extends SingleInheritanceModel
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('groups',$this->groups,true);
 		$criteria->compare('attention',$this->attention,true);
-		$criteria->compare('be_concerned',$this->be_concerned,true);
+		$criteria->compare('be_attentioned',$this->be_attentioned,true);
 		$criteria->compare('online_status',$this->online_status);
 
 		return new CActiveDataProvider($this, array(
