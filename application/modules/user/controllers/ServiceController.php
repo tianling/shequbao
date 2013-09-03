@@ -47,10 +47,11 @@ class ServiceController extends CmsController{
 					//if save() fail
 					$this->response(405,$user->getErrors());
 				}
-			}else{
-				//if the $loginId!=$user_id
-				$this->response(404,'用户名存在');
-			}
+ 			}
+ 			else{
+ 				//if the $loginId!=$user_id
+ 				$this->response(404,'用户名存在');
+ 			}
 		}else{
 			//if the $user is null
 			$this->response(404,'用戶名不存在');
