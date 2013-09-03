@@ -35,11 +35,11 @@ class SqbLoginForm extends CFormModel{
 	/**
 	 * @return boolean
 	 */
-	public function login(){
+	public function login($duration=0){
 		if ( $this->validate() ){
 			$identity = new AppUserIdentity($this->account,$this->password);
 			if ( $identity->authenticate() ){
-				Yii::app()->getUser()->login($identity);
+				Yii::app()->getUser()->login($identity,$duration);
 				return true;
 			}else {
 				$this->addError('password',$identity->errorMessage);

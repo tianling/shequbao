@@ -7,6 +7,13 @@
  * Encoding UTF-8
  */
 class SqbConfig extends ConfigBase{
+	
+	public function init($owner){
+		parent::init($owner);
+		$this->debug = true;
+		$this->traceLevel = 3;
+	}
+	
 	public function merge(){
 		return array(
 				'modules' => array(
@@ -25,7 +32,7 @@ class SqbConfig extends ConfigBase{
 								'routes'=>array(
 										array(
 												'class'=>'CWebLogRoute',
-												'levels'=>'error, warning',
+												//'levels'=>'error, warning',
 										),
 								),
 						),
@@ -44,6 +51,12 @@ class SqbConfig extends ConfigBase{
 								'urlSuffix' => '.html',
 								'showScriptName' => false,
 								'rules' => require dirname(__FILE__).'/RestApiRules.php'
+						),
+						'user' => array(
+							'stateKeyPrefix' => 'APPU',
+							'allowAutoLogin' => true,
+							'guestName' => '游客',
+							'authTimeout' => 600
 						),
 				),
 				'params' => array(

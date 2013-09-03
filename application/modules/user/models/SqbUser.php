@@ -16,7 +16,7 @@
  *
  * The followings are the available model relations:
  * @property Community[] $xcmsCommunities
- * @property User $id0
+ * @property UserModel $baseUser
  * @property UserAddress[] $userAddresses
  * @property UserContacts[] $userContacts
  * @property UserIcon[] $userIcons
