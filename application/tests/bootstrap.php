@@ -6,7 +6,7 @@
  * Date 2013-8-12
  * Encoding UTF-8
  */
-require dirname(__FILE__).'/../../cms.php';
+require dirname(__FILE__).'/../../../Xcms/core/cms.php';
 require dirname(__FILE__).'/TestConfig.php';
 $environment = new Environment(new TestConfig(),'CmsApplication','test');
 $environment->prepare();

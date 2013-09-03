@@ -8,54 +8,86 @@
  */
 class ServiceController extends CmsController{
 	
-	public function actionSignUp(){
-		$user = new SqbUser();
-		$attributes = $this->getPost();
-		$attributes['last_login_time'] = time();
-		$attributes['last_login_ip'] = $this->request->userHostAddress;
+	public function filters(){
+		$filters = parent::filters();
+		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login';
 		
-		$user->attributes = $attributes;
-		
-		if ( $user->save() ){
-			$this->response(200,'注册成功');
+		return $filters;
+	}
+	
+	public function actionCreate(){
+		if ( Yii::app()->getUser()->getIsGuest() ){
+			$user = new SqbUser();
+			$attributes = $this->getPost();
+			$attributes['last_login_time'] = time();
+			$attributes['last_login_ip'] = $this->request->userHostAddress;
+			
+			$user->attributes = $attributes;
+			
+			if ( $user->validate() ){
+				$user->save(false);
+				$this->response(200,'注册成功');
+			}else {
+				$this->response(400,$user->getErrors());
+			}
 		}else {
-			$this->response(400,$user->getErrors());
+			$this->response(200,'请退出之后注册');
 		}
+		
 	}
 	
 	public function actionLogin(){
-		$model = new SqbLoginForm('app');
-		$model->attributes = $this->getPost();
-		
-		if ( $model->login() ){
-			$this->response(200,'登录成功');
+		if ( Yii::app()->getUser()->getIsGuest() ){
+			$model = new SqbLoginForm('app');
+			$model->attributes = $this->getRestParam();
+			
+			if ( $model->login(3600*24*30) ){
+				$this->response(200,'登录成功');
+			}else {
+				$this->response(200,'登录失败',$model->getErrors());
+			}
 		}else {
-			$this->response(400,'登录失败',$model->getErrors());
+			$this->response(200,'请不要重复登录');
 		}
 	}
 	
-	public  function actionUpdateUser($id){
+	public function actionLogout(){
+		Yii::app()->getUser()->logout();
+		$this->response(200,'退出成功');
+	}
+	
+	public  function actionUpdate($id){
 		$user = new SqbUser();
 		$loginId = Yii::app()->user->id;
 		$user  = SqbUser::model()->with('baseUser')->findByPk($id);
+		
 		if($user!=null){
 			if ($loginId==$id) {
-				$user->attributes = $this->getRestParam();
-				if($user->save()){
+				$putData = $this->getRestParam();
+				
+				$oldAttributes = $user->getAttributes();
+				$user->setAttributes($putData);
+				if($user->validate()){
+					if ( isset($putData['password']) ){
+						$user->baseUser->changePassword($putData['password']);
+					}
+					$user->baseUser->changeUUID($putData,$oldAttributes,$oldAttributes);
+					
+					$user->save(false);
 					$this->response(200,'修改成功');
 				}else{
-					//if save() fail
-					$this->response(405,$user->getErrors());
+					$this->response(400,$user->getErrors());
 				}
 			}else{
-				//if the $loginId!=$user_id
-				$this->response(404,'用户名存在');
+				$this->response(400,'不能修改他人信息');
 			}
 		}else{
-			//if the $user is null
-			$this->response(404,'用戶名不存在');
-				
+			$this->response(404,'用戶不存在');
 		}
+	}
+	
+	public function loginRequired(){
+		$this->response(200,'请登录');
 	}
 	
 	/* 	public function actionUpdateUserAddress($user_id){

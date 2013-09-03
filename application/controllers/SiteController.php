@@ -8,5 +8,6 @@
  */
 class SiteController extends CmsController{
 	public function actionIndex(){
+		echo 'da';
 	}
 }
