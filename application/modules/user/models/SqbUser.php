@@ -23,7 +23,14 @@
  */
 class SqbUser extends SingleInheritanceModel
 {
+	/**
+	 * @var string
+	 */
 	protected $_parentRelation = 'baseUser';
+	/**
+	 * @var array
+	 */
+	protected $_uuidDependence = array('mobile','email','password');
 	/**
 	 * @return string the associated database table name
 	 */
