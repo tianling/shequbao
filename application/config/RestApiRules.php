@@ -9,5 +9,5 @@
 return array(
 		array('pattern'=>'<_m:(user)>','<_m>/service/create','verb'=>'POST'),//create a resource
 		array('pattern'=>'<_m:(user)>/<id:\d+>','<_m>/service/update','verb'=>'PUT'),//update a resource
-		array('pattern'=>'user/<_a:(login|logout)>','user/service/<_a>','verb'=>'POST,PUT,DELETE'),//user login logout
+		array('pattern'=>'user/<_a:(login|logout)>','user/service/<_a>','verb'=>'POST,PUT'),//user login logout
 );

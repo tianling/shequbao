@@ -35,6 +35,7 @@ class AppUserIdentity extends CUserIdentity{
 	public function createStates(){
 		$states = $this->_user->getAttributes();
 		return array(
+				'uid' => $states['id'],
 				'nickname' => $states['nickname'],
 				'realname' => $states['realname'],
 				'uuid' => $states['uuid'],
