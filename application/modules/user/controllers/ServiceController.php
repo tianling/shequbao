@@ -105,21 +105,23 @@ class ServiceController extends CmsController{
 	}
 	
 	
-/* 	public function actionUpdateAddress($user_id){
+ 	public function actionUpdateAddress($address_id){
 	 	$address = new UserAddress();
+	 	$address =UserAddress::model()->findByPk($address_id);
+	 	$userid=$address->user_id;
 		$loginId = Yii::app()->user->id;
-		$model =  UserAddress::model()->find('user_id=:user_id',array(':user_id'=>$user_id));
-	if($loginId==$user_id)
-	{
-		$address->attributes = $this->getPost();
-		if($model->save()){
-			$this->response(200,'成功');
+		if($loginId==$userid){
+			$address=$this->getPost();
+			if($address->save()){
+				$this->response(200,'修改成功');
+			}else{
+				print_r($address->getErrors());
+				$this->response(400,'修改失败');
+			}
 		}else{
-			$this->reponse(404,$address->getErrors());
+			$this->request(404,'用户不存在');
 		}
-	}else{
-		$this->response(404,'用户名不存在');
-	}
 	
-	}  */
+	
+	}  
 }
