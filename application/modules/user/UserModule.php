@@ -11,5 +11,12 @@ class UserModule extends CmsModule{
 	public function init(){
 		Yii::import('user.models.*');
 		Yii::import('user.components.*');
+		
+		Yii::app()->setComponent('user',array(
+				'stateKeyPrefix' => 'APPU',
+				'allowAutoLogin' => true,
+				'guestName' => '游客',
+			//	'authTimeout' => 600
+		));
 	}
 }

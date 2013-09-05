@@ -39,7 +39,7 @@ class SqbConfig extends ConfigBase{
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
-								'connectionString' => 'mysql:host=121.199.54.87;dbname=shequbao',
+								'connectionString' => 'mysql:host=121.199.54.87;dbname=shequbao'/*'mysql:host=localhost;dbname=shequbao'*/,
 								'emulatePrepare' => true,
 								'username' => 'sqb-sandbox',
 								'password' => 'sqb-sandbox@aliyun',
@@ -52,12 +52,7 @@ class SqbConfig extends ConfigBase{
 								'showScriptName' => false,
 								'rules' => require dirname(__FILE__).'/RestApiRules.php'
 						),
-						'user' => array(
-							'stateKeyPrefix' => 'APPU',
-							'allowAutoLogin' => true,
-							'guestName' => '游客',
-							'authTimeout' => 600
-						),
+						
 				),
 				'params' => array(
 						'test' => 'dasdas'
