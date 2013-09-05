@@ -79,7 +79,8 @@ class ServiceController extends CmsController{
 				}else{
 					$this->response(400,$user->getErrors());
 				}
-			}else{
+ 			}
+			else{
 				$this->response(400,'不能修改他人信息');
 			}
 		}else{
