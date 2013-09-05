@@ -91,21 +91,35 @@ class ServiceController extends CmsController{
 		$this->response(200,'请登录');
 	}
 	
-	/* 	public function actionUpdateUserAddress($user_id){
-	 $address = new UserAddress();
-	$loginId = Yii::app()->user->id;
-	$model =  UserAddress::model()->find('user_id=:user_id',array(':user_id'=>$user_id));
-	if($loginId==$user_id)
-	{
-	$address->attributes = $this->getPost();
-	if($model->save()){
-	$this->response(200,'成功');
-	}else{
-	$this->reponse(404,$address->getErrors());
-	}
-	}else{
-	$this->response(404,'用户名不存在');
+	public function actionCreateAddress($id){
+			$address = new UserAddress();
+			$newAttributes = $this->getPost();
+			$newAttributes['user_id'] = $id;
+			$address->attributes = $newAttributes;
+			if($address->save()){
+				$this->response(200,'增加成功');
+			}else{
+				print_r($address->getErrors());
+				$this->response(400,'增加失败');
+			}
 	}
 	
-	} */
+	
+/* 	public function actionUpdateAddress($user_id){
+	 	$address = new UserAddress();
+		$loginId = Yii::app()->user->id;
+		$model =  UserAddress::model()->find('user_id=:user_id',array(':user_id'=>$user_id));
+	if($loginId==$user_id)
+	{
+		$address->attributes = $this->getPost();
+		if($model->save()){
+			$this->response(200,'成功');
+		}else{
+			$this->reponse(404,$address->getErrors());
+		}
+	}else{
+		$this->response(404,'用户名不存在');
+	}
+	
+	}  */
 }
