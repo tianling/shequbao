@@ -17,7 +17,7 @@ class ServiceController extends CmsController{
 	
 	public function actionCreate(){
 		if ( Yii::app()->getUser()->getIsGuest() ){
-			$user = new SqbUser();
+			$user = new SqbUser('appReg');
 			$attributes = $this->getPost();
 			$attributes['last_login_time'] = time();
 			$attributes['last_login_ip'] = $this->request->userHostAddress;
@@ -58,7 +58,7 @@ class ServiceController extends CmsController{
 	}
 	
 	public  function actionUpdate($id){
-		$user = new SqbUser();
+		$user = new SqbUser('appUpdate');
 		$loginId = Yii::app()->user->id;
 		$user  = SqbUser::model()->with('baseUser')->findByPk($id);
 		

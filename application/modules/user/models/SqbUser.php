@@ -46,15 +46,17 @@ class SqbUser extends SingleInheritanceModel
 	{
 		return array(
 			array('id','required','on'=>'update','message'=>'{attribute}不存在'),
-			array('mobile,email', 'required','message'=>'{attribute}不能为空'),
-			array('mobile','unique','message'=>'{attribute}已存在'),
-			array('mobile', 'length', 'is'=>11, 'message'=>'{attribute}不正确'),
-			array('email', 'length', 'max'=>50, 'message'=>'{attribute}过长'),
-			array('email', 'email', 'message'=>'{attribute}格式不正确'),
-			array('email', 'unique', 'message'=>'{attribute}已被注册'),
+			array('mobile,email', 'required','message'=>'{attribute}不能为空','on'=>'appReg'),
+			array('mobile','unique','message'=>'{attribute}已存在','on'=>'appReg'),
+			array('mobile', 'length', 'is'=>11, 'message'=>'{attribute}不正确','on'=>'appReg'),
+			array('email', 'length', 'max'=>50, 'message'=>'{attribute}过长','on'=>'appReg'),
+			array('email', 'email', 'message'=>'{attribute}格式不正确','on'=>'appReg'),
+			array('email', 'unique', 'message'=>'{attribute}已被注册','on'=>'appReg'),
 			array('identity_id', 'length', 'max'=>18,'message'=>'{attribute}过长'),
 			array('phone', 'length', 'max'=>20,'message'=>'{attribute}过长'),
-			array('identity_id,gender,online_status,be_attentioned,attention,groups','safe'),
+			array('mobile,email','unsafe','on'=>'appUpdate'),
+			array('online_status,be_attentioned,attention,groups','unsafe'),
+			array('identity_id,gender','safe'),
 		);
 	}
 

@@ -7,7 +7,17 @@
  * Encoding UTF-8
  */
 class SiteController extends CmsController{
+	public function filters(){
+		return array();
+	}
+	
 	public function actionIndex(){
-		echo 'da';
+		$operation = array(
+				'module' => 'access3',
+				'controller' => 'access3',
+				'action' => 'access3'
+		);
+		$r = Yii::app()->getAuthManager()->checkAccess($operation,35);
+		var_dump($r);
 	}
 }
