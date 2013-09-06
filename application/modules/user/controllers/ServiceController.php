@@ -44,7 +44,6 @@ class ServiceController extends CmsController{
 			if ( $model->login(3600*24*30) ){
 				$this->response(200,'登录成功',$model->getIdentity()->getReturnStates());
 			}else {
-				var_dump($model->getErrors());
 				$this->response(200,'登录失败',$model->getErrors());
 			}
 		}else {
