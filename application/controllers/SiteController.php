@@ -12,12 +12,5 @@ class SiteController extends CmsController{
 	}
 	
 	public function actionIndex(){
-		$operation = array(
-				'module' => 'access3',
-				'controller' => 'access3',
-				'action' => 'access3'
-		);
-		$r = Yii::app()->getAuthManager()->checkAccess($operation,35);
-		var_dump($r);
 	}
 }
