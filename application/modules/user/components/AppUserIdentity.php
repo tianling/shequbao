@@ -5,12 +5,18 @@
  * Encoding GBK 
  */
 class AppUserIdentity extends CUserIdentity{
+	/**
+	 * @var int
+	 */
 	const ERROR_USER_LOCKED = 3;
 	/**
 	 * @var SqbUser
 	 */
 	protected $_user;
 	
+	/**
+	 * @return boolean
+	 */
 	public function authenticate(){
 		if ( !$this->findUser() === true ){
 			return false;
@@ -32,6 +38,9 @@ class AppUserIdentity extends CUserIdentity{
 		}
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function createStates(){
 		$states = $this->_user->getAttributes();
 		return array(
@@ -50,7 +59,29 @@ class AppUserIdentity extends CUserIdentity{
 		);
 	}
 	
+	/**
+	 * @return array
+	 */
+	public function getReturnStates(){
+		$states = $this->_user->getAttributes();
+		return array(
+				'uid' => $states['id'],
+				'nickname' => $states['nickname'],
+				'realname' => $states['realname'],
+				'gender' => $states['gender'],
+				'mobile' => $states['mobile'],
+				'email' => $states['email'],
+				'phone' => $states['phone'],
+				'groupNum' => $states['groups'],
+				'attentionNum' => $states['attention'],
+				'beAttentionedNum' => $states['be_attentioned'],
+				'status' => $states['online_status']
+		);
+	}
 	
+	/**
+	 * @return boolean
+	 */
 	protected function checkLocked(){
 		if ( $this->_user->getAttribute('locked') == 1 ){
 			$this->errorCode = self::ERROR_LOCKED;
@@ -61,6 +92,9 @@ class AppUserIdentity extends CUserIdentity{
 		}
 	}
 	
+	/**
+	 * @return boolean
+	 */
 	protected function findUser(){
 		$condition = '`mobile`=:account OR `email`=:account';
 		$this->_user = SqbUser::model()->with('baseUser')->find($condition,array(':account'=>$this->username));

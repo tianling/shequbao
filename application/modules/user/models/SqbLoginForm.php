@@ -15,6 +15,10 @@ class SqbLoginForm extends CFormModel{
 	 * @var string
 	 */
 	public $password;
+	/**
+	 * @var AppUserIdentity
+	 */
+	private $_identity;
 	
 	/**
 	 * @see CModel::rules()
@@ -37,16 +41,23 @@ class SqbLoginForm extends CFormModel{
 	 */
 	public function login($duration=0){
 		if ( $this->validate() ){
-			$identity = new AppUserIdentity($this->account,$this->password);
-			if ( $identity->authenticate() ){
-				Yii::app()->getUser()->login($identity,$duration);
+			$this->_identity = new AppUserIdentity($this->account,$this->password);
+			if ( $this->_identity->authenticate() ){
+				Yii::app()->getUser()->login($this->_identity,$duration);
 				return true;
 			}else {
-				$this->addError('password',$identity->errorMessage);
+				$this->addError('password',$this->_identity->errorMessage);
 				return false;
 			}
 		}else {
 			return false;
 		}
+	}
+	
+	/**
+	 * @return AppUserIdentity
+	 */
+	public function getIdentity(){
+		return $this->_identity;
 	}
 }

@@ -46,6 +46,16 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),
+						'dbLocal' => array(
+								'class' => 'system.db.CDbConnection',
+								'autoConnect' => false,
+								'connectionString' => 'mysql:host=localhost;dbname=shequbao',
+								'emulatePrepare' => true,
+								'username' => 'sqb-sandbox',
+								'password' => 'sqb-sandbox@aliyun',
+								'charset' => 'utf8',
+								'tablePrefix' => 'xcms_'
+						),
 						'urlManager'=>array(
 								'urlFormat'=>'path',
 								'urlSuffix' => '.html',

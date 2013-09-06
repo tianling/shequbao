@@ -42,7 +42,7 @@ class ServiceController extends CmsController{
 			$model->attributes = $this->getRestParam();
 			
 			if ( $model->login(3600*24*30) ){
-				$this->response(200,'登录成功');
+				$this->response(200,'登录成功',$model->getIdentity()->getReturnStates());
 			}else {
 				var_dump($model->getErrors());
 				$this->response(200,'登录失败',$model->getErrors());
@@ -58,7 +58,6 @@ class ServiceController extends CmsController{
 	}
 	
 	public  function actionUpdate($id){
-		$user = new SqbUser('appUpdate');
 		$loginId = Yii::app()->user->id;
 		$user  = SqbUser::model()->with('baseUser')->findByPk($id);
 		
@@ -66,6 +65,7 @@ class ServiceController extends CmsController{
 			if ($loginId==$id) {
 				$putData = $this->getRestParam();
 				
+				$user->setScenario('appUpdate');
 				$oldAttributes = $user->getAttributes();
 				$user->setAttributes($putData);
 				if($user->validate()){
@@ -92,31 +92,31 @@ class ServiceController extends CmsController{
 		$this->response(200,'请登录');
 	}
 	
-	public function actionCreateAddress($id){
+	public function actionCreateAddress($resource_id){
+		if ( Yii::app()->getUser()->getId() === $resource_id ){
 			$address = new UserAddress();
 			$newAttributes = $this->getPost();
-			$newAttributes['user_id'] = $id;
+			$newAttributes['user_id'] = $resource_id;
 			$address->attributes = $newAttributes;
 			if($address->save()){
-				$this->response(200,'增加成功');
+				$this->response(200,'添加地址成功');
 			}else{
-				print_r($address->getErrors());
-				$this->response(400,'增加失败');
+				$this->response(400,'添加地址失败',$address->getErrors());
 			}
+		}
+		$this->response(400,'添加地址失败');
 	}
 	
-	
- 	public function actionUpdateAddress($address_id){
-	 	$address = new UserAddress();
-	 	$address =UserAddress::model()->findByPk($address_id);
-	 	$userid=$address->user_id;
-		$loginId = Yii::app()->user->id;
-		if($loginId==$userid){
-			$address=$this->getPost();
+ 	public function actionUpdateAddress($resource_id,$id){
+	 	$address =UserAddress::model()->findByPk($id);
+	 	$uid = $address->user_id;
+	 	$loginId = Yii::app()->user->id;
+		if( $resource_id === $loginId && $loginId == $uid){
+			$address->setScenario('appUpdate');
+			$address->attributes = $this->getRestParam();
 			if($address->save()){
 				$this->response(200,'修改成功');
 			}else{
-				print_r($address->getErrors());
 				$this->response(400,'修改失败');
 			}
 		}else{

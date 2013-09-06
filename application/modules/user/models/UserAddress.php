@@ -6,21 +6,24 @@
  * The followings are the available columns in table '{{user_address}}':
  * @property string $id
  * @property string $user_id
- * @property string $province
- * @property string $city
+ * @property string $location
  * @property string $address
  * @property string $community
  * @property string $building
  * @property string $property
+ * @property string $water
+ * @property string $electricity
+ * @property string $gas
+ * @property string $garbage
  * @property string $room
  * @property string $help_mark
  * @property string $contact_phone
- * @property string $hosehold
+ * @property string $household
  *
  * The followings are the available model relations:
  * @property SqbUser $user
- * @property Area $province0
- * @property Area $city0
+ * @property Area $location
+ * @property Community $community
  */
 class UserAddress extends CmsActiveRecord
 {
@@ -40,15 +43,19 @@ class UserAddress extends CmsActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id','required','on'=>'update','message'=>'{attribute}不存在'),
-			array('user_id, province, city, community, contact_phone, hosehold', 'required'),
-			array('user_id, province, city, community, building, property', 'length', 'max'=>11),
-			array('address', 'length', 'max'=>255,'message'=>'{attribute}过长'),
-			array('room', 'length', 'max'=>10,'message'=>'{attribute}过长'),
-			array('help_mark', 'length', 'max'=>20,'message'=>'{attribute}过长'),
-			array('contact_phone', 'length', 'max'=>15,'message'=>'{attribute}过长'),
-			array('hosehold', 'length', 'max'=>5,'message'=>'{attribute}过长'),
-			array('user_id', 'safe'),
+			array('user_id,household,gas,water,electricity','unsafe','on'=>'appUpdate'),
+			array('user_id, location, water, electricity, gas, garbage, contact_phone, household', 'required','message'=>'{attribute}不存在'),
+			array('user_id, location, community, property', 'length', 'max'=>11,'message'=>'{attribute}不能多于11个字符'),
+			array('location','exist','className'=>'cms.models.Area','attributeName'=>'id','message'=>'选择的{attribute}不存在'),
+			//array('community','exist','className'=>'cms.models.Community','message'=>'选择的{attribute}不存在'),
+			array('gas','unionUnique','unionAttributes'=>array('water','electricity'),'message'=>'{attribute}已存在'),
+			array('address', 'length', 'max'=>255,'message'=>'{attribute}不能多于255个字符'),
+			array('building, room', 'length', 'max'=>10,'message'=>'{attribute}不能多于10个字符'),
+			array('water, electricity, gas, garbage', 'length', 'max'=>30,'message'=>'{attribute}不能多于30个字符'),
+			array('help_mark', 'length', 'max'=>20,'message'=>'{attribute}不能多于20个字符'),
+			array('contact_phone', 'length', 'max'=>15,'message'=>'{attribute}不能多于15个字符'),
+			array('household', 'length', 'max'=>5,'message'=>'{attribute}不能多于5个字符'),
+			array('id, user_id, location, address, community, building, property, water, electricity, gas, garbage, room, help_mark, contact_phone, household', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,8 +68,8 @@ class UserAddress extends CmsActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'SqbUser', 'user_id'),
-			'province0' => array(self::BELONGS_TO, 'Area', 'province'),
-			'city0' => array(self::BELONGS_TO, 'Area', 'city'),
+			'location' => array(self::BELONGS_TO, 'Area', 'location'),
+			'community' => array(self::BELONGS_TO, 'Community', 'community'),
 		);
 	}
 
@@ -72,18 +79,19 @@ class UserAddress extends CmsActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'user_id' => '用户ID',
-			'province' => '省份ID',
-			'city' => '城市ID',
+			'id' => '住址',
+			'user_id' => '用户',
+			'location' => '地域',
 			'address' => '详细地址',
-			'community' => '小区ID',
-			'building' => '楼栋ID',
-			'property' => '物业ID',
+			'community' => '小区',
+			'building' => '楼栋号',
+			'property' => '物业',
+			'gas' => '业主',
+			'garbage' => '垃圾号',
 			'room' => '房间号',
 			'help_mark' => '助记号',
-			'contact_phone' => '联系点好',
-			'hosehold' => '户主名称',
+			'contact_phone' => '联系电话',
+			'household' => '业主',
 		);
 	}
 
@@ -107,16 +115,19 @@ class UserAddress extends CmsActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('province',$this->province,true);
-		$criteria->compare('city',$this->city,true);
+		$criteria->compare('location',$this->location,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('community',$this->community,true);
 		$criteria->compare('building',$this->building,true);
 		$criteria->compare('property',$this->property,true);
+		$criteria->compare('water',$this->water,true);
+		$criteria->compare('electricity',$this->electricity,true);
+		$criteria->compare('gas',$this->gas,true);
+		$criteria->compare('garbage',$this->garbage,true);
 		$criteria->compare('room',$this->room,true);
 		$criteria->compare('help_mark',$this->help_mark,true);
 		$criteria->compare('contact_phone',$this->contact_phone,true);
-		$criteria->compare('hosehold',$this->hosehold,true);
+		$criteria->compare('household',$this->household,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
