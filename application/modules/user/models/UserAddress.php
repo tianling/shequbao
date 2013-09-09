@@ -48,7 +48,7 @@ class UserAddress extends CmsActiveRecord
 			array('user_id, location, community, property', 'length', 'max'=>11,'message'=>'{attribute}不能多于11个字符'),
 			array('location','exist','className'=>'cms.models.Area','attributeName'=>'id','message'=>'选择的{attribute}不存在'),
 			//array('community','exist','className'=>'cms.models.Community','message'=>'选择的{attribute}不存在'),
-			array('gas','unionUnique','unionAttributes'=>array('water','electricity'),'message'=>'{attribute}已存在'),
+			array('gas','unionUnique','unionAttributes'=>array('user_id','water','electricity'),'message'=>'{attribute}已存在'),
 			array('address', 'length', 'max'=>255,'message'=>'{attribute}不能多于255个字符'),
 			array('building, room', 'length', 'max'=>10,'message'=>'{attribute}不能多于10个字符'),
 			array('water, electricity, gas, garbage', 'length', 'max'=>30,'message'=>'{attribute}不能多于30个字符'),
@@ -143,5 +143,21 @@ class UserAddress extends CmsActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	/**
+	 * get a user's addresses
+	 * 
+	 * @author lancelot <cja.china@gmail.com>
+	 * @param int $userId
+	 * @return array
+	 */
+	public function getUserAddressesArray($userId){
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'user_id=:uid';
+		$criteria->params = array(':uid'=>$userId);
+		$table = $this->getMetaData()->tableSchema;
+	
+		return $this->getCommandBuilder()->createFindCommand($table,$criteria)->queryAll();
 	}
 }

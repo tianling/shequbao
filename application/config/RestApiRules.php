@@ -23,13 +23,18 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user)>/<resource_id:\d+>:<_a:(Address)>',
+				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user)>/<resource_id:\d+>:<_a:(Address)>/<id:\d+>',
+				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
+		array(
+				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>',
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		)
 );
