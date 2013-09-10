@@ -29,7 +29,7 @@ class updateUserAction extends CmsAction{
 				}
 			}
 			else{
-				$this->response(400,'不能修改他人信息');
+				$this->response(403,'不能修改他人信息');
 			}
 		}else{
 			$this->response(404,'用戶不存在');

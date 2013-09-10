@@ -21,7 +21,7 @@ class createUserAction extends CmsAction{
 				$this->response(400,$user->getErrors());
 			}
 		}else {
-			$this->response(200,'请退出之后注册');
+			$this->response(403,'请退出之后注册');
 		}
 	}
 }
