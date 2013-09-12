@@ -33,7 +33,7 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>',
+				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address|Bind)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		)
