@@ -22,7 +22,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 		<table width="100%" height="64" border="0" cellpadding="0" cellspacing="0" class="admin_topbg">
 		  <tr>
 		    <td width="61%" height="64" class="logo_text">
-		    	<img src="<?php echo $imgUrl?>logo.gif" width="262" height="64" />
+		    	<img src="<?php echo $imgUrl?>logo.png" width="262" height="64" />
 		    </td>
 		    <td width="39%" valign="top">
 			    <table width="100%" border="0" cellspacing="0" cellpadding="0">

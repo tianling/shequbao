@@ -8,6 +8,8 @@
  */
 class AdminModule extends CmsModule{
 	public function init(){
+		$this->defaultController = 'admin';
+		
 		Yii::import('sqbadmin.models.*');
 		Yii::import('sqbadmin.components.*');
 		Yii::app()->setComponent('user',array(
@@ -16,7 +18,9 @@ class AdminModule extends CmsModule{
 				'guestName' => '游客',
 				//'authTimeout' => 600
 		));
-		$this->defaultController = 'admin';
 	}
 	
+	public function getIdentityName(){
+		return 'AdminIdentity';
+	}
 }

@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "{{advertiser}}".
+ * This is the model class for table "{{administrators}}".
  *
- * The followings are the available columns in table '{{advertiser}}':
- * @property string $advertiser_id
- * @property double $balance
- * @property string $phone
+ * The followings are the available columns in table '{{administrators}}':
+ * @property string $id
+ * @property string $surname
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Advertise[] $advertises
+ * @property User $id0
  */
-class Advertiser extends SingleInheritanceModel
+class Administrators extends SingleInheritanceModel
 {
-	protected $_parentRelation = 'UserModel';
+	protected $_parentRelation = 'baseUser';
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{advertiser}}';
+		return '{{administrators}}';
 	}
 
 	/**
@@ -30,13 +30,12 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('advertiser_id', 'required'),
-			array('balance', 'numerical'),
-			array('advertiser_id, phone', 'length', 'max'=>11),
-			array('email','unique','message'=>'邮箱不能为空'),
+			array('id', 'required'),
+			array('id', 'length', 'max'=>11),
+			array('surname, name', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('advertiser_id, balance, phone', 'safe', 'on'=>'search'),
+			array('id, surname, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +47,7 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'advertises' => array(self::HAS_MANY, 'Advertise', 'advertiser_id'),
+			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'id'),
 		);
 	}
 
@@ -58,10 +57,9 @@ class Advertiser extends SingleInheritanceModel
 	public function attributeLabels()
 	{
 		return array(
-			'advertiser_id' => 'Advertiser',
-			'balance' => 'Balance',
-			'phone' => 'Phone',
-			'email' => 'Email'
+			'id' => 'ID',
+			'surname' => 'Surname',
+			'name' => 'Name',
 		);
 	}
 
@@ -83,9 +81,9 @@ class Advertiser extends SingleInheritanceModel
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('advertiser_id',$this->advertiser_id,true);
-		$criteria->compare('balance',$this->balance);
-		$criteria->compare('phone',$this->phone,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('surname',$this->surname,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,18 +91,10 @@ class Advertiser extends SingleInheritanceModel
 	}
 
 	/**
-	 * @return CDbConnection the database connection used for this class
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()->dbLocal;
-	}
-
-	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Advertiser the static model class
+	 * @return Administrators the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

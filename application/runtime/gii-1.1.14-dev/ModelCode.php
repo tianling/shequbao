@@ -1,10 +1,10 @@
 <?php
 return array (
   'template' => 'default',
-  'connectionId' => 'dbLocal',
+  'connectionId' => 'db',
   'tablePrefix' => 'xcms_',
-  'modelPath' => 'cms.modules.chat.models',
-  'baseClass' => 'CmsActiveRecord',
+  'modelPath' => 'application.modules.admin.models',
+  'baseClass' => 'SingleInheritanceModel',
   'buildRelations' => '1',
   'commentsAsLabels' => '0',
 );

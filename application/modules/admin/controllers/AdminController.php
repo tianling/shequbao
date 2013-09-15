@@ -7,26 +7,6 @@
  * Encoding UTF-8
  */
 class AdminController extends CmsController{
-	public $defaultAction='login';
-	
-	public function filters(){
-		$filters = parent::filters();
-		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - login';
-	}
-	
-	public function actionLogin(){
-		if ( $this->app->getUser()->getIsGuest() === false ){
-			$this->redirect($this->createUrl('admin/welcome'));
-		}
-		$this->layout = false;
-		$this->render('login');
-	}
-	
-	public function actionLogout(){
-		$this->app->getUser()->logout();
-		$this->redirect($this->createUrl('admin'));
-	}
-	
 	public function actionMenu(){
 		echo 'dsad';
 	}
