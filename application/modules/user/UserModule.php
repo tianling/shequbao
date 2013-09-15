@@ -16,7 +16,7 @@ class UserModule extends CmsModule{
 				'stateKeyPrefix' => 'APPU',
 				'allowAutoLogin' => true,
 				'guestName' => '游客',
-			//	'authTimeout' => 600
+				'authTimeout' => 600
 		));
 	}
 }
