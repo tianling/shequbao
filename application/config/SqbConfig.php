@@ -25,6 +25,9 @@ class SqbConfig extends ConfigBase{
 						'user' => array(
 								'class' => 'application.modules.user.UserModule'
 						),
+						'ad' => array(
+							'class' => 'application.modules.ad.AdModule'
+						),
 				),
 				'components' => array(
 						'log'=>array(

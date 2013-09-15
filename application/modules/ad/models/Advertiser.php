@@ -13,7 +13,7 @@
  */
 class Advertiser extends SingleInheritanceModel
 {
-	protected $_parentRelation = 'UserModel';
+	protected $_parentRelation = 'baseUser';
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,7 +30,7 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('advertiser_id', 'required'),
+			array('advertiser_id', 'required','on'=>'update'),
 			array('balance', 'numerical'),
 			array('advertiser_id, phone', 'length', 'max'=>11),
 			// The following rule is used by search().
@@ -48,6 +48,7 @@ class Advertiser extends SingleInheritanceModel
 		// class name for the relations automatically generated below.
 		return array(
 			'advertises' => array(self::HAS_MANY, 'Advertise', 'advertiser_id'),
+			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'advertiser_id'),
 		);
 	}
 
@@ -88,14 +89,6 @@ class Advertiser extends SingleInheritanceModel
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-	/**
-	 * @return CDbConnection the database connection used for this class
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()->dbLocal;
 	}
 
 	/**
