@@ -36,10 +36,10 @@ class ServiceController extends CmsController{
 			if ( $model->login(3600*24*30) ){
 				$this->response(200,'登录成功',$model->getIdentity()->getReturnStates());
 			}else {
-				$this->response(200,'登录失败',$model->getErrors());
+				$this->response(400,'登录失败',$model->getErrors());
 			}
 		}else {
-			$this->response(200,'请不要重复登录');
+			$this->response(400,'请不要重复登录');
 		}
 	}
 	
