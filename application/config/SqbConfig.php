@@ -28,6 +28,9 @@ class SqbConfig extends ConfigBase{
 						'sqbadmin' => array(
 								'class' => 'application.modules.admin.AdminModule'
 						),
+						'ad' => array(
+							'class' => 'application.modules.ad.AdModule'
+						),
 				),
 				'components' => array(
 						'log'=>array(

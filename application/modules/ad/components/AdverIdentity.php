@@ -10,7 +10,7 @@ class AdverIdentity extends CUserIdentity{
 	public function authenticate(){
 		$condition = '`email`=:account';
 		$user = Advertiser::model()->with('baseUser')->find($condition,array(':account'=>$this->username));
-	
+		
 		if ( $user === null ){
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
 			$this->errorMessage = '广告主不存在';

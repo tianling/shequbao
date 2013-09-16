@@ -7,5 +7,11 @@
  * Encoding UTF-8
  */
 class ServiceController extends CmsController{
+	public function filters(){
+		return array();
+	}
 	
+	public function actionIndex(){
+		echo 'dsadsa';
+	}
 }

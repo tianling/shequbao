@@ -13,7 +13,7 @@ class AdminModule extends CmsModule{
 		Yii::import('sqbadmin.models.*');
 		Yii::import('sqbadmin.components.*');
 		Yii::app()->setComponent('user',array(
-				'stateKeyPrefix' => 'ADMIN_USER',
+				//'stateKeyPrefix' => 'ADMIN_USER',
 				'allowAutoLogin' => false,
 				'guestName' => '游客',
 				//'authTimeout' => 600

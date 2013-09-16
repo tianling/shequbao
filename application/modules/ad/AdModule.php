@@ -17,7 +17,7 @@ class AdModule extends CmsModule{
 						'class' => 'ad.components.AdManager'
 				),
 				'user' => array(
-						'stateKeyPrefix' => 'ADVERTISER',
+						//'stateKeyPrefix' => 'ADVERTISER',
 						'allowAutoLogin' => false,
 						'guestName' => '游客',
 						//'authTimeout' => 600

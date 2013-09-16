@@ -89,6 +89,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 																			'size'=>20,
 																			'placeholder' => '请输入账号'
 																	));
+																	echo $form->error($model,'account');
 																	?>
 																</td>
 															</tr>
@@ -104,6 +105,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 																	));
 																	?>
 																<img src="<?php echo $imgUrl;?>luck.gif" width="19" height="18">
+																<?php echo $form->error($model,'password')?>
 																</td>
 															</tr>
 															<tr>
@@ -112,10 +114,10 @@ $imgUrl = $this->request->baseUrl.'/images/';
 																</td>
 																<td height="35" colspan="2">
 																	<span class="login_txt">
-																	管理员登录<?php echo CHtml::radioButton('SiteLoginForm[loginType]',true,array('value'=>0));?>
+																	管理员登录<?php echo $form->radioButton($model,'loginType',array('value'=>0));?>
 																	</span>
 																	<span class="login_txt">
-																	广告主登录<?php echo CHtml::radioButton('SiteLoginForm[loginType]',false,array('value'=>1));?>
+																	广告主登录<?php echo $form->radioButton($model,'loginType',array('value'=>1));?>
 																	</span>
 																</td>
 															</tr>

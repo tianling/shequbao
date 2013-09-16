@@ -30,7 +30,7 @@ class SiteController extends CmsController{
 			$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
 			$model->attributes = $post;
 			if ( $model->login() ){
-				$this->redirect($this->createUrl($moduleId));
+				$this->redirect($this->createAbsoluteUrl($moduleId.'/'));
 			}
 		}
 		
@@ -39,6 +39,6 @@ class SiteController extends CmsController{
 	
 	public function actionLogout(){
 		$this->app->getUser()->logout();
-		$this->redirect($this->createUrl('site'));
+		$this->redirect($this->createUrl('site/login'));
 	}
 }

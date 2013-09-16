@@ -33,6 +33,9 @@ class Administrators extends SingleInheritanceModel
 			array('id', 'required'),
 			array('id', 'length', 'max'=>11),
 			array('surname, name', 'length', 'max'=>10),
+			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长','on'=>'appReg'),
+			array('email', 'email', 'message'=>'邮箱格式不正确','on'=>'appReg'),
+			array('email', 'unique', 'message'=>'邮箱已被注册','on'=>'appReg'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, surname, name', 'safe', 'on'=>'search'),
