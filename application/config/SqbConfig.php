@@ -25,6 +25,9 @@ class SqbConfig extends ConfigBase{
 						'user' => array(
 								'class' => 'application.modules.user.UserModule'
 						),
+						'sqbadmin' => array(
+								'class' => 'application.modules.admin.AdminModule'
+						),
 						'ad' => array(
 							'class' => 'application.modules.ad.AdModule'
 						),
@@ -68,7 +71,7 @@ class SqbConfig extends ConfigBase{
 						
 				),
 				'params' => array(
-						'test' => 'dasdas'
+						'copyright' => 'Copyright &copy; 2012-2013 <a style="color:#ABCAD3;" href="http://www.caixiao2.com">www.caixiao2.com</a>'
 				),
 		);
 	}

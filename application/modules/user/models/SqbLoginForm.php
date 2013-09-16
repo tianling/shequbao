@@ -25,7 +25,7 @@ class SqbLoginForm extends CFormModel{
 	 */
 	public function rules(){
 		return array(
-				array('account,password','required','message'=>'{attribute}不能为空')
+				array('account,password','required','message'=>'请填写{attribute}')
 		);
 	}
 	
