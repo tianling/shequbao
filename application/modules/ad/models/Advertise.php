@@ -41,6 +41,7 @@ class Advertise extends CmsActiveRecord
 			array('advertiser_id','exist','className'=>'Advertiser','attributeName'=>'advertiser_id','message'=>'广告主不存在'),
 			array('pay_type, priority,cpm, cpc', 'numerical', 'integerOnly'=>true),
 			array('view, click','safe'),
+			array('cpc','length','min'=>0),
 			array('advertiser_id', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>20),
 			array('direct_to', 'length', 'max'=>255),
@@ -69,16 +70,16 @@ class Advertise extends CmsActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'advertiser_id' => 'Advertiser',
-			'title' => 'Title',
-			'content' => 'Content',
+			'advertiser_id' => '广告主编号',
+			'title' => '广告标题',
+			'content' => '广告内容',
 			'view' => 'View',
 			'click' => 'Click',
-			'direct_to' => 'Direct To',
+			'direct_to' => '广告链接',
 			'pay_type' => 'Pay Type',
 			'cpm' => 'Cpm',
 			'cpc' => 'Cpc',
-			'priority' => 'Priority',
+			'priority' => '广告优先级',
 		);
 	}
 

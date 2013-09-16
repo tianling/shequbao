@@ -88,18 +88,21 @@ class AdvertiserController extends CmsController
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		if(!empty($id)  && is_numeric($id)){
+			$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Advertiser']))
-		{
-			$model->attributes=$_POST['Advertiser'];
-			if($model->save())
+			if(isset($_POST['Advertiser']))
+			{
+				$model->attributes=$_POST['Advertiser'];
+				if($model->save())
 				//$this->redirect(array('view','id'=>$model->advertiser_id));
-				echo "ok";
+					echo "ok";
+			}
 		}
+		
 		/*$this->render('update',array(
 			'model'=>$model,
 		));*/
