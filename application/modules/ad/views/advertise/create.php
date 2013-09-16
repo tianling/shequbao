@@ -12,7 +12,16 @@ $this->menu=array(
 	array('label'=>'Manage Advertiser', 'url'=>array('admin')),
 );
 ?>
-
+<?php
+ Yii::app()->clientScript->registerScript('deleteThumb',"
+    $('a#dele').live('click',function(){
+      $(this).parent().remove();
+      var stats = swfu.getStats();
+      stats.successful_uploads--;
+      swfu.setStats(stats);
+      return false;
+    })");
+?>
 <h1>Create Advertise</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
