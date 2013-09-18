@@ -34,9 +34,9 @@ class Advertiser extends SingleInheritanceModel
 			array('balance', 'numerical'),
 			array('email','required'),
 			array('advertiser_id, phone', 'length', 'max'=>11),
-			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长','on'=>'appReg'),
-			array('email', 'email', 'message'=>'邮箱格式不正确','on'=>'appReg'),
-			array('email', 'unique', 'message'=>'邮箱已被注册','on'=>'appReg'),
+			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
+			array('email', 'email', 'message'=>'邮箱格式不正确'),
+			array('email', 'unique', 'message'=>'邮箱已被注册'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('advertiser_id, balance, phone', 'safe', 'on'=>'search'),

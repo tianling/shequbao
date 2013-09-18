@@ -88,10 +88,10 @@
 		));?>
 	</div>
 	
-	 <div class="swfupload"><span id="swfupload">上传</span>(最多可上传4张,支持格式:png,jpg,gif.)</div>
+	 <div class="swfupload"><span id="swfupload">上传</span>(只可以上传1张,支持格式:png,jpg,gif.)</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		 <?php echo CHtml::submitButton($model->isNewRecord ? '提交' : '保存修改',array('id'=>'reply','name'=>'submit')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

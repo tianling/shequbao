@@ -45,11 +45,18 @@ class AdvertiseController extends CmsController
 	public function actionCreate()
 	{
 		$model = new Advertise;
-		if(isset($_POST['Advertise'])){
+		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
 			$model->attributes = $_POST['Advertise'];
 			if($model->save())
 			{
-				echo "ok";
+				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
+					$pid = $_SESSION['pid'];
+					$picModel = AdvertisePic::model()->findByPk($pid);
+					$picModel->ad_id = $model->id;
+					$picModel->save();
+						
+				}
+				$this->redirect(Yii::app()->createUrl('ad/advertise/create'));
 			}else{
 			var_dump($model->getErrors());
 			}
@@ -82,8 +89,12 @@ class AdvertiseController extends CmsController
 	}
 
 	public function init(){
+		//parent::init();
+
+		//$phpsessid = $this->getPost();
 		if(isset($_POST['PHPSESSID']))
 			session_id($_POST['PHPSESSID']);
+
 	}
 
 	public function actionUpload()
@@ -121,19 +132,20 @@ class AdvertiseController extends CmsController
 					$thumbName = "thumbs".$randName.".".$picType;
 					$saveThumb = $thumbDir.$thumbName;
 					$thumbUrl = Tool::getThumb($saveUrl,300,300,$saveThumb);//制作缩略图并放回缩略图存储路径
-					echo $saveUrl;
-					echo " ".$saveThumb;
+					//echo $saveUrl;
+					//echo " ".$saveThumb;
 					$thumbUrl = str_replace(dirname(Yii::app()->basePath),"",$thumbUrl);
-					echo "</br>".$thumbUrl;
+					//echo "</br>".$thumbUrl;
 					//保存信息到数据库
 					$model = new AdvertisePic;
-					$model->ad_id = 2;
+					$model->ad_id = 3;
 					$model->url = $picUrl;
 					$model->description = $picName;
-					//$model->picThumb = $thumbUrl;
+					$model->thumb_url = $thumbUrl;
 					//$model->picAddTime = date('Y-m-d H:i:s');
 					$model->save();
-					$id = $model->attributes['description'];
+					$id = $model->attributes['id'];
+					$_SESSION['pid'] = $id;
 					$backData = array(
 						'pid'=>$id,
 						'thumb'=>Yii::app()->baseUrl.$thumbUrl,

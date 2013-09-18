@@ -59,7 +59,7 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),
-						'dbLocal' => array(
+						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
 								'connectionString' => 'mysql:host=localhost;dbname=shequbao',

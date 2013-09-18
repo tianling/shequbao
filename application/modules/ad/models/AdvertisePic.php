@@ -29,9 +29,10 @@ class AdvertisePic extends CmsActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ad_id, url', 'required'),
+			array('url,thumb_url', 'required'),
+			array('id,ad_id','required','on'=>'update'),
 			array('ad_id', 'length', 'max'=>11),
-			array('url', 'length', 'max'=>255),
+			array('url,thumb_url', 'length', 'max'=>255),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
