@@ -28,7 +28,7 @@ return array(
  				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balcnce)>/<id:\d+>',
+				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balance)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),

@@ -24,7 +24,7 @@ class ServiceController extends CmsController{
 		$advertiser_id = $advertiserData[0]['advertiser_id'];
 		//从该用户发布的广告中随机选取一部分照片，然后按照曝光次数和优先级推送一条
 		$criteria = new CDbCriteria;
-		$criteria->select = 'id,advertiser_id,content,view,direct_to,priority';
+		$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority';
 		$criteria->condition = 'advertiser_id = "'.$advertiser_id.'" ';
 		$adCount = Advertise::model()->count($criteria);
 		$top = rand(0,$count-1);
@@ -35,9 +35,17 @@ class ServiceController extends CmsController{
 					'select'=>'thumb_url',
 				)
 			))->findAll($criteria);
-		$putData = $advertiserData[0];
-		//echo $putData['adPic'][0]['thumb_url'];
-		$this->response(200,'',$putData->getAttributes());
+		if(!empty($advertiserData)){
+			$view = $advertiserData[0]['view']+1;
+			$adView = Advertise::model()->findByPk($advertiserData[0]['id']);
+			$adView->view = $view;
+			$adView->save();
+			$putData = $advertiserData[0];
+			$this->response(200,'',$putData->getAttributes());
+		}
+		
+		
+		
 
 
 
@@ -47,12 +55,22 @@ class ServiceController extends CmsController{
 
 	public function actionUpdateBalance($resourceId,$id){//根据客户端返回的数据对用户进行扣费
 		if(!empty($resourceId) && is_numeric($id)){
-			$advertiseModel = Advertise::findByPk($resourceId);
-			$advertiserModel = Advertiser::findByPk($id);
-			$advertiserModel->balance = $advertiserModel->banlance - $advertiseModel->cpc;
+			/*echo $resourceId;
+			echo $id;
+			die();*/
+			
+			$advertiseModel = Advertise::model()->findByPk($resourceId);
+			$advertiserModel = Advertiser::model()->findByPk($id);
+			$balance = $advertiserModel->balance;
+			$cpc = $advertiseModel->cpc;
+			//echo $balance;
+			//echo $cpc;
+			$advertiserModel->balance = $balance - $cpc;
+			//var_dump($advertiserModel);
 			if($advertiserModel->save())
 				echo $advertiserModel->balance;
-			
+			else
+				var_dump($advertiserModel->getErrors());
 
 		}
 		
