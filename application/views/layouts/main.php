@@ -8,6 +8,7 @@
  */
 $cssUrl = $this->request->baseUrl.'/css/';
 $imgUrl = $this->request->baseUrl.'/images/';
+$urlPrefix = $this->id.'/';
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,7 +16,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		
-		<link href="<?php echo $cssUrl?>skin.css" rel="stylesheet" type="text/css">
+		<link href="<?php echo $cssUrl?>skin.css" rel="stylesheet" type="text/css" />
 	</head>
 	
 	<body>
@@ -27,9 +28,9 @@ $imgUrl = $this->request->baseUrl.'/images/';
 		    <td width="39%" valign="top">
 			    <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			      <tr>
-			        <td width="74%" height="38" class="admin_txt">管理员：<?php echo $this->app->getUser()->getName();?><b></b> 您好,感谢登录使用！</td>
+			        <td width="74%" height="38" class="admin_txt"><?php echo $this->app->getUser()->getName();?><b></b> 您好,感谢登录使用！</td>
 			        <td width="22%">
-			        	<a href="<?php echo $this->createUrl('admin/logout')?>" target="_self" onClick="logout();">
+			        	<a href="<?php echo $this->createUrl($urlPrefix.'logout')?>" target="_self" onClick="logout();">
 			        	<img src="<?php echo $imgUrl?>out.gif" alt="安全退出" width="46" height="20" border="0">
 			        	</a>
 			        </td>
@@ -43,9 +44,9 @@ $imgUrl = $this->request->baseUrl.'/images/';
 		  </tr>
 		</table>
 		
-		<iframe src="<?php echo $this->createUrl('admin/menu')?>" width="14%" scrolling="no" target="main" name="leftMenu">
+		<iframe src="<?php echo $this->createUrl($urlPrefix.'menu')?>" width="14%" style="float:left;height:560px;border:0" scrolling="no" target="main" name="leftMenu">
 		</iframe>
-		<iframe src="<?php echo $this->createUrl('admin/welcome')?>" width="83%" scrolling="auto" target="_self" name="main">
+		<iframe src="<?php echo $this->createUrl($urlPrefix.'welcome')?>" width="83%" style="height:700px;border:0" scrolling="auto" target="_self" name="main">
 		</iframe>
 	</body>
 </html>

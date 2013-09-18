@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "{{administrators}}".
+ * This is the model class for table "{{user_contacts}}".
  *
- * The followings are the available columns in table '{{administrators}}':
+ * The followings are the available columns in table '{{user_contacts}}':
  * @property string $id
- * @property string $surname
- * @property string $name
+ * @property string $user_id
+ * @property string $contact_phone
+ * @property string $contact_name
  *
  * The followings are the available model relations:
- * @property User $id0
+ * @property SqbUser $user
  */
-class Administrators extends SingleInheritanceModel
+class UserContacts extends CmsActiveRecord
 {
-	protected $_parentRelation = 'baseUser';
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{administrators}}';
+		return '{{user_contacts}}';
 	}
 
 	/**
@@ -30,15 +30,12 @@ class Administrators extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id', 'length', 'max'=>11),
-			array('surname, name', 'length', 'max'=>10),
-			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
-			array('email', 'email', 'message'=>'邮箱格式不正确'),
-			array('email', 'unique', 'message'=>'邮箱已被注册'),
+			array('user_id', 'required'),
+			array('user_id, contact_phone', 'length', 'max'=>11),
+			array('contact_name', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, surname, name', 'safe', 'on'=>'search'),
+			array('id, user_id, contact_phone, contact_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +47,7 @@ class Administrators extends SingleInheritanceModel
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'id'),
+			'user' => array(self::BELONGS_TO, 'SqbUser', 'user_id'),
 		);
 	}
 
@@ -61,8 +58,9 @@ class Administrators extends SingleInheritanceModel
 	{
 		return array(
 			'id' => 'ID',
-			'surname' => 'Surname',
-			'name' => 'Name',
+			'user_id' => 'User',
+			'contact_phone' => 'Contact Phone',
+			'contact_name' => 'Contact Name',
 		);
 	}
 
@@ -85,8 +83,9 @@ class Administrators extends SingleInheritanceModel
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('surname',$this->surname,true);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('contact_phone',$this->contact_phone,true);
+		$criteria->compare('contact_name',$this->contact_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,7 +96,7 @@ class Administrators extends SingleInheritanceModel
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Administrators the static model class
+	 * @return UserContacts the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

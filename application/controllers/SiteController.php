@@ -10,9 +10,7 @@ class SiteController extends CmsController{
 	public $defaultAction='login';
 	
 	public function filters(){
-		$filters = parent::filters();
-		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - login';
-		return $filters;
+		return array();
 	}
 	
 	public function actionLogin(){
@@ -30,15 +28,10 @@ class SiteController extends CmsController{
 			$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
 			$model->attributes = $post;
 			if ( $model->login() ){
-				$this->redirect($this->createAbsoluteUrl($moduleId.'/'));
+				$this->redirect($moduleId.'/');
 			}
 		}
 		
 		$this->render('login',array('model'=>$model));
-	}
-	
-	public function actionLogout(){
-		$this->app->getUser()->logout();
-		$this->redirect($this->createUrl('site/login'));
 	}
 }

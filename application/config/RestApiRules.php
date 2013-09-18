@@ -23,7 +23,7 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Friends|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
@@ -33,8 +33,13 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address|Bind)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriendList|Trends|FriendsTrends)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
+		),
+		array(
+				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friends|Trend)>',
+				'<_m>/service/remove<_a>',
+				'verb'=>'DELETE'
 		)
 );

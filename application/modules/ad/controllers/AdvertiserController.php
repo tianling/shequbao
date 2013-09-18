@@ -1,6 +1,6 @@
 <?php
 
-class AdvertiserController extends CmsController
+class AdvertiserController extends SqbController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning

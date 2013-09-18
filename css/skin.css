@@ -10,7 +10,10 @@ body {
 	bottom: 0px;
 	margin: 0 0 0 0;
 }
-
+.errorMessage{
+	color: red;
+	font-size: 12px;
+}
 .login-buttom-bg {
 	background-image: url(../images/login-buttom-bg.gif);
 	background-repeat: repeat-x;

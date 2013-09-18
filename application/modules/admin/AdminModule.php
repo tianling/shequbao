@@ -8,7 +8,7 @@
  */
 class AdminModule extends CmsModule{
 	public function init(){
-		$this->defaultController = 'admin';
+		$this->defaultController = 'index';
 		
 		Yii::import('sqbadmin.models.*');
 		Yii::import('sqbadmin.components.*');
