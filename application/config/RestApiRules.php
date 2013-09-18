@@ -28,7 +28,7 @@ return array(
  				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>/<id:\d+>',
+				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balcnce)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
@@ -41,5 +41,10 @@ return array(
 				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friends|Trend)>',
 				'<_m>/service/remove<_a>',
 				'verb'=>'DELETE'
-		)
+		),
+		array(
+				'pattern'=>'<_m:(ad)>/<_a:(Ad)>',
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		),
 );

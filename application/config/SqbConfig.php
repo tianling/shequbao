@@ -46,6 +46,13 @@ class SqbConfig extends ConfigBase{
 										),
 								),
 						),
+
+						'image'=>array(
+							'class'=>'application.extensions.image.CImageComponent',
+							'driver'=>'GD',
+							'params'=>array('directory'=>'/opt/local/bin'),
+						),
+						
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -56,6 +63,7 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),/*
+						),
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,

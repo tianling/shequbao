@@ -12,6 +12,7 @@ class AdModule extends CmsModule{
 		
 		Yii::import('ad.components.*');
 		Yii::import('ad.models.*');
+		Yii::import('application.helpers.*');
 		Yii::app()->setComponents(array(
 				'AdManager' => array(
 						'class' => 'ad.components.AdManager'
