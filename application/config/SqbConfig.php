@@ -67,7 +67,6 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),/*
-						),
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,

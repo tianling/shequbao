@@ -11,6 +11,6 @@ class getUserAddressAction extends CmsAction{
 		}
 		
 		$addresses = UserAddress::model()->getUserAddressesArray($resourceId);
-		$this->response(200,'',$addresses);
+		$this->response(300,'',$addresses);
 	}
 }

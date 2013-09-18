@@ -18,10 +18,10 @@ class createUserAction extends CmsAction{
 				$user->save(false);
 				$this->response(200,'注册成功');
 			}else {
-				$this->response(400,$user->getErrors());
+				$this->response(201,$user->getErrors());
 			}
 		}else {
-			$this->response(403,'请退出之后注册');
+			$this->response(401,'请退出之后注册');
 		}
 	}
 }

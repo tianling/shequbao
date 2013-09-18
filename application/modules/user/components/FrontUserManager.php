@@ -12,7 +12,7 @@ class FrontUserManager extends BaseUserManager{
 	}
 	
 	public function findAll($criteria=null,$params=array()){
-		return SqbUser::model()->with('baseUser')->findAll($criteria,$params);
+		return SqbUser::model()->findAll($criteria,$params);
 	}
 	
 	public function count($criteria=null,$params=array()){

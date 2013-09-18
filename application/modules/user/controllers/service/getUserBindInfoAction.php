@@ -13,6 +13,6 @@ class getUserBindInfoAction extends CmsAction{
 			$this->response(403,'用户ID不匹配');
 		}
 		$data = UserModel::model()->getUserRelationInfo($resourceId);
-		$this->response(200,'',$data);
+		$this->response(300,'',$data);
 	}
 }
