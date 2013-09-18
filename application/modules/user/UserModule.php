@@ -19,4 +19,8 @@ class UserModule extends CmsModule{
 				'authTimeout' => 600
 		));
 	}
+	
+	public function loadSelfModels(){
+		Yii::import('user.models.*');
+	}
 }

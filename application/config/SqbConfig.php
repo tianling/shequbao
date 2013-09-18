@@ -33,7 +33,7 @@ class SqbConfig extends ConfigBase{
 						),
 						'friends' => array(
 								'class' => 'cms.modules.friends.FriendsModule',
-								'frontUserModelClass' => 'SqbUser'
+								'userManagerId' => 'UserManager'
 						),
 				),
 				'components' => array(
@@ -45,6 +45,10 @@ class SqbConfig extends ConfigBase{
 												//'levels'=>'error, warning',
 										),
 								),
+						),
+						
+						'UserManager' => array(
+								'class' => 'application.modules.user.components.FrontUserManager'
 						),
 
 						'image'=>array(
