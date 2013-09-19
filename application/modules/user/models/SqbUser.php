@@ -139,4 +139,68 @@ class SqbUser extends SingleInheritanceModel
 	{
 		return parent::model($className);
 	}
+	
+	public function getUserRelationInfo($uid){
+		CmsModule::loadModels('friends');
+		$data = $this->with(array(
+				'baseUser' => array(
+						'with' => array(
+								'friends' => array(
+										'select'=>'remark',
+										'with'=>array(
+												'followed'=>array(
+														'select'=>'id,nickname',
+														'with' =>array(
+																'trends' => array(
+																		'select' => 'content',
+																		'limit' => 1,
+																		'offset' => 0,
+																		'order' => 'publish_time DESC'
+																),
+																'frontUser' => array(
+																		'select' => 'icon'
+																)
+														),
+												),
+										),
+								),
+								'chatRooms',
+								'chatGroups',
+						)
+				)
+		))->findByPk($uid,array('select'=>'id,icon'));
+		if ( empty($data) ){
+			return array();
+		}
+		$return = array(
+				'alias' => 'user'.$uid,
+				'icon' => $data->getAttribute('icon'),
+				'friends' => array(),
+				'chatRooms' => array(),
+				'chatGroups' => array(),
+				'tags' => array()
+		);
+		$raw = $data->getRelated('baseUser');
+		foreach ( $raw->getRelated('friends') as $friend ){
+			$follwed = $friend->getRelated('followed');
+			$trends = $follwed->getRelated('trends');
+			$trend = !empty($trends) ? $trends[0]->getAttribute('content') : array();
+			$return['friends'][] = array(
+					'id' => $follwed->getAttribute('id'),
+					'nickname' => $follwed->getAttribute('nickname'),
+					'remark' => $friend->getAttribute('remark'),
+					'icon' => $follwed->getRelated('frontUser')->getAttribute('icon'),
+					'trend' => $trend,
+			);
+		}
+		foreach ( $raw->getRelated('chatRooms') as $chatRoom ){
+			$return['chatRooms'][] = $chatRoom->getAttributes();
+			$return['tags'][] = 'room'.$chatRoom->getAttribute('id');
+		}
+		foreach ( $raw->getRelated('chatGroups') as $chatGroup ){
+			$return['chatGroups'][] = $chatGroup->getAttributes();
+			$return['tags'][] = 'group'.$chatGroup->getAttribute('id');
+		}
+		return $return;
+	}
 }

@@ -12,7 +12,7 @@ class getUserBindInfoAction extends CmsAction{
 		if ( $resourceId !== $user->getId() ){
 			$this->response(403,'用户ID不匹配');
 		}
-		$data = UserModel::model()->getUserRelationInfo($resourceId);
+		$data = SqbUser::model()->getUserRelationInfo($resourceId);
 		$this->response(300,'',$data);
 	}
 }

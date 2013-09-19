@@ -49,6 +49,6 @@ class ServiceController extends CmsController{
 	}
 	
 	public function loginRequired(){
-		$this->response(104,'请登录');
+		$this->response(400,'请登录');
 	}
 }
