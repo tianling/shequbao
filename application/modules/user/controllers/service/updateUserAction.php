@@ -25,14 +25,14 @@ class updateUserAction extends CmsAction{
 					$user->save(false);
 					$this->response(200,'修改成功');
 				}else{
-					$this->response(400,$user->getErrors());
+					$this->response(201,$user->getErrors());
 				}
 			}
 			else{
-				$this->response(403,'不能修改他人信息');
+				$this->response(402,'不能修改他人信息');
 			}
 		}else{
-			$this->response(404,'用戶不存在');
+			$this->response(202,'用戶不存在');
 		}
 	}
 }

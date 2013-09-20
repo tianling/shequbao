@@ -34,21 +34,21 @@ class ServiceController extends CmsController{
 			$model->attributes = $this->getRestParam();
 			
 			if ( $model->login(3600*24*30) ){
-				$this->response(200,'登录成功',$model->getIdentity()->getReturnStates());
+				$this->response(100,'登录成功',$model->getIdentity()->getReturnStates());
 			}else {
-				$this->response(400,'登录失败',$model->getErrors());
+				$this->response(102,'登录失败',$model->getErrors());
 			}
 		}else {
-			$this->response(400,'请不要重复登录');
+			$this->response(103,'请不要重复登录');
 		}
 	}
 	
 	public function actionLogout(){
 		$this->app->getUser()->logout();
-		$this->response(200,'退出成功');
+		$this->response(101,'退出成功');
 	}
 	
 	public function loginRequired(){
-		$this->response(200,'请登录');
+		$this->response(400,'请登录');
 	}
 }

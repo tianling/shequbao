@@ -29,7 +29,11 @@ class SqbConfig extends ConfigBase{
 								'class' => 'application.modules.admin.AdminModule'
 						),
 						'ad' => array(
-							'class' => 'application.modules.ad.AdModule'
+								'class' => 'application.modules.ad.AdModule'
+						),
+						'friends' => array(
+								'class' => 'cms.modules.friends.FriendsModule',
+								'userManagerId' => 'UserManager'
 						),
 				),
 				'components' => array(
@@ -41,6 +45,10 @@ class SqbConfig extends ConfigBase{
 												//'levels'=>'error, warning',
 										),
 								),
+						),
+						
+						'UserManager' => array(
+								'class' => 'application.modules.user.components.FrontUserManager'
 						),
 
 						'image'=>array(
@@ -58,7 +66,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),/*
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -68,10 +76,10 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),*/
 						'urlManager'=>array(
 								'urlFormat'=>'path',
-								'urlSuffix' => '.html',
+								'urlSuffix' => '',
 								'showScriptName' => false,
 								'rules' => require dirname(__FILE__).'/RestApiRules.php'
 						),

@@ -14,9 +14,9 @@ class createUserAddressAction extends CmsAction{
 			if($address->save()){
 				$this->response(200,'添加地址成功');
 			}else{
-				$this->response(400,'添加地址失败',$address->getErrors());
+				$this->response(201,'添加地址失败',$address->getErrors());
 			}
 		}
-		$this->response(403,'添加地址失败');
+		$this->response(402,'添加地址失败');
 	}
 }

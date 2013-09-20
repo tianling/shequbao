@@ -46,7 +46,7 @@ class SqbUser extends SingleInheritanceModel
 	{
 		return array(
 			array('id','required','on'=>'update','message'=>'{attribute}不存在'),
-			array('mobile,email', 'required','message'=>'{attribute}不能为空','on'=>'appReg'),
+			array('mobile,email,icon', 'required','message'=>'{attribute}不能为空','on'=>'appReg'),
 			array('mobile','unique','message'=>'{attribute}已存在','on'=>'appReg'),
 			array('mobile', 'length', 'is'=>11, 'message'=>'{attribute}不正确','on'=>'appReg'),
 			array('email', 'length', 'max'=>50, 'message'=>'{attribute}过长','on'=>'appReg'),
@@ -72,7 +72,6 @@ class SqbUser extends SingleInheritanceModel
 			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'id'),
 			'addresses' => array(self::HAS_MANY, 'UserAddress', 'user_id'),
 			'contacts' => array(self::HAS_MANY, 'UserContacts', 'user_id'),
-			'icon' => array(self::HAS_MANY, 'UserIcon', 'user_id'),
 		);
 	}
 
@@ -84,6 +83,7 @@ class SqbUser extends SingleInheritanceModel
 		return array(
 			'id' => '用户ID',
 			'identity_id' => '身份证号码',
+			'icon' => '头像',
 			'gender' => '性别',
 			'mobile' => '手机号码',
 			'email' => '邮箱',
@@ -137,5 +137,69 @@ class SqbUser extends SingleInheritanceModel
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getUserRelationInfo($uid){
+		CmsModule::loadModels('friends');
+		$data = $this->with(array(
+				'baseUser' => array(
+						'with' => array(
+								'friends' => array(
+										'select'=>'remark',
+										'with'=>array(
+												'followed'=>array(
+														'select'=>'id,nickname',
+														'with' =>array(
+																'trends' => array(
+																		'select' => 'content',
+																		'limit' => 1,
+																		'offset' => 0,
+																		'order' => 'publish_time DESC'
+																),
+																'frontUser' => array(
+																		'select' => 'icon'
+																)
+														),
+												),
+										),
+								),
+								'chatRooms',
+								'chatGroups',
+						)
+				)
+		))->findByPk($uid,array('select'=>'id,icon'));
+		if ( empty($data) ){
+			return array();
+		}
+		$return = array(
+				'alias' => 'user'.$uid,
+				'icon' => $data->getAttribute('icon'),
+				'friends' => array(),
+				'chatRooms' => array(),
+				'chatGroups' => array(),
+				'tags' => array()
+		);
+		$raw = $data->getRelated('baseUser');
+		foreach ( $raw->getRelated('friends') as $friend ){
+			$follwed = $friend->getRelated('followed');
+			$trends = $follwed->getRelated('trends');
+			$trend = !empty($trends) ? $trends[0]->getAttribute('content') : array();
+			$return['friends'][] = array(
+					'id' => $follwed->getAttribute('id'),
+					'nickname' => $follwed->getAttribute('nickname'),
+					'remark' => $friend->getAttribute('remark'),
+					'icon' => $follwed->getRelated('frontUser')->getAttribute('icon'),
+					'trend' => $trend,
+			);
+		}
+		foreach ( $raw->getRelated('chatRooms') as $chatRoom ){
+			$return['chatRooms'][] = $chatRoom->getAttributes();
+			$return['tags'][] = 'room'.$chatRoom->getAttribute('id');
+		}
+		foreach ( $raw->getRelated('chatGroups') as $chatGroup ){
+			$return['chatGroups'][] = $chatGroup->getAttributes();
+			$return['tags'][] = 'group'.$chatGroup->getAttribute('id');
+		}
+		return $return;
 	}
 }
