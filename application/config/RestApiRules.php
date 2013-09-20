@@ -23,22 +23,22 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Friends|Trend|Reply|Support)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Hello|Friend|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balcnce)>/<id:\d+>',
+				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balance)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriendList|MyTrends|FriendsTrends)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|MyTrends|FriendsTrends)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
 		array(
-				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friends|Trend)>',
+				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friend|Trend)>',
 				'<_m>/service/remove<_a>',
 				'verb'=>'DELETE'
 		),

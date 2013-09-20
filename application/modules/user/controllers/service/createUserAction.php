@@ -9,6 +9,7 @@ class createUserAction extends CmsAction{
 		if ( $this->app->getUser()->getIsGuest() ){
 			$user = new SqbUser('appReg');
 			$attributes = $this->getController()->getPost();
+			$attributes['icon'] = mt_rand(1,5);
 			$attributes['last_login_time'] = time();
 			$attributes['last_login_ip'] = $this->request->userHostAddress;
 			
