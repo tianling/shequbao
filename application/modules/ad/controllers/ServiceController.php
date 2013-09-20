@@ -11,6 +11,7 @@ class ServiceController extends CmsController{
 		return array();
 	}
 	
+
 	public function actionGetAd(){
 		//随机获取一位余额大于0且有广告投放的广告主
 		$criteria= new CDbCriteria;
@@ -31,44 +32,37 @@ class ServiceController extends CmsController{
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';
-		$advertiserData = Advertise::model()->with(array('adPic'=>array(
-					'select'=>'thumb_url',
-				)
-			))->findAll($criteria);
-		if(!empty($advertiserData)){
-			$view = $advertiserData[0]['view']+1;
-			$adView = Advertise::model()->findByPk($advertiserData[0]['id']);
+		$advertiseData = Advertise::model()->findAll($criteria);
+		if(!empty($advertiseData)){
+			$adData = array();
+			$adData = $advertiseData[0]->getAttributes();
+			$adId = $adData['id'];
+			$adPic = AdvertisePic::model()->findAll('ad_id=:adId',array(':adId'=>$adId));
+			$picData = $adPic[0]->getAttributes();
+			$adData['data']['adPic'] = $picData['thumb_url'];
+			$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
+			$view = $adView->view +1;
 			$adView->view = $view;
 			$adView->save();
-			$putData = $advertiserData[0];
-			$this->response(200,'',$putData->getAttributes());
-		}
-		
-		
-		
-
-
-
-
-
+			$putData = $adData;
+			$this->response(200,'',$putData);
+		}		
 	}
+
 
 	public function actionUpdateBalance($resourceId,$id){//根据客户端返回的数据对用户进行扣费
 		if(!empty($resourceId) && is_numeric($id)){
-			/*echo $resourceId;
-			echo $id;
-			die();*/
-			
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
 			$advertiserModel = Advertiser::model()->findByPk($id);
 			$balance = $advertiserModel->balance;
 			$cpc = $advertiseModel->cpc;
-			//echo $balance;
-			//echo $cpc;
 			$advertiserModel->balance = $balance - $cpc;
-			//var_dump($advertiserModel);
-			if($advertiserModel->save())
+			//$advertiserModel->attributes = $advertiserModel;
+			if($advertiserModel->save()){
 				echo $advertiserModel->balance;
+				$this->response(200,'','扣费操作成功');
+			}
+				
 			else
 				var_dump($advertiserModel->getErrors());
 
