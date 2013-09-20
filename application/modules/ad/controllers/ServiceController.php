@@ -39,7 +39,7 @@ class ServiceController extends CmsController{
 			$adId = $adData['id'];
 			$adPic = AdvertisePic::model()->findAll('ad_id=:adId',array(':adId'=>$adId));
 			$picData = $adPic[0]->getAttributes();
-			$adData['data']['adPic'] = $picData['thumb_url'];
+			$adData['adPic'] = $picData['thumb_url'];
 			$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
 			$view = $adView->view +1;
 			$adView->view = $view;
