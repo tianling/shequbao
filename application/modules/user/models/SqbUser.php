@@ -72,7 +72,6 @@ class SqbUser extends SingleInheritanceModel
 			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'id'),
 			'addresses' => array(self::HAS_MANY, 'UserAddress', 'user_id'),
 			'contacts' => array(self::HAS_MANY, 'UserContacts', 'user_id'),
-			'icon' => array(self::HAS_MANY, 'UserIcon', 'user_id'),
 		);
 	}
 

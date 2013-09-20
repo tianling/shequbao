@@ -7,15 +7,26 @@
  * Encoding UTF-8
  */
 class FrontUserManager extends BaseUserManager{
+	/**
+	 * 
+	 * @var SqbUser
+	 */
+	public $model;
+	
 	public function init(){
 		Yii::import('user.models.*');
+		$this->model = SqbUser::model();
 	}
 	
 	public function findAll($criteria=null,$params=array()){
-		return SqbUser::model()->findAll($criteria,$params);
+		return $this->model->findAll($criteria,$params);
+	}
+	
+	public function findByPk($pk,$criteria=null,$params=array()){
+		return $this->model->findByPk($pk,$criteria,$params);
 	}
 	
 	public function count($criteria=null,$params=array()){
-		return SqbUser::model()->count($criteria,$params);
+		return $this->model->count($criteria,$params);
 	}
 }
