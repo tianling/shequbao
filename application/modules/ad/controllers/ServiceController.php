@@ -11,6 +11,7 @@ class ServiceController extends CmsController{
 		return array();
 	}
 	
+
 	public function actionGetAd(){
 		//随机获取一位余额大于0且有广告投放的广告主
 		$criteria= new CDbCriteria;
@@ -24,35 +25,46 @@ class ServiceController extends CmsController{
 		$advertiser_id = $advertiserData[0]['advertiser_id'];
 		//从该用户发布的广告中随机选取一部分照片，然后按照曝光次数和优先级推送一条
 		$criteria = new CDbCriteria;
-		$criteria->select = 'id,advertiser_id,content,view,direct_to,priority';
+		$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority';
 		$criteria->condition = 'advertiser_id = "'.$advertiser_id.'" ';
 		$adCount = Advertise::model()->count($criteria);
 		$top = rand(0,$count-1);
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';
-		$advertiserData = Advertise::model()->with(array('adPic'=>array(
-					'select'=>'thumb_url',
-				)
-			))->findAll($criteria);
-		$putData = $advertiserData[0];
-		//echo $putData['adPic'][0]['thumb_url'];
-		$this->response(200,'',$putData->getAttributes());
-
-
-
-
-
+		$advertiseData = Advertise::model()->findAll($criteria);
+		if(!empty($advertiseData)){
+			$adData = array();
+			$adData = $advertiseData[0]->getAttributes();
+			$adId = $adData['id'];
+			$adPic = AdvertisePic::model()->findAll('ad_id=:adId',array(':adId'=>$adId));
+			$picData = $adPic[0]->getAttributes();
+			$adData['adPic'] = $picData['thumb_url'];
+			$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
+			$view = $adView->view +1;
+			$adView->view = $view;
+			$adView->save();
+			$putData = $adData;
+			$this->response(200,'',$putData);
+		}		
 	}
+
 
 	public function actionUpdateBalance($resourceId,$id){//根据客户端返回的数据对用户进行扣费
 		if(!empty($resourceId) && is_numeric($id)){
-			$advertiseModel = Advertise::findByPk($resourceId);
-			$advertiserModel = Advertiser::findByPk($id);
-			$advertiserModel->balance = $advertiserModel->banlance - $advertiseModel->cpc;
-			if($advertiserModel->save())
+			$advertiseModel = Advertise::model()->findByPk($resourceId);
+			$advertiserModel = Advertiser::model()->findByPk($id);
+			$balance = $advertiserModel->balance;
+			$cpc = $advertiseModel->cpc;
+			$advertiserModel->balance = $balance - $cpc;
+			//$advertiserModel->attributes = $advertiserModel;
+			if($advertiserModel->save()){
 				echo $advertiserModel->balance;
-			
+				$this->response(200,'','扣费操作成功');
+			}
+				
+			else
+				var_dump($advertiserModel->getErrors());
 
 		}
 		

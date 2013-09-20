@@ -61,6 +61,7 @@ class AdvertisePic extends CmsActiveRecord
 			'ad_id' => 'Ad',
 			'url' => 'Url',
 			'description' => 'Description',
+			'thumb_url'=>'缩略图路径'
 		);
 	}
 
