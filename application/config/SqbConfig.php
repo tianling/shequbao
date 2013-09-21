@@ -36,6 +36,9 @@ class SqbConfig extends ConfigBase{
 								'userManagerId' => 'UserManager'
 						),
 				),
+				'import' => array(
+						'application.modules.user.models.*'
+				),
 				'components' => array(
 						'log'=>array(
 								'class'=>'CLogRouter',
