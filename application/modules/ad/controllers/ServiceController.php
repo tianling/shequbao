@@ -38,14 +38,25 @@ class ServiceController extends CmsController{
 			$adData = $advertiseData[0]->getAttributes();
 			$adId = $adData['id'];
 			$adPic = AdvertisePic::model()->findAll('ad_id=:adId',array(':adId'=>$adId));
-			$picData = $adPic[0]->getAttributes();
-			$adData['adPic'] = $picData['thumb_url'];
-			$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
-			$view = $adView->view +1;
-			$adView->view = $view;
-			$adView->save();
-			$putData = $adData;
-			$this->response(200,'',$putData);
+			if(!empty($adPic)){
+				$picData = $adPic[0]->getAttributes();
+				$adData['adPic'] = $picData['thumb_url'];
+				$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
+				$view = $adView->view +1;
+				$adView->view = $view;
+				$adView->save();
+				$putData = $adData;
+				$this->response(200,'',$putData);
+			}else{
+				$adData['adPic'] = " ";
+				$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
+				$view = $adView->view +1;
+				$adView->view = $view;
+				$adView->save();
+				$putData = $adData;
+				$this->response(200,'',$putData);
+			}
+			
 		}		
 	}
 
@@ -57,17 +68,12 @@ class ServiceController extends CmsController{
 			$balance = $advertiserModel->balance;
 			$cpc = $advertiseModel->cpc;
 			$advertiserModel->balance = $balance - $cpc;
-			//$advertiserModel->attributes = $advertiserModel;
 			if($advertiserModel->save()){
 				echo $advertiserModel->balance;
 				$this->response(200,'','扣费操作成功');
-			}
-				
+			}				
 			else
-				var_dump($advertiserModel->getErrors());
-
+				$this->response(400,'','发生错误');
 		}
-		
-
 	}
 }
