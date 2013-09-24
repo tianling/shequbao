@@ -40,6 +40,19 @@ class SqbConfig extends ConfigBase{
 						'application.modules.user.models.*'
 				),
 				'components' => array(
+						'chatManager' => array(
+								'messagePusherId' => 'JPush'
+						),
+						
+						'pusher' => array(
+								'appKey' => '754d6e41a35fb03f778d53ae',
+								'masterSecret' => 'cc2e44d8d49b0cc5f02126ab'
+						),
+						
+						'UserManager' => array(
+								'class' => 'application.modules.user.components.FrontUserManager'
+						),
+						
 						'log'=>array(
 								'class'=>'CLogRouter',
 								'routes'=>array(
@@ -48,10 +61,6 @@ class SqbConfig extends ConfigBase{
 												//'levels'=>'error, warning',
 										),
 								),
-						),
-						
-						'UserManager' => array(
-								'class' => 'application.modules.user.components.FrontUserManager'
 						),
 
 						'image'=>array(

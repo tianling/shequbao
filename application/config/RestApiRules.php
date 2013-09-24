@@ -7,6 +7,11 @@
  * Encoding UTF-8
  */
 return array(
+		array(
+				'pattern' => 'user/<resourceId:\d+>:Chat',
+				'friends/service/chat',
+				'verb'=>'POST'
+		),
 		array(//create a resource
 				'pattern'=>'<_m:(user)>',
 				'<_m>/service/create',
@@ -40,7 +45,7 @@ return array(
 		array(
 				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friend|Trend)>',
 				'<_m>/service/remove<_a>',
-				'verb'=>'DELETE'
+				'verb'=>'DELETE,POST'
 		),
 		array(
 				'pattern'=>'<_m:(ad)>/<_a:(Ad)>',
