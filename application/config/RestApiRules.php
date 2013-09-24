@@ -43,9 +43,9 @@ return array(
 				'verb'=>'GET'
 		),
 		array(
-				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friend|Trend)>',
-				'<_m>/service/remove<_a>',
-				'verb'=>'DELETE,POST'
+				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(removeFriend|removeTrend)>',
+				'<_m>/service/<_a>',
+				'verb'=>'POST'
 		),
 		array(
 				'pattern'=>'<_m:(ad)>/<_a:(Ad)>',
