@@ -32,7 +32,7 @@ class AdViewClick extends CmsActiveRecord
 		return array(
 			array('user_id, advertise_id, type', 'required'),
 			array('type', 'numerical', 'integerOnly'=>true),
-			array('user_id, advertise_id', 'length', 'max'=>11),
+			array('id,user_id, advertise_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('user_id, advertise_id, type', 'safe', 'on'=>'search'),
@@ -58,6 +58,7 @@ class AdViewClick extends CmsActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id' => 'Id',
 			'user_id' => 'User',
 			'advertise_id' => 'Advertise',
 			'type' => 'Type',

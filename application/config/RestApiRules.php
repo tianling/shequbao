@@ -52,4 +52,9 @@ return array(
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
+		array(
+				'pattern'=>'<_m:(ad)>/<id:\d+>:<_a:(View)>/<uid:\d+>',
+				'<_m>/service/update<_a>',
+				'verb'=>'PUT'
+		),
 );
