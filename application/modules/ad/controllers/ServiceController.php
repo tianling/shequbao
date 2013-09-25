@@ -39,7 +39,7 @@ class ServiceController extends CmsController{
 				if($viewInput == 200)
 					$this->response($viewInput,'','扣费操作成功');
 				else
-					$this->response(400,'',var_dump($model->getErrors()));
+					$this->response(400,'','发生错误');
 
 			}
 		}
