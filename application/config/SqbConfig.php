@@ -35,6 +35,13 @@ class SqbConfig extends ConfigBase{
 								'class' => 'cms.modules.friends.FriendsModule',
 								'userManagerId' => 'UserManager'
 						),
+						'area' => array(
+								'class' => 'cms.modules.area.AreaModule'
+						),
+				),
+				'preloadModels' => array(
+						'area',
+						'user'
 				),
 				'import' => array(
 						'application.modules.user.models.*'

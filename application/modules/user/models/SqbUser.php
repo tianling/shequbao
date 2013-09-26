@@ -55,6 +55,7 @@ class SqbUser extends SingleInheritanceModel
 			array('identity_id', 'length', 'max'=>18,'message'=>'{attribute}过长'),
 			array('phone', 'length', 'max'=>20,'message'=>'{attribute}过长'),
 			array('mobile,email','unsafe','on'=>'appUpdate'),
+			array('icon','safe','on'=>'appUpdate'),
 			array('online_status,be_attentioned,attention,groups','unsafe'),
 			array('identity_id,gender','safe'),
 		);
