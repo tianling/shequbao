@@ -38,7 +38,7 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|MyTrends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
