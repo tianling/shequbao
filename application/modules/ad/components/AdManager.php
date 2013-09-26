@@ -33,7 +33,7 @@ class AdManager extends CApplicationComponent{
 		$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority';
 		$criteria->condition = 'advertiser_id = "'.$advertiser_id.'" ';
 		$adCount = Advertise::model()->count($criteria);
-		$top = rand(0,$count-1);
+		$top = rand(0,$count-4);
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';
