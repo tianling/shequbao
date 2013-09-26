@@ -38,8 +38,18 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		),
+		array(
+				'pattern' => '<_m(area)>/<_a:(Level)>/<resourceId:\d+>',
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		),
+		array(
+				'pattern'=>'area/<resourceId:\d+>:<_a:(DirectChildren|AllChildren)>',
+				'area/service/get<_a>',
 				'verb'=>'GET'
 		),
 		array(
