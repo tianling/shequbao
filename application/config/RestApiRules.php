@@ -28,7 +28,7 @@ return array(
  				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balance)>/<id:\d+>',
+				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
@@ -49,6 +49,11 @@ return array(
 		),
 		array(
 				'pattern'=>'<_m:(ad)>/<id:\d+>:<_a:(View)>/<uid:\d+>',
+				'<_m>/service/update<_a>',
+				'verb'=>'PUT'
+		),
+		array(
+				'pattern'=>'<_m:(ad)>/<resourceId:\d+>:<_a:(BalanceClick)>/<id:\d+>/<uid:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),

@@ -21,10 +21,11 @@ class ServiceController extends CmsController{
 	}
 
 
-	public function actionUpdateBalance($resourceId,$id){//根据客户端返回的数据对用户进行扣费
-		if(!empty($resourceId) && is_numeric($id)){
+	public function actionUpdateBalanceClick($resourceId,$id,$uid){//根据客户端返回的数据对用户进行扣费
+		if(!empty($resourceId) && is_numeric($id) && !empty($uid) && is_numeric($uid)){
 			$CostPay = $this->app->AdManager->adVerCost($resourceId,$id);
-			if($CostPay == 200)
+			$adClick = $this->app->AdManager->adClick($resourceId,$uid);
+			if($CostPay == 200 && $adClick == 200)
 				$this->response($CostPay,'','扣费操作成功');
 			else
 				$this->response($CostPay,'','发生错误');
