@@ -57,4 +57,10 @@ return array(
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
+		array(
+				'pattern'=>'<_m:(user)>/<uid:\d+>:<_a:(CloseUser)>/<lag:\d+>/<lng:\d+>',
+				'<_m>/service/create<_a>',
+				'verb'=>'POST'
+		),
+
 );
