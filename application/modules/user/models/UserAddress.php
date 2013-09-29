@@ -154,10 +154,25 @@ class UserAddress extends CmsActiveRecord
 	 */
 	public function getUserAddressesArray($userId){
 		$criteria = new CDbCriteria();
+		$criteria->with = array('community');
 		$criteria->condition = 'user_id=:uid';
 		$criteria->params = array(':uid'=>$userId);
-		$table = $this->getMetaData()->tableSchema;
 	
-		return $this->getCommandBuilder()->createFindCommand($table,$criteria)->queryAll();
+		$address = $this->findAll($criteria);
+		$data = array();
+		foreach ( $address as $i => $addr ){
+			$community = $addr->getRelated('community');
+			$cData = array();
+			if ( $community !== null ){
+				$cData = array(
+						'id' => $community->getPrimaryKey(),
+						'name' => $community->getAttribute('community_name')
+				);
+			}
+			$data[$i] = $addr->getAttributes();
+			$data[$i]['community'] = $cData;
+		}
+		
+		return $data;
 	}
 }

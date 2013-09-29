@@ -20,7 +20,8 @@ class ServiceController extends CmsController{
 				'getBind' => array('class' => 'getUserBindInfo'),
 				'getCommunity',
 				'createFamilyMember',
-				'getFamilyInvitation'
+				'getFamilyInvitation',
+				'createFamilyConfirm' => array('class'=>'familyConfirm')
 		);
 	}
 	

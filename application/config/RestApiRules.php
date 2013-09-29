@@ -28,7 +28,7 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|FamilyMember|Hello|Friend|Trend|Reply|Support)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
@@ -43,7 +43,7 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|GroupApplication|FamilyInvitation|Community|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
@@ -57,7 +57,7 @@ return array(
 				'area/service/get<_a>',
 				'verb'=>'GET'
 		),
-		array(
+		array(//delete
 				'pattern'=>'<_m:(friends|user)>/<resourceId:\d+>:<_a:(removeFriend|removeTrend|removeGroupMember)>',
 				'<_m>/service/<_a>',
 				'verb'=>'POST'
