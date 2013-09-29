@@ -52,4 +52,14 @@ class ServiceController extends CmsController{
 	public function loginRequired(){
 		$this->response(400,'请登录');
 	}
+
+	public function actionCreateCloseUser($uid,$lag,$lng){
+		if(!empty($uid) && !empty($lag) && !empty($lng)){
+			$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
+			if($userAdd == 200)
+				$this->response(200,'','添加成功');
+			else
+				$this->response(400,'','添加失败');
+		}
+	}
 }

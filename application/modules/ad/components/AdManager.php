@@ -33,7 +33,7 @@ class AdManager extends CApplicationComponent{
 		$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority';
 		$criteria->condition = 'advertiser_id = "'.$advertiser_id.'" ';
 		$adCount = Advertise::model()->count($criteria);
-		$top = rand(0,$count-1);
+		$top = rand(0,$count-4);
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';
@@ -90,28 +90,44 @@ class AdManager extends CApplicationComponent{
 	/**
 	 * 点击广告时回调
 	 */
-	public function adClick(){
-		
+	public function adClick($id,$user_id){
+		if(isset($id) && is_numeric($id) && isset($user_id) && is_numeric($user_id)){
+			$model = new AdViewClick;
+			$Admodel = Advertise::model()->findByPk($id);
+			$model->user_id = $user_id;
+			$model->advertise_id = $Admodel->id;
+			$model->type = 1;
+			$model->time = time();
+			$model->cost = $Admodel->cpc;
+			if($model->save())
+				return 200;
+			else{
+				$error = var_dump($model->getErrors());
+				return $error;
+			}
+		}		
 	}
 	
 	/**
 	 * 广告主扣费
 	 */
 	public function adVerCost($resourceId,$id){
-		if(!empty($resourceId) && is_numeric($id)){
+		if(!empty($resourceId) && is_numeric($id) && !empty($id) &&is_numeric($resourceId)){
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
 			$advertiserModel = Advertiser::model()->findByPk($id);
 			$balance = $advertiserModel->balance;
 			$cpc = $advertiseModel->cpc;
 			$advertiserModel->balance = $balance - $cpc;
-			if($advertiserModel->save()){
+			if($advertiserModel->save())
 				//echo $advertiserModel->balance;
 				return 200;
-			}				
+						
 			else
 				return 400;
 		}
-	}
+	}	
+
+	
 	
 	
 	/**

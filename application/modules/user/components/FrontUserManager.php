@@ -22,4 +22,22 @@ class FrontUserManager extends BaseUserManager{
 	public function count($criteria=null,$params=array()){
 		return SqbUser::model()->count($criteria,$params);
 	}
+
+	public function addCloseUser($uid,$lat,$lng){
+		if(!empty($uid) && !empty($lat) && !empty($lng) ){
+			$CloseUserModel = new CloseUser;
+			$CloseUserModel->coord_x = $lat;
+			$CloseUserModel->coord_y = $lng;
+			$CloseUserModel->uid = $uid;
+			$CloseUserModel->time = time();
+			if($CloseUserModel->save())
+				return 200;
+			else{
+				$error = $CloseUserModel->getErrors();
+				return $error;
+			}
+				//return 400;
+			
+		}
+	}
 }
