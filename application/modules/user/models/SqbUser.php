@@ -144,6 +144,7 @@ class SqbUser extends SingleInheritanceModel
 		CmsModule::loadModels('friends');
 		$data = $this->with(array(
 				'baseUser' => array(
+						'select' => 'id',
 						'with' => array(
 								'friends' => array(
 										'select'=>'remark',
@@ -165,7 +166,7 @@ class SqbUser extends SingleInheritanceModel
 										),
 								),
 								'chatRooms',
-								'chatGroups',
+								'chatGroups'
 						)
 				)
 		))->findByPk($uid,array('select'=>'id,icon'));
