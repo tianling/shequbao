@@ -79,8 +79,8 @@ return array(
 		),
 		array(
 				'pattern'=>'<_m:(user)>/<uid:\d+>:<_a:(CloseUser)>/<lag:\d+>/<lng:\d+>',
-				'<_m>/service/create<_a>',
-				'verb'=>'POST'
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
 		),
 
 );

@@ -42,6 +42,7 @@ class SqbConfig extends ConfigBase{
 				'preloadModels' => array(
 						'area',
 						'user',
+						'friends',
 				),
 				'import' => array(
 						'application.modules.user.models.*'
