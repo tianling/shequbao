@@ -15,11 +15,13 @@ class familyConfirmAction extends CmsAction{
 		
 		$familyTypeFlag = 100;
 		$groupManager = $this->app->getModule('friends')->getGroupManager();
+		$type = $this->getPost('type',null);
 		$groupId = $this->getPost('group',null);
-		if ( $groupId === null ){
+		$userId = $this->getPost('user',null);
+		if ( $groupId === null || $userId === null ){
 			$this->response(201);
 		}
-		$result = $groupManager->confirmGroupAdd($groupId,$loginedId);
+		$result = $groupManager->confirmGroupAdd($loginedId,$groupId,$userId);
 		if ( $result === true ){
 			$this->response(200);
 		}else {
