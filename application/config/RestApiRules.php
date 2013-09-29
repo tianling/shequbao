@@ -32,13 +32,18 @@ return array(
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
+		array(
+				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember)>',
+				'friends/service/create<_a>',
+				'verb'=>'POST'
+		),
 		array(//update resource which belongs to another resource
 				'pattern'=>'<_m:(user|ad)>/<resourceId:\d+>:<_a:(Address|Balance)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|Community|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
@@ -53,7 +58,7 @@ return array(
 				'verb'=>'GET'
 		),
 		array(
-				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(removeFriend|removeTrend)>',
+				'pattern'=>'<_m:(friends|user)>/<resourceId:\d+>:<_a:(removeFriend|removeTrend|removeGroupMember)>',
 				'<_m>/service/<_a>',
 				'verb'=>'POST'
 		),
