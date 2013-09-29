@@ -18,6 +18,9 @@ class UserModule extends CmsModule{
 				'guestName' => '游客',
 				'authTimeout' => 600
 		));
+		Yii::app()->setComponent('familyManager',array(
+				'class' => 'user.components.FamilyManager'
+		));
 	}
 	
 	public function loadSelfModels(){

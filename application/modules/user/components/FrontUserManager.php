@@ -40,4 +40,20 @@ class FrontUserManager extends BaseUserManager{
 			
 		}
 	}
+	
+	/**
+	 * 
+	 * @param unknown $attributes
+	 * @return SqbUser
+	 */
+	public function addAppUser($attributes){
+		$user = new SqbUser('appReg');
+		
+		$attributes['icon'] = mt_rand(1,5);
+		$attributes['last_login_time'] = time();
+		$user->attributes = $attributes;
+		
+		$user->save();
+		return $user;
+	}
 }
