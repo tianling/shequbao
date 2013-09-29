@@ -46,7 +46,7 @@ class UserAddress extends CmsActiveRecord
 			array('user_id,household,gas,water,electricity','unsafe','on'=>'appUpdate'),
 			array('user_id, location, water, electricity, gas, garbage, contact_phone, household', 'required','message'=>'{attribute}不存在'),
 			array('user_id, location, community, property', 'length', 'max'=>11,'message'=>'{attribute}不能多于11个字符'),
-			array('location','exist','className'=>'cms.models.Area','attributeName'=>'id','message'=>'选择的{attribute}不存在'),
+			array('location','exist','className'=>'Area','attributeName'=>'id','message'=>'选择的{attribute}不存在'),
 			//array('community','exist','className'=>'cms.models.Community','message'=>'选择的{attribute}不存在'),
 			array('gas','unionUnique','unionAttributes'=>array('user_id','water','electricity'),'message'=>'{attribute}已存在'),
 			array('address', 'length', 'max'=>255,'message'=>'{attribute}不能多于255个字符'),

@@ -17,7 +17,10 @@ class ServiceController extends CmsController{
 				'createAddress' => array('class' => 'createUserAddress'),
 				'updateAddress' => array('class' => 'updateUserAddress'),
 				'getAddress' => array('class' => 'getUserAddress'),
-				'getBind' => array('class' => 'getUserBindInfo')
+				'getBind' => array('class' => 'getUserBindInfo'),
+				'getCommunity',
+				'createFamilyMember',
+				'getFamilyInvitation'
 		);
 	}
 	

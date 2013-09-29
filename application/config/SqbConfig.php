@@ -35,8 +35,31 @@ class SqbConfig extends ConfigBase{
 								'class' => 'cms.modules.friends.FriendsModule',
 								'userManagerId' => 'UserManager'
 						),
+						'area' => array(
+								'class' => 'cms.modules.area.AreaModule'
+						),
+				),
+				'preloadModels' => array(
+						'area',
+						'user',
+				),
+				'import' => array(
+						'application.modules.user.models.*'
 				),
 				'components' => array(
+						'chatManager' => array(
+								'messagePusherId' => 'JPush'
+						),
+						
+						'pusher' => array(
+								'appKey' => '754d6e41a35fb03f778d53ae',
+								'masterSecret' => 'cc2e44d8d49b0cc5f02126ab'
+						),
+						
+						'UserManager' => array(
+								'class' => 'application.modules.user.components.FrontUserManager'
+						),
+						
 						'log'=>array(
 								'class'=>'CLogRouter',
 								'routes'=>array(
@@ -45,10 +68,6 @@ class SqbConfig extends ConfigBase{
 												//'levels'=>'error, warning',
 										),
 								),
-						),
-						
-						'UserManager' => array(
-								'class' => 'application.modules.user.components.FrontUserManager'
 						),
 
 						'image'=>array(
@@ -67,16 +86,16 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),
-						/*'db' => array(
-								'class' => 'system.db.CDbConnection',
-								'autoConnect' => false,
-								'connectionString' => 'mysql:host=localhost;dbname=shequbao',
-								'emulatePrepare' => true,
-								'username' => 'sqb-sandbox',
-								'password' => 'sqb-sandbox@aliyun',
-								'charset' => 'utf8',
-								'tablePrefix' => 'xcms_'
-						),*/
+// 						'db' => array(
+// 								'class' => 'system.db.CDbConnection',
+// 								'autoConnect' => false,
+// 								'connectionString' => 'mysql:host=localhost;dbname=shequbao',
+// 								'emulatePrepare' => true,
+// 								'username' => 'sqb-sandbox',
+// 								'password' => 'sqb-sandbox@aliyun',
+// 								'charset' => 'utf8',
+// 								'tablePrefix' => 'xcms_'
+// 						),
 						
 						'urlManager'=>array(
 								'urlFormat'=>'path',

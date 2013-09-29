@@ -20,7 +20,7 @@ class updateUserAction extends CmsAction{
 					if ( isset($putData['password']) ){
 						$user->baseUser->changePassword($putData['password']);
 					}
-					$user->baseUser->changeUUID($putData,$oldAttributes,$oldAttributes);
+					$user->baseUser->changeUUID($putData,$oldAttributes,$putData);
 						
 					$user->save(false);
 					$this->response(200,'修改成功');

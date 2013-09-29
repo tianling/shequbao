@@ -7,6 +7,11 @@
  * Encoding UTF-8
  */
 return array(
+		array(
+				'pattern' => 'user/<resourceId:\d+>:Chat',
+				'friends/service/chat',
+				'verb'=>'POST'
+		),
 		array(//create a resource
 				'pattern'=>'<_m:(user)>',
 				'<_m>/service/create',
@@ -23,9 +28,14 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Friends|Trend|Reply|Support)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|FamilyMember|Hello|Friend|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
+		),
+		array(
+				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember)>',
+				'friends/service/create<_a>',
+				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
 				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>/<id:\d+>',
@@ -33,14 +43,24 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Bind|SayHelloToMe|RandomFriendList|MyTrends|FriendsTrends)>',
+				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|SayHelloToMe|RandomFriends|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
 		array(
-				'pattern'=>'<_m:(friends)>/<resourceId:\d+>:<_a:(Friends|Trend)>',
-				'<_m>/service/remove<_a>',
-				'verb'=>'DELETE'
+				'pattern' => '<_m(area)>/<_a:(Level)>/<resourceId:\d+>',
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		),
+		array(
+				'pattern'=>'area/<resourceId:\d+>:<_a:(DirectChildren|AllChildren)>',
+				'area/service/get<_a>',
+				'verb'=>'GET'
+		),
+		array(
+				'pattern'=>'<_m:(friends|user)>/<resourceId:\d+>:<_a:(removeFriend|removeTrend|removeGroupMember)>',
+				'<_m>/service/<_a>',
+				'verb'=>'POST'
 		),
 		array(
 				'pattern'=>'<_m:(ad)>/<_a:(Ad)>',
