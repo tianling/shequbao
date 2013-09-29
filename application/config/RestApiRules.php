@@ -33,7 +33,7 @@ return array(
  				'verb'=>'POST'
 		),
 		array(
-				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember)>',
+				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember)|ConfirmGroup>',
 				'friends/service/create<_a>',
 				'verb'=>'POST'
 		),

@@ -52,6 +52,11 @@ class createFamilyMemberAction extends CmsAction{
 		if ( $result->hasErrors() ){
 			$this->response(201,'邀请已发出，请等待您的家人回复');
 		}else {
+			$chatManager = $this->app->getComponent('chatManager');
+			$chatManager->getPusher()->setTimeToLive(864000);
+			$alias = 'user'.$member->getPrimaryKey();
+			$chatManager->pushNotification(1,$alias,1,'收到一条家庭邀请','社区宝聊天',array('time'=>time()));
+			
 			$this->response(200,'邀请成功');
 		}
 	}

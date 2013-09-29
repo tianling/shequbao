@@ -15,14 +15,21 @@ class familyConfirmAction extends CmsAction{
 		
 		$familyTypeFlag = 100;
 		$groupManager = $this->app->getModule('friends')->getGroupManager();
-		$type = $this->getPost('type',null);
-		$groupId = $this->getPost('group',null);
-		$userId = $this->getPost('user',null);
-		if ( $groupId === null || $userId === null ){
+		$familyId = $this->getPost('family',null);
+		if ( $familyId === null ){
 			$this->response(201);
 		}
-		$result = $groupManager->confirmGroupAdd($loginedId,$groupId,$userId);
+		$family = $groupManager->findByPk($familyId);
+		if ( $family === null ){
+			$this->response(201,'家庭不存在');
+		}
+		$result = $groupManager->confirmGroupAdd($family->master_id,$familyId,$loginedId);
 		if ( $result === true ){
+			$chatManager = $this->app->getComponent('chatManager');
+			$chatManager->getPusher()->setTimeToLive(864000);
+			$alias = 'user'.$family->master_id;
+			$chatManager->pushNotification(1,$alias,1,'家庭成员同意加入您的家庭','社区宝聊天',array('time'=>time()));
+			
 			$this->response(200);
 		}else {
 			$this->response(201);
