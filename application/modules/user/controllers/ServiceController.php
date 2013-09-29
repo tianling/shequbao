@@ -59,7 +59,7 @@ class ServiceController extends CmsController{
 		if(!empty($uid) && !empty($lag) && !empty($lng)){
 			$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
 			if($userAdd == 200){
-				$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng);
+				$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng,$uid);
 				if($closeUserData == 300)
 					$this->response(300,'','附近无用户');
 				else

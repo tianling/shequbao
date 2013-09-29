@@ -37,12 +37,13 @@ class FrontUserManager extends BaseUserManager{
 		}
 	}
 
-	public function getCloseUser($lat,$lng){
-		if(!empty($lat) && !empty($lng) && is_numeric($lat) && is_numeric($lng)){
+	public function getCloseUser($lat,$lng,$uid){
+		if(!empty($lat) && !empty($lng) && is_numeric($lat) && is_numeric($lng) && is_numeric($uid)){
+			$user_id = $uid;
 			$criteria= new CDbCriteria;
 			$criteria->select = 'coord_x,coord_y,time,uid';
 			$time = time();
-			$criteria->condition = 'time - "'.$time.'" <= 432000'; 
+			$criteria->condition = 'time - "'.$time.'" <= 432000 AND uid != "'.$user_id.'"'; 
 			$UserData = CloseUser::model()->findAll($criteria);
 
 			if(!empty($UserData)){
@@ -56,37 +57,52 @@ class FrontUserManager extends BaseUserManager{
 
 					if($distance<=1)
 						$closeUser[$key]['data']['id'] = $closeUserData[$key]['data']['uid'];
-						$uid = $closeUser[$key]['data']['id'];
+						$id = $closeUser[$key]['data']['id'];
+
 						$criteria= new CDbCriteria;
 						$criteria->alias = 'user';
 						$criteria->select = 'nickname';
-						$criteria->condition = 'user.id = "'.$uid.'" ';
+						$criteria->condition = 'user.id = "'.$id.'"';
 						$criteria->with = array(
 											'frontUser'=>array(
 													'select'=>'icon',
-												),/*'trends'=>array(
+												),
+											'trends'=>array(
 													'select'=>'content',
-													'order'=>'publish_time',
+													'order'=>'publish_time DESC',
 													'limit'=>1,
 													'offset'=>0,
-												),*/
+												),
 											
 											
 							);
 						$userData = UserModel::model()->findAll($criteria);
-						$userIcon = $userData[0]->getRelated('frontUser');
-						$Icon = $userIcon->getAttributes();
-						$IconName =$Icon['icon'];
-						echo $IconName;
-						die();
+						$username = $userData[0]['nickname'];
+						$closeUser[$key]['data']['nickname'] =  $userData[0]['nickname'];
 
+						if(!empty($userData[0]->frontUser) ){
+							$userIcon = $userData[0]->getRelated('frontUser');
+							$Icon = $userIcon->getAttributes();
+							$IconName =$Icon['icon'];
+							$closeUser[$key]['data']['icon'] = $IconName;
+
+							if(!empty($userData[0]->trends)){
+								$usertrends = $userData[0]->getRelated('trends');
+								$trendsData = $usertrends[0]['content'];
+								$closeUser[$key]['data']['trends'] = $trendsData;
+							}
+							
+
+						}
+						
 				}
 				
-				if(!empty($closeUser))
+				if(!empty($closeUser[0]['data']['id']))
 					return $closeUser;					
 				else
 					return 300;
-			}
+			}else
+				return 300;
 		}
 				
 	}
