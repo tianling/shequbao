@@ -52,11 +52,17 @@ class ServiceController extends CmsController{
 		$this->response(400,'请登录');
 	}
 
-	public function actionCreateCloseUser($uid,$lag,$lng){
+	public function actionGetCloseUser($uid,$lag,$lng){
 		if(!empty($uid) && !empty($lag) && !empty($lng)){
 			$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
-			if($userAdd == 200)
-				$this->response(200,'','添加成功');
+			if($userAdd == 200){
+				$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng);
+				if($closeUserData == 300)
+					$this->response(300,'','附近无用户');
+				else
+					$this->response(200,'',$closeUserData);
+			}
+				
 			else
 				$this->response(400,'','添加失败');
 		}

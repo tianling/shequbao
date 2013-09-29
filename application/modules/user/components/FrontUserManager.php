@@ -39,12 +39,79 @@ class FrontUserManager extends BaseUserManager{
 			$CloseUserModel->time = time();
 			if($CloseUserModel->save())
 				return 200;
-			else{
-				$error = $CloseUserModel->getErrors();
-				return $error;
-			}
-				//return 400;
-			
+			else
+				return 400;
 		}
 	}
+
+	public function getCloseUser($lat,$lng){
+		if(!empty($lat) && !empty($lng) && is_numeric($lat) && is_numeric($lng)){
+			$criteria= new CDbCriteria;
+			$criteria->select = 'coord_x,coord_y,time,uid';
+			$time = time();
+			$criteria->condition = 'time - "'.$time.'" <= 432000'; 
+			$UserData = CloseUser::model()->findAll($criteria);
+
+			if(!empty($UserData)){
+				$closeUserData = array();
+				$closeUser = array();
+				foreach ($UserData as $key => $value){
+					$closeUserData[$key]['data'] = $value->getAttributes();
+					$lat2 = $closeUserData[$key]['data']['coord_x'];
+					$lng2 = $closeUserData[$key]['data']['coord_y'];
+					$distance = $this->GetDistance($lat,$lng,$lat2,$lng2);
+
+					if($distance<=1)
+						$closeUser[$key]['data']['id'] = $closeUserData[$key]['data']['uid'];
+						$uid = $closeUser[$key]['data']['id'];
+						$criteria= new CDbCriteria;
+						$criteria->alias = 'user';
+						$criteria->select = 'nickname';
+						$criteria->condition = 'user.id = "'.$uid.'" ';
+						$criteria->with = array(
+											'frontUser'=>array(
+													'select'=>'icon',
+												),/*'trends'=>array(
+													'select'=>'content',
+													'order'=>'publish_time',
+													'limit'=>1,
+													'offset'=>0,
+												),*/
+											
+											
+							);
+						$userData = UserModel::model()->findAll($criteria);
+						$userIcon = $userData[0]->getRelated('frontUser');
+						$Icon = $userIcon->getAttributes();
+						$IconName =$Icon['icon'];
+						echo $IconName;
+						die();
+
+				}
+				
+				if(!empty($closeUser))
+					return $closeUser;					
+				else
+					return 300;
+			}
+		}
+				
+	}
+
+	public 	function GetDistance($lat1, $lng1, $lat2, $lng2)  
+	{  
+	    $EARTH_RADIUS = 6378.137;  
+	    $radLat1 = deg2rad($lat1);  
+	    //echo $radLat1;  
+	    $radLat2 = deg2rad($lat2);  
+	    $a = $radLat1 - $radLat2;  
+	    $b = deg2rad($lng1) - deg2rad($lng2);  
+	    $s = 2 * asin(sqrt(pow(sin($a/2),2) +  
+	    cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)));  
+	    $s = $s *$EARTH_RADIUS;  
+	    $s = round($s * 10000) / 10000;  
+	    return $s;  
+	}  
+
+
 }
