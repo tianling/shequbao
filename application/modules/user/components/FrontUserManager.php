@@ -113,11 +113,11 @@ class FrontUserManager extends BaseUserManager{
 
 	public function messageAdd($uid,$content){  //用户反馈添加
 		if(!empty($uid) && !empty($content) && is_numeric($uid)){
-			$messageModel = new MesssageBoard;
+			$messageModel = new MessageBoard;
 			$messageModel ->uid = $uid;
 			$messageModel ->content = $content;
 			$messageModel ->add_time = time();
-			$messageModel ->add_ip = $this->resquest->userHostAddress;
+			$messageModel ->add_ip = Yii::app()->request->userHostAddress;
 
 			if($messageModel ->save())
 				return 200;
