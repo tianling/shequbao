@@ -32,13 +32,17 @@ class FrontUserManager extends BaseUserManager{
 			$CloseUserModel->time = time();
 			if($CloseUserModel->save())
 				return 200;
-			else
-				return 400;
+			else{
+				$error = var_dump($model->getErrors());
+				return $error;
+				
+			}
+				
 		}
 	}
 
-	public function getCloseUser($lat,$lng,$uid){
-		if(!empty($lat) && !empty($lng) && is_numeric($lat) && is_numeric($lng) && is_numeric($uid)){
+	public function getCloseUser($lat,$lng,$uid){ //获取附近用户并且存储用户位置信息
+		if(!empty($lat) && !empty($lng)  && is_numeric($uid)){
 			$user_id = $uid;
 			$criteria= new CDbCriteria;
 			$criteria->select = 'coord_x,coord_y,time,uid';
@@ -54,28 +58,26 @@ class FrontUserManager extends BaseUserManager{
 					$lat2 = $closeUserData[$key]['data']['coord_x'];
 					$lng2 = $closeUserData[$key]['data']['coord_y'];
 					$distance = $this->GetDistance($lat,$lng,$lat2,$lng2);
-
-					if($distance<=1)
+					if($distance<=1){
 						$closeUser[$key]['data']['id'] = $closeUserData[$key]['data']['uid'];
 						$id = $closeUser[$key]['data']['id'];
-
 						$criteria= new CDbCriteria;
 						$criteria->alias = 'user';
 						$criteria->select = 'nickname';
 						$criteria->condition = 'user.id = "'.$id.'"';
 						$criteria->with = array(
-											'frontUser'=>array(
-													'select'=>'icon',
-												),
-											'trends'=>array(
-													'select'=>'content',
-													'order'=>'publish_time DESC',
-													'limit'=>1,
-													'offset'=>0,
-												),
-											
-											
-							);
+													'frontUser'=>array(
+																'select'=>'icon',
+																),
+													'trends'=>array(
+																'select'=>'content',
+																'order'=>'publish_time DESC',
+																'limit'=>1,
+																'offset'=>0,
+																),
+																
+																
+												);
 						$userData = UserModel::model()->findAll($criteria);
 						$username = $userData[0]['nickname'];
 						$closeUser[$key]['data']['nickname'] =  $userData[0]['nickname'];
@@ -91,9 +93,11 @@ class FrontUserManager extends BaseUserManager{
 								$trendsData = $usertrends[0]['content'];
 								$closeUser[$key]['data']['trends'] = $trendsData;
 							}
-							
+												
 
 						}
+					}
+					
 						
 				}
 				
@@ -105,6 +109,21 @@ class FrontUserManager extends BaseUserManager{
 				return 300;
 		}
 				
+	}
+
+	public function messageAdd($uid,$content){  //用户反馈添加
+		if(!empty($uid) && !empty($content) && is_numeric($uid)){
+			$messageModel = new MesssageBoard;
+			$messageModel ->uid = $uid;
+			$messageModel ->content = $content;
+			$messageModel ->add_time = time();
+			$messageModel ->add_ip = $this->resquest->userHostAddress;
+
+			if($messageModel ->save())
+				return 200;
+			else
+				return 400;
+		}
 	}
 
 	public 	function GetDistance($lat1, $lng1, $lat2, $lng2)  
