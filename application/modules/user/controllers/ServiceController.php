@@ -58,17 +58,33 @@ class ServiceController extends CmsController{
 
 	public function actionGetCloseUser($uid,$lag,$lng){
 		if(!empty($uid) && !empty($lag) && !empty($lng)){
-			$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
-			if($userAdd == 200){
-				$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng,$uid);
-				if($closeUserData == 300)
-					$this->response(300,'','附近无用户');
-				else
-					$this->response(200,'',$closeUserData);
-			}
+			$userPlaceclean = $this->app->UserManager->cleanMypleace($uid);
+			if($userPlaceclean == 200){
+				$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
+				if($userAdd == 200){
+					$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng,$uid);
+					if($closeUserData == 300)
+						$this->response(300,'','附近无用户');
+					else
+						$this->response(200,'',$closeUserData);
+				}
 				
+				else
+					$this->response(400,'',$userAdd);
+			}	
+		}
+			
+	}
+
+	public function actionCleanMypleace($uid){ //清除用户位置信息
+		if(!empty($uid) && is_numeric($uid)){
+			$cleanUserPleace = $this->app->UserManager->cleanMypleace($uid);
+			if($cleanUserPleace == 200)
+				$this->response(200,'','删除成功');
+			else if($cleanUserPleace == 300)
+				$this->response(300,'','该用户无位置信息');
 			else
-				$this->response(400,'',$userAdd);
+				$this->response(400,'','发生错误');
 		}
 	}
 
