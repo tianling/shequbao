@@ -80,9 +80,15 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user)>/<uid:\d+>:<_a:(CloseUser)>/<lag:\d+>/<lng:\d+>',
+				'pattern'=>'<_m:(user)>/<uid:\d+>:<_a:(CloseUser)>/<lag:\S+>/<lng:\S+>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
+		),
+		array(
+				'pattern'=>'<_m:(user)>/<_a:(Message)>/<uid:\d+>/<content:\S+>',
+				'<_m>/service/create<_a>',
+				'verb'=>'POST'
+
 		),
 
 );
