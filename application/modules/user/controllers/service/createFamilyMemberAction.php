@@ -15,7 +15,7 @@ class createFamilyMemberAction extends CmsAction{
 		
 		$post = $this->getPost();
 		if ( !isset($post['mobile']) || !isset($post['email']) || !isset($post['password']) ){
-			$this->response(201);
+			$this->response(201,'缺少参数');
 		}
 		
 		$familyTypeFlag = 100;
