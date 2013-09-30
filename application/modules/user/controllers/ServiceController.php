@@ -68,7 +68,14 @@ class ServiceController extends CmsController{
 			}
 				
 			else
-				$this->response(400,'','添加失败');
+				$this->response(400,'',$userAdd);
+		}
+	}
+
+	public function actionCreateMessage($uid,$content){
+		if(!empty($uid) && !empty($content) && is_numeric($uid)){
+			$messageAdd = $this->app->UserManager->messageAdd($uid,$content);
+			//if($messageAdd == 200)
 		}
 	}
 }
