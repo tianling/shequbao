@@ -44,7 +44,8 @@ return array(
 		),
 		array(
 				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind'
-						.'|SayHelloToMe|GroupApplication|RandomFriends|RandomGroups|SearchGroups|Groups'
+						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups|'
+						.'SearchGroups|Groups|JoinedGroups|GroupMember'
 						.'|Trends|FriendsTrends|OfflineMessage)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
