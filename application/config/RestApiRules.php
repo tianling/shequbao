@@ -88,5 +88,11 @@ return array(
 				'verb'=>'POST'
 
 		),
+		array(
+				'pattern'=>'<_m:(user)>/<_a:(CleanMypleace)>/<uid:\d+>',
+				'<_m>/service/<_a>',
+				'verb'=>'POST'
+
+		),
 
 );

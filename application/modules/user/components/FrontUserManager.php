@@ -25,11 +25,15 @@ class FrontUserManager extends BaseUserManager{
 
 	public function addCloseUser($uid,$lat,$lng){
 		if(!empty($uid) && !empty($lat) && !empty($lng) ){
+
 			$CloseUserModel = new CloseUser;
 			$CloseUserModel->coord_x = $lat;
 			$CloseUserModel->coord_y = $lng;
+			//echo $CloseUserModel->coord_y;
+			//die();
 			$CloseUserModel->uid = $uid;
 			$CloseUserModel->time = time();
+
 			if($CloseUserModel->save())
 				return 200;
 			else{
@@ -49,7 +53,7 @@ class FrontUserManager extends BaseUserManager{
 			$time = time();
 			$criteria->condition = 'time - "'.$time.'" <= 432000 AND uid != "'.$user_id.'"'; 
 			$UserData = CloseUser::model()->findAll($criteria);
-
+			
 			if(!empty($UserData)){
 				$closeUserData = array();
 				$closeUser = array();
@@ -97,11 +101,10 @@ class FrontUserManager extends BaseUserManager{
 
 						}
 					}
-					
 						
 				}
 				
-				if(!empty($closeUser[0]['data']['id']))
+				if(!empty($closeUser))
 					return $closeUser;					
 				else
 					return 300;
@@ -109,6 +112,21 @@ class FrontUserManager extends BaseUserManager{
 				return 300;
 		}
 				
+	}
+
+	public function cleanMypleace($uid){
+		if(!empty($uid) && is_numeric($uid)){
+			$userPleaceModel = CloseUser::model()->findAll('uid=:id',array('id'=>$uid));
+			if(!empty($userPleaceModel)){
+				$clear = CloseUser::model()->deleteAll('uid=:id',array('id'=>$uid));
+				if($clear>0)
+					return 200;
+				else 
+					return 400;				
+			}
+			else
+				return 300;
+		}
 	}
 
 	public function messageAdd($uid,$content){  //用户反馈添加
@@ -125,6 +143,7 @@ class FrontUserManager extends BaseUserManager{
 				return 400;
 		}
 	}
+
 
 	public 	function GetDistance($lat1, $lng1, $lat2, $lng2)  
 	{  
