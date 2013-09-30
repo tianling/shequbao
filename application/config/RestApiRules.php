@@ -83,7 +83,7 @@ return array(
 				'verb'=>'GET'
 		),
 		array(
-				'pattern'=>'<_m:(user)>/<uid:\d+>:<_a:(Message)>/<content:\S+>',
+				'pattern'=>'<_m:(user)>/<_a:(Message)>/<uid:\d+>/<content:\S+>',
 				'<_m>/service/create<_a>',
 				'verb'=>'POST'
 
