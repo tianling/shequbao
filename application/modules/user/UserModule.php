@@ -8,8 +8,8 @@
  */
 class UserModule extends CmsModule{
 	public function init(){
-		Yii::import('user.models.*');
-		Yii::import('user.components.*');
+		Yii::import('application.modules.user.models.*');
+		Yii::import('application.modules.user.components.*');
 		
 		Yii::app()->setComponent('user',array(
 				'stateKeyPrefix' => Yii::app()->params['frontUserStateKeyPrefix'],
@@ -20,6 +20,6 @@ class UserModule extends CmsModule{
 	}
 	
 	public static function loadSelfModels(){
-		Yii::import('user.models.*');
+		Yii::import('application.modules.user.models.*');
 	}
 }
