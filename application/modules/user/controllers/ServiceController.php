@@ -56,7 +56,7 @@ class ServiceController extends CmsController{
 		$this->response(400,'请登录');
 	}
 
-	public function actionGetCloseUser($uid,$lag,$lng){
+	public function actionGetCloseUser($uid,$lag,$lng){ //获取附近用户
 		if(!empty($uid) && !empty($lag) && !empty($lng)){
 			$userPlaceclean = $this->app->UserManager->cleanMypleace($uid);
 			if($userPlaceclean == 200){
@@ -71,9 +71,23 @@ class ServiceController extends CmsController{
 				
 				else
 					$this->response(400,'',$userAdd);
+			}
+
+			elseif($userPlaceclean == 300){
+				$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
+				if($userAdd == 200){
+					$closeUserData = $this->app->UserManager->getCloseUser($lag,$lng,$uid);
+					if($closeUserData == 300)
+						$this->response(300,'','附近无用户');
+					else
+						$this->response(200,'',$closeUserData);
+				}
+				
+				else
+					$this->response(400,'',$userAdd);
 			}	
-		}
-			
+		}else
+			$this->response(101,'','无参数');		
 	}
 
 	public function actionCleanMypleace($uid){ //清除用户位置信息
