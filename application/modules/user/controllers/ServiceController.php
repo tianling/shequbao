@@ -21,7 +21,9 @@ class ServiceController extends CmsController{
 				'getCommunity',
 				'createFamilyMember',
 				'getFamilyInvitation',
-				'createFamilyConfirm' => array('class'=>'familyConfirm')
+				'createFamilyConfirm' => array('class'=>'familyConfirm'),
+				'getMyContacts',
+				'createMyContatcs'
 		);
 	}
 	
