@@ -89,7 +89,7 @@ class ServiceController extends CmsController{
 			$this->response(101,'','无参数');		
 	}
 
-	public function actionCleanMypleace($uid){ //清除用户位置信息
+	public function actionCleanMyplace($uid){ //清除用户位置信息
 		if(!empty($uid) && is_numeric($uid)){
 			$cleanUserPleace = $this->app->UserManager->cleanMypleace($uid);
 			if($cleanUserPleace == 200)
