@@ -57,7 +57,7 @@ class ServiceController extends CmsController{
 
 	public function actionGetCloseUser($uid,$lag,$lng){ //获取附近用户
 		if(!empty($uid) && !empty($lag) && !empty($lng)){
-			$userPlaceclean = $this->app->UserManager->cleanMypleace($uid);
+			$userPlaceclean = $this->app->UserManager->cleanMyplace($uid);
 			if($userPlaceclean == 200){
 				$userAdd = $this->app->UserManager->addCloseUser($uid,$lag,$lng);
 				if($userAdd == 200){
