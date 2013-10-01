@@ -57,14 +57,17 @@ class FrontUserManager extends BaseUserManager{
 			if(!empty($UserData)){
 				$closeUserData = array();
 				$closeUser = array();
+
 				foreach ($UserData as $key => $value){
 					$closeUserData[$key]['data'] = $value->getAttributes();
+					
 					$lat2 = $closeUserData[$key]['data']['coord_x'];
 					$lng2 = $closeUserData[$key]['data']['coord_y'];
 					$distance = $this->GetDistance($lat,$lng,$lat2,$lng2);
 					if($distance<=1){
-						$closeUser[$key]['data']['id'] = $closeUserData[$key]['data']['uid'];
-						$id = $closeUser[$key]['data']['id'];
+
+						$id = $closeUserData[$key]['data']['uid'];
+
 						$criteria= new CDbCriteria;
 						$criteria->alias = 'user';
 						$criteria->select = 'nickname';
@@ -84,23 +87,34 @@ class FrontUserManager extends BaseUserManager{
 												);
 						$userData = UserModel::model()->findAll($criteria);
 						$username = $userData[0]['nickname'];
-						$closeUser[$key]['data']['nickname'] =  $userData[0]['nickname'];
-
+						
 						if(!empty($userData[0]->frontUser) ){
 							$userIcon = $userData[0]->getRelated('frontUser');
 							$Icon = $userIcon->getAttributes();
 							$IconName =$Icon['icon'];
-							$closeUser[$key]['data']['icon'] = $IconName;
-
+							
 							if(!empty($userData[0]->trends)){
 								$usertrends = $userData[0]->getRelated('trends');
 								$trendsData = $usertrends[0]['content'];
-								$closeUser[$key]['data']['trends'] = $trendsData;
+								$closeUser[] = array(
+									'id' => $id,
+									'nickname' => $username,
+									'icon'=>$IconName,
+									'trends'=>$trendsData,
+									);
+							}else{
+								$closeUser[] = array(
+									'id' => $id,
+									'nickname' => $username,
+									'icon'=>$IconName,
+									);
 							}
 												
 
 						}
+						
 					}
+					
 						
 				}
 				
