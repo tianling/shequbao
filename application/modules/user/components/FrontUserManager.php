@@ -128,7 +128,7 @@ class FrontUserManager extends BaseUserManager{
 				
 	}
 
-	public function cleanMypleace($uid){
+	public function cleanMyplace($uid){
 		if(!empty($uid) && is_numeric($uid)){
 			$userPleaceModel = CloseUser::model()->findAll('uid=:id',array('id'=>$uid));
 			if(!empty($userPleaceModel)){
