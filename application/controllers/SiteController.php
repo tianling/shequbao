@@ -14,6 +14,7 @@ class SiteController extends CmsController{
 	}
 	
 	public function actionLogin(){
+		var_dump($this->app->getUser());die;
 		if ( $this->app->getUser()->getIsGuest() === false ){
 			$this->redirect($this->request->urlReferrer);
 		}

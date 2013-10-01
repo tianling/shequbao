@@ -15,6 +15,12 @@ class getMyContactsAction extends CmsAction{
 		
 		$dir = $this->app->basePath.DS.'upload'.DS.'contacts'.DS;
 		$fileName = md5($loginedId).'.json';
-		$this->request->xSendFile($dir.$fileName,array('mimeType'=>'application/json','terminate'=>true));
+		$file = $dir.$fileName;
+		if ( file_exists($file) ){
+			$this->request->xSendFile($file,array('mimeType'=>'application/json','terminate'=>true));
+		}else {
+			$this->response(300,'文件不存在');
+		}
+		
 	}
 }

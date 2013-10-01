@@ -7,7 +7,6 @@
  * Encoding UTF-8
  */
 class UserModule extends CmsModule{
-	
 	public function init(){
 		Yii::import('user.models.*');
 		Yii::import('user.components.*');
@@ -20,7 +19,7 @@ class UserModule extends CmsModule{
 		));
 	}
 	
-	public function loadSelfModels(){
+	public static function loadSelfModels(){
 		Yii::import('user.models.*');
 	}
 }
