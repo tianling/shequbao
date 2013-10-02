@@ -141,8 +141,16 @@ class SqbUser extends SingleInheritanceModel
 	}
 	
 	public function getUserRelationInfo($uid){
-		CmsModule::loadModels('friends');
-		$data = $this->with(array(
+		$with = array(
+				'baseUser' => array(
+						'select' => 'id',
+						'with' => array(
+								'chatRooms',
+								'chatGroups'
+						)
+				)
+		);
+		$friendsWith = array(
 				'baseUser' => array(
 						'select' => 'id',
 						'with' => array(
@@ -165,11 +173,10 @@ class SqbUser extends SingleInheritanceModel
 												),
 										),
 								),
-								'chatRooms',
-								'chatGroups'
-						)
-				)
-		))->findByPk($uid,array('select'=>'id,icon'));
+						),
+				),
+		);
+		$data = $this->with($with)->findByPk($uid,array('select'=>'id,icon'));
 		if ( empty($data) ){
 			return array();
 		}
@@ -181,19 +188,26 @@ class SqbUser extends SingleInheritanceModel
 				'chatGroups' => array(),
 				'tags' => array()
 		);
-		$raw = $data->getRelated('baseUser');
-		foreach ( $raw->getRelated('friends') as $friend ){
-			$follwed = $friend->getRelated('followed');
-			$trends = $follwed->getRelated('trends');
-			$trend = !empty($trends) ? $trends[0]->getAttribute('content') : array();
-			$return['friends'][] = array(
-					'id' => $follwed->getAttribute('id'),
-					'nickname' => $follwed->getAttribute('nickname'),
-					'remark' => $friend->getAttribute('remark'),
-					'icon' => $follwed->getRelated('frontUser')->getAttribute('icon'),
-					'trend' => $trend,
-			);
+		
+		$friendsData = $this->with($friendsWith)->findByPk($uid,array('select'=>'id'));
+		if ( !empty($friendsData) ){
+			$raw = $friendsData->getRelated('baseUser');
+			foreach ( $raw->getRelated('friends') as $friend ){
+				$follwed = $friend->getRelated('followed');
+				$trends = $follwed->getRelated('trends');
+				$trend = !empty($trends) ? $trends[0]->getAttribute('content') : array();
+				$return['friends'][] = array(
+						'id' => $follwed->getAttribute('id'),
+						'nickname' => $follwed->getAttribute('nickname'),
+						'remark' => $friend->getAttribute('remark'),
+						'icon' => $follwed->getRelated('frontUser')->getAttribute('icon'),
+						'trend' => $trend,
+				);
+			}
 		}
+		
+		
+		$raw = $data->getRelated('baseUser');
 		foreach ( $raw->getRelated('chatRooms') as $chatRoom ){
 			$return['chatRooms'][] = $chatRoom->getAttributes();
 			$return['tags'][] = 'room'.$chatRoom->getAttribute('id');

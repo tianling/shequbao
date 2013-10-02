@@ -38,11 +38,15 @@ class SqbConfig extends ConfigBase{
 						'area' => array(
 								'class' => 'cms.modules.area.AreaModule'
 						),
+						'access' => array(
+								'class' => 'cms.modules.accessControl.AccessControlModule'
+						)
 				),
 				'preloadModels' => array(
 						'area',
 						'user',
 						'friends',
+						'access'
 				),
 				'import' => array(
 						'application.modules.user.models.*'

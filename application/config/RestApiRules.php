@@ -43,10 +43,11 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|MyContacts'
-						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups|'
-						.'SearchGroups|Groups|JoinedGroups|GroupMember'
-						.'|Trends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends|area|access)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|MyContacts'
+						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups'
+						.'|SearchGroups|Groups|JoinedGroups|GroupMember'
+						.'|Trends|FriendsTrends|OfflineMessage'
+						.'|OperationChildren)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),
