@@ -6,7 +6,7 @@
  * Date 2013-8-9
  * Encoding UTF-8
  */
-class SiteController extends CmsController{
+class SiteController extends SqbController{
 	public $defaultAction='login';
 	
 	public function filters(){
@@ -66,7 +66,7 @@ class SiteController extends CmsController{
 	}
 	
 	public function actionWelcome(){
-		$this->layout = '//layout/right';
+		$this->layout = '//layouts/right';
 		$this->render('welcome');
 	}
 }

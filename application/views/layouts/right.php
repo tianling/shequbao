@@ -31,5 +31,15 @@ $cssUrl = $this->request->baseUrl.'/css/';
 	
 	<body>
 	<?php echo $content?>
+	
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td align="center">
+				<span class="left_txt">
+					<?php echo Yii::app()->params['copyright']?>
+				</span>
+			</td>
+		</tr>
+	</table>
 	</body>
 </html>
