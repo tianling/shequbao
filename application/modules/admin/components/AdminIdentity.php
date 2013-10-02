@@ -7,6 +7,7 @@
  * Encoding UTF-8
  */
 class AdminIdentity extends CUserIdentity{
+	public $id;
 	public function authenticate(){
 		$condition = '`email`=:account';
 		$user = Administrators::model()->with('baseUser')->find($condition,array(':account'=>$this->username));
@@ -22,7 +23,9 @@ class AdminIdentity extends CUserIdentity{
 			$states = array('surname','name','email','last_login_time','last_login_ip');
 			
 			$this->setPersistentStates($user->getAttributes($states));
-			$this->username = $user->getAttribute('id');
+			$fullName = $user->getAttribute('surname').$user->getAttribute('name');
+			$this->username = $fullName === null ? $user->getAttribute('nickname') : $fullName;
+			$this->id = $user->getAttribute('id');
 			$this->errorCode = self::ERROR_NONE;
 			return true;
 		}else {
@@ -30,5 +33,9 @@ class AdminIdentity extends CUserIdentity{
 			$this->errorMessage = '密码错误';
 			return false;
 		}
+	}
+	
+	public function getId(){
+		return $this->id;
 	}
 }

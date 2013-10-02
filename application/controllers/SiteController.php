@@ -10,12 +10,30 @@ class SiteController extends CmsController{
 	public $defaultAction='login';
 	
 	public function filters(){
-		return array();
+		$filters = parent::filters();
+		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - login';
+		$filters['accessControl'] .= ' - menu,welcome';
+		return $filters;
+	}
+	
+	public function accessRules(){
+		$ipAllow = array(
+				array('allow',
+						'ips' => array('127.0.0.1'),
+						'deniedCallback' => array($this,'accessDenied')
+				),
+		);
+		return array_merge($ipAllow,parent::accessRules());
+	}
+	
+	public function actionLogout(){
+		$this->app->getUser()->logout();
+		$this->redirect($this->createUrl('/site'));
 	}
 	
 	public function actionLogin(){
 		if ( $this->app->getUser()->getIsGuest() === false ){
-			$this->redirect($this->request->urlReferrer);
+			$this->redirect($this->createUrl('/site/index'));
 		}
 		$this->layout = false;
 		$this->setPageTitle('社区宝管理系统登录');
@@ -28,10 +46,27 @@ class SiteController extends CmsController{
 			$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
 			$model->attributes = $post;
 			if ( $model->login() ){
-				$this->redirect($moduleId.'/');
+				$this->redirect($this->createUrl('/site/index'));
 			}
 		}
-		
+		$model->password = '';
 		$this->render('login',array('model'=>$model));
+	}
+	
+	public function actionIndex(){
+		$this->pageTitle = '社区宝管理系统';
+		$this->render('index');
+	}
+	
+	public function actionMenu(){
+		$authMenu = $this->app->getAuthManager()->getMenu();
+		$this->menu = $authMenu->generateUserMenu($this->app->getUser()->getId());
+		$this->layout = false;
+		$this->render('menu');
+	}
+	
+	public function actionWelcome(){
+		$this->layout = '//layout/right';
+		$this->render('welcome');
 	}
 }

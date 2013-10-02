@@ -87,7 +87,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 																	<?php echo $form->textField($model,'account',array(
 																			'class'=>'editbox4',
 																			'size'=>20,
-																			'placeholder' => '请输入账号'
+																			'placeholder' => '请输入手机号或邮箱'
 																	));
 																	echo $form->error($model,'account');
 																	?>

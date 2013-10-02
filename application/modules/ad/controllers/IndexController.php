@@ -6,7 +6,7 @@
  * Date 2013-9-16
  * Encoding UTF-8
  */
-class IndexController extends SqbController{
+class IndexController extends CmsController{
 	public function actionIndex(){
 		$this->render('index');
 	}

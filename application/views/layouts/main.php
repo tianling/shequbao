@@ -30,7 +30,7 @@ $urlPrefix = $this->id.'/';
 			      <tr>
 			        <td width="74%" height="38" class="admin_txt"><?php echo $this->app->getUser()->getName();?><b></b> 您好,感谢登录使用！</td>
 			        <td width="22%">
-			        	<a href="<?php echo $this->createUrl($urlPrefix.'logout')?>" target="_self" onClick="logout();">
+			        	<a href="<?php echo $this->createUrl('/site/logout')?>" target="_self" onClick="logout();">
 			        	<img src="<?php echo $imgUrl?>out.gif" alt="安全退出" width="46" height="20" border="0">
 			        	</a>
 			        </td>
@@ -44,9 +44,9 @@ $urlPrefix = $this->id.'/';
 		  </tr>
 		</table>
 		
-		<iframe src="<?php echo $this->createUrl($urlPrefix.'menu')?>" width="14%" style="float:left;height:560px;border:0" scrolling="no" target="main" name="leftMenu">
+		<iframe src="<?php echo $this->createUrl('/site/menu')?>" width="14%" style="float:left;height:560px;border:0" scrolling="no" target="main" name="leftMenu">
 		</iframe>
-		<iframe src="<?php echo $this->createUrl($urlPrefix.'welcome')?>" width="83%" style="height:700px;border:0" scrolling="auto" target="_self" name="main">
+		<iframe src="<?php echo $this->createUrl('/site/welcome')?>" width="83%" style="height:700px;border:0" scrolling="auto" target="_self" name="main">
 		</iframe>
 	</body>
 </html>

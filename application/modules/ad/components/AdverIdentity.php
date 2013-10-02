@@ -7,8 +7,9 @@
  * Encoding UTF-8
  */
 class AdverIdentity extends CUserIdentity{
+	public $id;
 	public function authenticate(){
-		$condition = '`email`=:account';
+		$condition = '`phone`=:account OR `email`=:account';
 		$user = Advertiser::model()->with('baseUser')->find($condition,array(':account'=>$this->username));
 		
 		if ( $user === null ){
@@ -22,7 +23,8 @@ class AdverIdentity extends CUserIdentity{
 			$states = array('balance','phone','email','last_login_time','last_login_ip');
 				
 			$this->setPersistentStates($user->getAttributes($states));
-			$this->username = $user->getAttribute('advertiser_id');
+			$this->username = $user->getAttribute('nickname');
+			$this->id = $user->getAttribute('advertiser_id');
 			$this->errorCode = self::ERROR_NONE;
 			return true;
 		}else {
@@ -30,5 +32,9 @@ class AdverIdentity extends CUserIdentity{
 			$this->errorMessage = '密码错误';
 			return false;
 		}
+	}
+	
+	public function getId(){
+		return $this->id;
 	}
 }
