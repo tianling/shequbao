@@ -18,7 +18,7 @@ class createMyContactsAction extends CmsAction{
 			$this->response(201);
 		}
 		
-		$dir = $this->app->basePath.DS.'upload'.DS.'contacts'.DS;
+		$dir = $this->app->basePath.DS.'..'.DS.'upload'.DS.'contacts'.DS;
 		$fileName = md5($loginedId).'.json';
 		$filePath = $dir.$fileName;
 		if ( file_exists($filePath) ){
