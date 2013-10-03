@@ -13,17 +13,20 @@ class ServiceController extends CmsController{
 	public function getActionClass(){
 		return array(
 				'create' => array('class' => 'createUser'),
-				'update' => array('class' => 'updateUser'),
 				'createAddress' => array('class' => 'createUserAddress'),
+				'createFamilyMember',
+				'createFamilyConfirm' => array('class'=>'familyConfirm'),
+				'createMyContacts',
+				
+				'update' => array('class' => 'updateUser'),
 				'updateAddress' => array('class' => 'updateUserAddress'),
+				
 				'getAddress' => array('class' => 'getUserAddress'),
 				'getBind' => array('class' => 'getUserBindInfo'),
 				'getCommunity',
-				'createFamilyMember',
 				'getFamilyInvitation',
-				'createFamilyConfirm' => array('class'=>'familyConfirm'),
 				'getMyContacts',
-				'createMyContacts'
+				
 		);
 	}
 	

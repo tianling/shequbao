@@ -54,6 +54,7 @@ class SiteController extends SqbController{
 	}
 	
 	public function actionIndex(){
+		$this->layout = '//layouts/main';
 		$this->pageTitle = '社区宝管理系统';
 		$this->render('index');
 	}
@@ -66,7 +67,7 @@ class SiteController extends SqbController{
 	}
 	
 	public function actionWelcome(){
-		$this->layout = '//layouts/right';
+		$this->pageTitle = '欢迎界面';
 		$this->render('welcome');
 	}
 }

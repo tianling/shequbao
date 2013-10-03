@@ -12,7 +12,7 @@ class updateUserAction extends CmsAction{
 		if($user!=null){
 			if ($loginId==$id) {
 				$putData = $this->getController()->getRestParam();
-		
+
 				$user->setScenario('appUpdate');
 				$oldAttributes = $user->getAttributes();
 				$user->setAttributes($putData);

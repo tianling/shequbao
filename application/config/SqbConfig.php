@@ -40,6 +40,9 @@ class SqbConfig extends ConfigBase{
 						),
 						'access' => array(
 								'class' => 'cms.modules.accessControl.AccessControlModule'
+						),
+						'accessManage' => array(
+								'class' => 'application.modules.accessManage.AccessManageModule'
 						)
 				),
 				'preloadModels' => array(
@@ -90,7 +93,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),/*
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -100,7 +103,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),*/
 						
 						'urlManager'=>array(
 								'urlFormat'=>'path',

@@ -10,12 +10,15 @@ class SqbController extends CmsController{
 	public $imgUrl;
 	public $cssUrl;
 	public $jsUrl;
+	public $user;
+	public $layout = '//layouts/right';
 	
 	public function init(){
 		parent::init();
 		$this->imgUrl = $this->request->baseUrl.'/images/';
 		$this->cssUrl = $this->request->baseUrl.'/css/';
 		$this->jsUrl = $this->request->baseUrl.'/js/';
+		$this->user = $this->app->getUser();
 	}
 	
 	public function loginRequired(){

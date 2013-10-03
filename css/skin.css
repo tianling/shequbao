@@ -13,6 +13,7 @@ body {
 .errorMessage{
 	color: red;
 	font-size: 12px;
+	display: inline-block;
 }
 .login-buttom-bg {
 	background-image: url(../images/login-buttom-bg.gif);
