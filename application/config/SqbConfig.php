@@ -55,6 +55,28 @@ class SqbConfig extends ConfigBase{
 						'application.modules.user.models.*'
 				),
 				'components' => array(
+						'mailer' => array(
+								'class' => 'cms.extensions.mailer.EMailer',
+								'pathViews' => 'application.views.email',
+								'pathLayouts' => 'application.views.email.layouts',
+								'ccEmail'=>'',
+								'Mailer' => 'smtp',
+								'SMTPAuth'=>true,
+								'Username'=>'574891711',
+								'Password'=>'lancelot@410',
+								'From'=>'574891711@qq.com',
+								'FromName'=>'ATD Mail',
+								'Host'=>'smtp.qq.com',
+								'Port'=>'25',
+								'CharSet'=>'UTF-8',
+						),
+						
+						'cache' => array(
+								'class' => 'CDbCache',
+								'cacheTableName' => 'xcms_yii_cache',
+								'autoCreateCacheTable' => false
+						),
+						
 						'chatManager' => array(
 								'messagePusherId' => 'JPush'
 						),

@@ -23,9 +23,9 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(//user login logout
-				'pattern'=>'user/<_a:(login|logout)>',
+				'pattern'=>'user/<_a:(login|logout|verificationCode)>',
 				'user/service/<_a>',
-				'verb'=>'POST,PUT'
+				'verb'=>'POST'
 		),
  		array(//create resource which belongs to another resource
 				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|MyContacts|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
