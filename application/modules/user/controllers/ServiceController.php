@@ -126,6 +126,7 @@ class ServiceController extends CmsController{
 			$otherFee = 0;
 
 			if(!empty($addressData)){
+
 				$chargeData = UserChargeInfo::model()->findAll('uid=:uid',array(':uid'=>$uid));
 
 				if(!empty($chargeData)){
