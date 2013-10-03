@@ -194,7 +194,7 @@ class ServiceController extends CmsController{
 								}
 
 								if(!empty($garbagecharge) && is_object($garbagecharge)){
-									$info = $gascharge->userInfo->items;
+									$info = $garbagecharge->userInfo->items;
 									foreach($info as $key =>$value){
 										if($value->pay == 'flase'){
 											$garbageFee += $value->amount;
@@ -294,7 +294,9 @@ class ServiceController extends CmsController{
 					
 				
 
-			}
+			}else{
+				$this->response('400','','该用户无房产');
+				}
 		}
 	}
 
