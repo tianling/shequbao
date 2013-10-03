@@ -123,12 +123,13 @@ class ServiceController extends CmsController{
 			$electricityFee = 0;
 			$garbageFee = 0;
 			$manageFee = 0;
+			$otherFee = 0;
 
 			if(!empty($addressData)){
 				$chargeData = UserChargeInfo::model()->findAll('uid=:uid',array(':uid'=>$uid));
-				if(!empty($chargeData)){
-					$chargeData = UserChargeInfo::model()->findAll('uid=:uid',array(':uid'=>$uid));
 
+				if(!empty($chargeData)){
+					
 					foreach($chargeData as $key =>$value){	
 						if($value->type == 0)
 							$waterFee+=$value->charge;	
@@ -140,22 +141,84 @@ class ServiceController extends CmsController{
 							$garbageFee+=$value->charge;
 						elseif($value->type == 4)
 							$manageFee+=$value->charge;
+						elseif($value->type == 5)
+							$otherFee+=$value->charge;
+
+					}
+
+					if($waterFee == 0 && $electricityFee == 0 && $gasFee == 0 && $garbageFee == 0){
+							$userData = array();
+							$chargeData = array();
+
+							foreach($addressData as $key =>$value){
+								$roomId = $value->id;
+ 								$waterNumber = $value->water;
+								$electricityNumber = $value->electricity;
+								$gasNumber = $value->gas;
+								$garbageNumber = $value->garbage;
+								$watercharge = $this->app->UserManager->getChargeinfo($waterNumber,0);
+								$electricitycharge = $this->app->UserManager->getChargeinfo($gasNumber,1);
+								$gascharge = $this->app->UserManager->getChargeinfo($gasNumber,2);
+								$garbagecharge = $this->app->UserManager->getChargeinfo($gasNumber,3);
+
+								if(!empty($watercharge) && is_object($watercharge)){
+									$info = $watercharge->userInfo->items;
+
+									foreach($info as $key =>$value){
+										if($value->pay == 'false'){
+											$waterFee += $value->amount;
+										}
+									}	
+								
+								}
+								if(!empty($electricitycharge) && is_object($electricitycharge)){
+									$info = $electricitycharge->userInfo->items;
+
+									foreach($info as $key =>$value){
+										if($value->pay == 'flase'){
+											$electricityFee += $value->amount;
+										}
+									}
+								
+								}
+
+								if(!empty($gascharge) && is_object($gascharge)){
+									$info = $gascharge->userInfo->items;
+									foreach($info as $key =>$value){
+										if($value->pay == 'flase'){
+											$gasFee += $value->amount;
+										}
+
+									}
+								
+								}
+
+								if(!empty($garbagecharge) && is_object($garbagecharge)){
+									$info = $gascharge->userInfo->items;
+									foreach($info as $key =>$value){
+										if($value->pay == 'flase'){
+											$garbageFee += $value->amount;
+										}
+
+									}
+								
+								}
+							}
 
 					}
 					$chargeInfo = array(
 							'waterFee' =>$waterFee,
 							'electricityFee'=>$electricityFee,
 							'gasFee'=>$gasFee,
-							'gabageFee'=>$gasFee,
-							'gabageFee'=>$gabageFee,
+							'garbageFee'=>$garbageFee,
 							'manageFee'=>$manageFee,
+							'otherFee'=>$otherFee,
+
 						);
+
 					$this->response('200','',$chargeInfo);
 
 				}else{
-
-						$userData = array();
-						$chargeData = array();
 
 						foreach($addressData as $key =>$value){
 							$roomId = $value->id;
@@ -176,10 +239,7 @@ class ServiceController extends CmsController{
 										$waterFee += $value->amount;
 									}
 								}	
-								$chargeData[] = array(
-										'roomId'=>$roomId,
-										'waterFee' => $waterFee,
-									);
+								
 							}
 							if(!empty($electricitycharge) && is_object($electricitycharge)){
 								$info = $electricitycharge->userInfo->items;
@@ -189,10 +249,7 @@ class ServiceController extends CmsController{
 										$electricityFee += $value->amount;
 									}
 								}
-								$chargeData[] = array(
-										'roomId'=>$roomId,
-										'electricityFee' => $electricityFee,
-									);
+								
 							}
 
 							if(!empty($gascharge) && is_object($gascharge)){
@@ -203,26 +260,36 @@ class ServiceController extends CmsController{
 									}
 
 								}
-								$chargeData[] = array(
-										'roomId'=>$roomId,
-										'gasFee'=>$gasFee,
-									);
+								
 
+							}
+
+							if(!empty($garbagecharge) && is_object($garbagecharge)){
+								$info = $gascharge->userInfo->items;
+								foreach($info as $key =>$value){
+									if($value->pay == 'flase'){
+										$garbageFee += $value->amount;
+									}
+
+								}
+								
 							}
 							
 							
 							//var_dump($watercharge['userInfo']['items'][0]['amount']);
-							$userData[] = array(
-								'$roomId'=>$roomId,
-								'waterNumber'=>$waterNumber,
-								'electricityNumber'=>$electricityNumber,
-								'gasNumber'=>$gasNumber,
-								'garbageNumber'=>$garbageNumber
-							);
+							$chargeInfo = array(
+							'waterFee' =>$waterFee,
+							'electricityFee'=>$electricityFee,
+							'gasFee'=>$gasFee,
+							'garbageFee'=>$garbageFee,
+							'manageFee'=>$manageFee,
+							'otherFee'=>$otherFee,
+
+						);
 
 						}
 
-						$this->response('200','',$chargeData);
+						$this->response('200','',$chargeInfo);
 				}
 					
 				
