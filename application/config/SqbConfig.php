@@ -71,12 +71,6 @@ class SqbConfig extends ConfigBase{
 								'CharSet'=>'UTF-8',
 						),
 						
-						'cache' => array(
-								'class' => 'CDbCache',
-								'cacheTableName' => 'xcms_yii_cache',
-								'autoCreateCacheTable' => false
-						),
-						
 						'chatManager' => array(
 								'messagePusherId' => 'JPush'
 						),
@@ -115,7 +109,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),/*
+						),
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -125,14 +119,23 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),*/
+						),
 						
+
+
+						'cache' => array(
+								'class' => 'CDbCache',
+								'cacheTableName' => 'xcms_yii_cache',
+								'autoCreateCacheTable' => false
+						),
+
 						
 						'urlManager'=>array(
 								'urlFormat'=>'path',
 								'urlSuffix' => '',
 								'showScriptName' => false,
-								'rules' => require dirname(__FILE__).'/RestApiRules.php'
+								'rules' => require dirname(__FILE__).'/RestApiRules.php',
+								'cacheID' => false
 						),
 						
 				),
