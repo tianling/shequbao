@@ -28,25 +28,26 @@ return array(
 				'verb'=>'POST,PUT'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Contacts|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|MyContacts|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
 		array(
-				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember)|ConfirmGroup>',
+				'pattern'=>'user/<resourceId:\d+>:<_a:(Group|GroupMember|ConfirmGroup)>',
 				'friends/service/create<_a>',
 				'verb'=>'POST'
 		),
 		array(//update resource which belongs to another resource
-				'pattern'=>'<_m:(user)>/<resourceId:\d+>:<_a:(Address)>/<id:\d+>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|Remark)>/<id:\d+>',
 				'<_m>/service/update<_a>',
 				'verb'=>'PUT'
 		),
 		array(
-				'pattern'=>'<_m:(user|friends|area)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|Contacts'
-						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups|'
-						.'SearchGroups|Groups|JoinedGroups|GroupMember'
-						.'|Trends|FriendsTrends|OfflineMessage)>',
+				'pattern'=>'<_m:(user|friends|area|access)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|MyContacts'
+						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups'
+						.'|SearchGroups|Groups|JoinedGroups|GroupMember'
+						.'|Trends|FriendsTrends|OfflineMessage'
+						.'|OperationChildren)>',
 				'<_m>/service/get<_a>',
 				'verb'=>'GET'
 		),

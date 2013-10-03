@@ -6,7 +6,7 @@
  * Date 2013-8-9
  * Encoding UTF-8
  */
-class SiteController extends CmsController{
+class SiteController extends SqbController{
 	public $defaultAction='login';
 	
 	public function filters(){
@@ -54,6 +54,7 @@ class SiteController extends CmsController{
 	}
 	
 	public function actionIndex(){
+		$this->layout = '//layouts/main';
 		$this->pageTitle = '社区宝管理系统';
 		$this->render('index');
 	}
@@ -66,7 +67,7 @@ class SiteController extends CmsController{
 	}
 	
 	public function actionWelcome(){
-		$this->layout = '//layout/right';
+		$this->pageTitle = '欢迎界面';
 		$this->render('welcome');
 	}
 }

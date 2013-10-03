@@ -13,6 +13,9 @@ class getUserBindInfoAction extends CmsAction{
 			$this->response(403,'用户ID不匹配');
 		}
 		$data = SqbUser::model()->getUserRelationInfo($resourceId);
+		
+		$data['tags'][] = 'sbtb';
+		
 		$this->response(300,'',$data);
 	}
 }

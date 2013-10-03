@@ -13,7 +13,7 @@ class getMyContactsAction extends CmsAction{
 			$this->response(402);
 		}
 		
-		$dir = $this->app->basePath.DS.'upload'.DS.'contacts'.DS;
+		$dir = $this->app->basePath.DS.'../upload'.DS.'contacts'.DS;
 		$fileName = md5($loginedId).'.json';
 		$file = $dir.$fileName;
 		if ( file_exists($file) ){

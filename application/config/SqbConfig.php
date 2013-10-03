@@ -38,11 +38,18 @@ class SqbConfig extends ConfigBase{
 						'area' => array(
 								'class' => 'cms.modules.area.AreaModule'
 						),
+						'access' => array(
+								'class' => 'cms.modules.accessControl.AccessControlModule'
+						),
+						'accessManage' => array(
+								'class' => 'application.modules.accessManage.AccessManageModule'
+						)
 				),
 				'preloadModels' => array(
 						'area',
 						'user',
 						'friends',
+						'access'
 				),
 				'import' => array(
 						'application.modules.user.models.*'
@@ -86,7 +93,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),/*
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -96,7 +103,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),*/
 						
 						
 						'urlManager'=>array(
@@ -108,7 +115,7 @@ class SqbConfig extends ConfigBase{
 						
 				),
 				'params' => array(
-						'copyright' => 'Copyright &copy; 2012-2013 <a style="color:#ABCAD3;" href="http://www.caixiao2.com">www.caixiao2.com</a>'
+						'copyright' => 'Copyright &copy; 2012-2013 <a href="http://www.caixiao2.com">www.caixiao2.com</a>'
 				),
 		);
 	}

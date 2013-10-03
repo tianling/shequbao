@@ -117,6 +117,7 @@ class AdManager extends CApplicationComponent{
 	public function adVerCost($resourceId,$id){
 		if(!empty($resourceId) && is_numeric($id) && !empty($id) &&is_numeric($resourceId)){
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
+
 			$advertiserModel = Advertiser::model()->findByPk($id);
 			if(!empty($advertiserModel) && !empty($advertiseModel)){
 				$balance = $advertiserModel->balance;
@@ -132,6 +133,19 @@ class AdManager extends CApplicationComponent{
 			}
 			
 				
+
+			$advertiserModel = Advertiser::model()->with('baseUser')->findByPk($id);
+			
+			$balance = $advertiserModel->getAttribute('balance');
+			$cpc = $advertiseModel->cpc;
+			$advertiserModel->setAttribute('balance',$balance - $cpc);
+			if($advertiserModel->save()){
+				return 200;
+			}else{
+				var_dump($advertiserModel->getErrors());die;
+				return 400;
+			}
+
 		}
 	}	
 
