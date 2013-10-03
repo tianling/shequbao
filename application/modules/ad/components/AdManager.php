@@ -94,16 +94,19 @@ class AdManager extends CApplicationComponent{
 		if(isset($id) && is_numeric($id) && isset($user_id) && is_numeric($user_id)){
 			$model = new AdViewClick;
 			$Admodel = Advertise::model()->findByPk($id);
-			$model->user_id = $user_id;
-			$model->advertise_id = $Admodel->id;
-			$model->type = 1;
-			$model->time = time();
-			$model->cost = $Admodel->cpc;
-			if($model->save())
-				return 200;
-			else{
-				$error = var_dump($model->getErrors());
-				return $error;
+			if(!empty($Admodel)){
+				$model->user_id = $user_id;
+				$model->advertise_id = $Admodel->id;
+				$model->type = 1;
+				$model->time = time();
+				$model->cost = $Admodel->cpc;
+				if($model->save())
+					return 200;
+				else{
+					$error = var_dump($model->getErrors());
+					return $error;
+				}
+			
 			}
 		}		
 	}
@@ -115,15 +118,20 @@ class AdManager extends CApplicationComponent{
 		if(!empty($resourceId) && is_numeric($id) && !empty($id) &&is_numeric($resourceId)){
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
 			$advertiserModel = Advertiser::model()->findByPk($id);
-			$balance = $advertiserModel->balance;
-			$cpc = $advertiseModel->cpc;
-			$advertiserModel->balance = $balance - $cpc;
-			if($advertiserModel->save())
-				//echo $advertiserModel->balance;
-				return 200;
+			if(!empty($advertiserModel) && !empty($advertiseModel)){
+				$balance = $advertiserModel->balance;
+				$cpc = $advertiseModel->cpc;
+				$advertiserModel->balance = $balance - $cpc;
+				if($advertiserModel->save())
+					return 200;
 						
-			else
-				return 400;
+				else{
+					return 400;
+
+				}
+			}
+			
+				
 		}
 	}	
 
