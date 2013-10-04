@@ -102,7 +102,7 @@ class SqbConfig extends ConfigBase{
 						),
 
 						'image'=>array(
-							'class'=>'application.extensions.image.CImageComponent',
+							'class'=>'cms.extensions.image.CImageComponent',
 							'driver'=>'GD',
 							'params'=>array('directory'=>'/opt/local/bin'),
 						),
@@ -116,7 +116,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),/*
+						),
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -126,7 +126,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),*/
+						),
 						
 						
 						'urlManager'=>array(
@@ -134,7 +134,7 @@ class SqbConfig extends ConfigBase{
 								'urlSuffix' => '',
 								'showScriptName' => false,
 								'rules' => require dirname(__FILE__).'/RestApiRules.php',
-								'cacheID' => false
+								//'cacheID' => false
 						),
 						
 				),

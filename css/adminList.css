@@ -1,3 +1,7 @@
+.div-subNav {
+	display: inline-block;
+	margin: 0px 15px 0px 0px;
+}
 .inputOrder{
 	text-align: center;
 }
@@ -5,7 +9,11 @@
 
 }
 .table-list thead th{
-	height:30px; background:#efe3ff; border-bottom:1px solid #d5dfe8; font-weight:bold;
+	height: 30px;
+	background: #efe3ff;
+	border-bottom: 1px solid #d5dfe8;
+	font-weight: bold;
+	font-size: 12px;
 }
 
 .table-list tbody tr td {

@@ -45,7 +45,7 @@ return array(
 		array(
 				'pattern'=>'<_m:(user|friends|area|access)>/<resourceId:\d+>:<_a:(Address|FamilyInvitation|Community|Bind|MyContacts'
 						.'|SayHelloToMe|SearchFriends|GroupApplication|RandomFriends|RandomGroups'
-						.'|SearchGroups|Groups|JoinedGroups|GroupMember'
+						.'|SearchGroups|Groups|JoinedGroups|JoinedRooms|GroupMember'
 						.'|Trends|FriendsTrends|OfflineMessage'
 						.'|OperationChildren)>',
 				'<_m>/service/get<_a>',

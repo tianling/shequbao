@@ -11,6 +11,9 @@ class SqbController extends CmsController{
 	public $cssUrl;
 	public $jsUrl;
 	public $user;
+	
+	public $subNavs = array();
+	
 	public $layout = '//layouts/right';
 	
 	public function init(){
@@ -21,7 +24,22 @@ class SqbController extends CmsController{
 		$this->user = $this->app->getUser();
 	}
 	
+	public function accessRules(){
+		$ipAllow = array(
+// 				array('allow',
+// 						'ips' => array('127.0.0.1'),
+// 						'deniedCallback' => array($this,'accessDenied')
+// 				),
+		);
+		return array_merge($ipAllow,parent::accessRules());
+	}
+	
 	public function loginRequired(){
 		$this->redirect($this->createUrl('/site/login'));
+	}
+	
+	public function addToSubNav($text,$url){
+		$html = $this->renderPartial('//common/subNavButton',array('text'=>$text,'url'=>$url),true);
+		$this->subNavs[] = $html;
 	}
 }
