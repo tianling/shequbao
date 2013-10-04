@@ -18,6 +18,7 @@ class ServiceController extends CmsController{
 				'createFamilyConfirm' => array('class'=>'familyConfirm'),
 				'createMyContacts',
 				'verificationCode',
+				'resetPassword',
 				
 				'update' => array('class' => 'updateUser'),
 				'updateAddress' => array('class' => 'updateUserAddress'),

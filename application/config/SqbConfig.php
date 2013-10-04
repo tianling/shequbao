@@ -65,10 +65,17 @@ class SqbConfig extends ConfigBase{
 								'Username'=>'574891711',
 								'Password'=>'lancelot@410',
 								'From'=>'574891711@qq.com',
-								'FromName'=>'ATD Mail',
+								'FromName'=>'社区宝',
 								'Host'=>'smtp.qq.com',
 								'Port'=>'25',
 								'CharSet'=>'UTF-8',
+						),
+						
+						'cache' => array(
+								'class' => 'CDbCache',
+								'connectionID' => 'db',
+								'cacheTableName' => 'xcms_yii_cache',
+								'autoCreateCacheTable' => false
 						),
 						
 						'chatManager' => array(
@@ -120,12 +127,6 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),*/
-						
-						'cache' => array(
-								'class' => 'CDbCache',
-								'cacheTableName' => 'xcms_yii_cache',
-								'autoCreateCacheTable' => false
-						),
 						
 						'urlManager'=>array(
 								'urlFormat'=>'path',

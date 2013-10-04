@@ -23,7 +23,7 @@ return array(
 				'verb'=>'PUT'
 		),
 		array(//user login logout
-				'pattern'=>'user/<_a:(login|logout|verificationCode)>',
+				'pattern'=>'user/<_a:(login|logout|verificationCode|resetPassword)>',
 				'user/service/<_a>',
 				'verb'=>'POST'
 		),
