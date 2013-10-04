@@ -24,7 +24,7 @@
 			
 			<tbody align="center">
 				<?php foreach ( $list as $l ):?>
-				<tr><?php 
+				<tr data-tt-id="<?php echo $l['parent']->primaryKey;?>"><?php 
 						$lEditUrl = $this->createUrl('operation/edit',array('id'=>$l['parent']->primaryKey));
 						$lDelUrl = $this->createUrl('operation/delete',array('id'=>$l['parent']->primaryKey));
 					?>
@@ -40,11 +40,11 @@
 					</td>
 				</tr>
 					<?php foreach( $l['children'] as $lc ):?>
-				<tr><?php 
+				<tr data-tt-id="<?php echo $lc['parent']->primaryKey;?>" data-tt-parent-id="<?php echo $l['parent']->primaryKey;?>"><?php 
 						$lcEditUrl = $this->createUrl('operation/edit',array('id'=>$lc['parent']->primaryKey));
 						$lcDelUrl = $this->createUrl('operation/delete',array('id'=>$lc['parent']->primaryKey));
 					?>
-					<td class="levelTwo"> └─ <?php echo $lc['parent']->primaryKey?></td>
+					<td><?php echo $lc['parent']->primaryKey?></td>
 					<td class="levelTwo"> └─ <?php echo $lc['parent']->operation_name?></td>
 					<td><?php echo $lc['parent']->module?></td>
 					<td><?php echo $lc['parent']->controller?></td>
@@ -56,11 +56,11 @@
 					</td>
 				</tr>
 						<?php foreach( $lc['children'] as $lcc ):?>
-				<tr><?php 
+				<tr data-tt-id="<?php echo $lcc->primaryKey;?>" data-tt-parent-id="<?php echo $lc['parent']->primaryKey;?>"><?php 
 						$lccEditUrl = $this->createUrl('operation/edit',array('id'=>$lcc->primaryKey));
 						$lccDelUrl = $this->createUrl('operation/delete',array('id'=>$lcc->primaryKey));
 					?>
-					<td class="levelThree"> └─ <?php echo $lcc->primaryKey?></td>
+					<td><?php echo $lcc->primaryKey?></td>
 					<td class="levelThree"> └─ <?php echo $lcc->operation_name?></td>
 					<td><?php echo $lcc->module?></td>
 					<td><?php echo $lcc->controller?></td>

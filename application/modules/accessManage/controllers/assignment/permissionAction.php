@@ -12,18 +12,35 @@ class permissionAction extends CmsAction{
 		if ( $roleId === null ){
 			$this->redirect($this->request->urlReferrer);
 		}
+		
+		$submit = $this->getPost('submit',null);
+		if ( $submit !== null ){
+			$values = $this->getPost('value',array());
+			$assigner = $this->app->getAuthManager()->getAssigner();
+			$assigner->clear(AuthAssigner::ITEM_PERMISSION,AuthAssigner::ITEM_ROLE,'role_id=:r',array(':r'=>$roleId));
+			foreach ( $values as $value ){
+				$assigner->grant(AuthAssigner::ITEM_PERMISSION,array('role_id'=>$roleId,'permission_id'=>$value))
+				->to(AuthAssigner::ITEM_ROLE)->doit();
+			}
+			$this->getController()->showMessage('授权成功','role/view');
+		}
+		
 		$model = $this->app->getAuthManager()->getItemModel(AuthManager::OPERATION,false);
 		if ( $model === null ){
 			$this->redirect($this->request->urlReferrer);
 		}
+		
+		$rolePermissions = $this->app->getAuthManager()->getCalculator()->findRolePermissions($roleId);
+		$existPermissions = array();
+		foreach ( $rolePermissions as $p ){
+			$existPermissions[] = $p->primaryKey;
+		}
+		
 		$withOption = array(
 				'with' => array(
 						'AuthPermissions'
 				)
 		);
-		
-		$rolePermissions = $this->app->getAuthManager()->getCalculator()->findRolePermissions($roleId);
-		
 		$data = array();
 		$levelOne = $model->findChildrenByLevel(1,$withOption);
 		foreach ( $levelOne as $i => $level ){
@@ -40,24 +57,8 @@ class permissionAction extends CmsAction{
 			}
 		}
 		
-		$this->registerTreePlugin();
-		$this->pageTitle = '权限分配';
-		$this->render('operation',array('list'=>$data,'rolePermissions'=>$rolePermissions));
-	}
-	
-	public function registerTreePlugin(){
-		$cs = $this->app->getClientScript();
-		$url = $this->getController()->pluginUrl;
-		$script = '$(function(){
-	var options = {
-			expandable: true,
-	};
-	$("#tree").treetable(options);
-});';
-		
-		$cs->registerScriptFile($url.'treetable/javascripts/src/jquery.treetable.js',CClientScript::POS_END);
-		$cs->registerScript('tree',$script,CClientScript::POS_END);
-		$cs->registerCssFile($url.'treetable/stylesheets/jquery.treetable.css');
-		$cs->registerCssFile($url.'treetable/stylesheets/jquery.treetable.theme.default.css');
+		$this->getController()->registerTreePlugin(array('$("#tree").treetable("expandAll")'));
+		$this->pageTitle = '操作授权';
+		$this->render('operation',array('list'=>$data,'rolePermissions'=>$existPermissions,'roleId'=>$roleId));
 	}
 }

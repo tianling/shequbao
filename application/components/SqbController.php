@@ -56,4 +56,29 @@ class SqbController extends CmsController{
 			$this->app->end();
 		}
 	}
+	
+	public function registerTreePlugin($treetableFunctions=array()){
+		$cs = $this->app->getClientScript();
+		$url = $this->pluginUrl;
+		
+		$funcs = '';
+		foreach ( $treetableFunctions as $func ){
+			$funcs .= $func.';';
+		}
+		$script = '$(function(){
+	var options = {
+			expandable: true,
+	};
+	$("#tree").treetable(options);'.$funcs.'
+});';
+	
+		$cs->registerScriptFile($url.'treetable/javascripts/src/jquery.treetable.js',CClientScript::POS_END);
+		$cs->registerScript('tree',$script,CClientScript::POS_END);
+		$cs->registerCssFile($url.'treetable/stylesheets/jquery.treetable.css');
+		$cs->registerCssFile($url.'treetable/stylesheets/jquery.treetable.theme.default.css');
+	}
+	
+	public function accessDenied(){
+		$this->showMessage('您无权访问此页面','/site/index');
+	}
 }

@@ -12,7 +12,7 @@ class SiteController extends SqbController{
 	public function filters(){
 		$filters = parent::filters();
 		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - login';
-		$filters['accessControl'] .= ' - menu,welcome';
+		$filters['accessControl'] .= ' - index,menu,welcome,login,logout';
 		return $filters;
 	}
 	
@@ -51,6 +51,7 @@ class SiteController extends SqbController{
 	
 	public function actionMenu(){
 		$authMenu = $this->app->getAuthManager()->getMenu();
+		
 		$this->menu = $authMenu->generateUserMenu($this->app->getUser()->getId());
 		$this->layout = false;
 		$this->render('menu');

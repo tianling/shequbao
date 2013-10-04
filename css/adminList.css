@@ -2,6 +2,16 @@
 	display: inline-block;
 	margin: 0px 15px 0px 0px;
 }
+.checkbox-list-div {
+	display: inline-block;
+	padding: 0px 10px;
+	font-size: 13px;
+}
+
+.checkbox-list-text {
+	
+}
+
 .inputOrder{
 	text-align: center;
 }
