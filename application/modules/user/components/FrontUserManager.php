@@ -54,8 +54,6 @@ class FrontUserManager extends BaseUserManager{
 			$CloseUserModel = new CloseUser;
 			$CloseUserModel->coord_x = $lat;
 			$CloseUserModel->coord_y = $lng;
-			//echo $CloseUserModel->coord_y;
-			//die();
 			$CloseUserModel->uid = $uid;
 			$CloseUserModel->time = time();
 

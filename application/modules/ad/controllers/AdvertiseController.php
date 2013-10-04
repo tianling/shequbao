@@ -1,66 +1,47 @@
 <?php
-class AdvertiseController extends CmsController
+class AdvertiseController extends SqbController
 {
-	public $layout='//layouts/column2';
-
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','delete','upload','GetDistance'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin',),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
 
 	public function actionIndex()
-	{
+	{	
+		$id = Yii::app()->user->id;
 		$criteria = new CDbCriteria;
-		$criteria ->select = 'id,advertiser_id,title';
+		$criteria ->select = 'id,advertiser_id,title,cpc,priority';
+		$criteria ->condition = 'advertiser_id = '.$id.'';
 		$criteria ->order = 'id DESC';
+		$count=Advertise::model()->count($criteria);
+		$page=new CPagination($count);
+		$page->pageSize=16;
+		$page->applyLimit($criteria);
 		$advertiseData = Advertise::model()->findAll($criteria);
-		$this->render('index',array('advertiseData'=>$advertiseData));
+		$this->pageTitle = '广告管理';
+		$this->render('index',array('advertiseData'=>$advertiseData,'pages'=>$page));
 
 	}
 
 	public function actionCreate()
 	{
+		
 		$model = new Advertise;
 		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
 			$model->attributes = $_POST['Advertise'];
+			$model->advertiser_id = Yii::app()->user->id;
 			if($model->save())
 			{
 				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
 					$pid = $_SESSION['pid'];
 					$picModel = AdvertisePic::model()->findByPk($pid);
 					$picModel->ad_id = $model->id;
-					$picModel->save();
-						
+					$_SESSION['pid'] = null;
+					$picModel->save();		
 				}
-				$this->redirect(Yii::app()->createUrl('ad/advertise/create'));
+				$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 			}else{
-			var_dump($model->getErrors());
+				return 400;
 			}
 		}
+
+		$this->pageTitle = '发布广告';
 		$this->render('create',array('model'=>$model));
 
 	}
@@ -69,16 +50,56 @@ class AdvertiseController extends CmsController
 	{
 		if(!empty($id) && is_numeric($id)){
 			$model=$this->loadModel($id);
+			if(!empty($model)){
+				$adId = $model->id;
+				$adPicModel = AdvertisePic::model()->findAll('ad_id=:id',array(':id'=>$id));
+				if(!empty($adPicModel)){
+					$ad_thumb = $adPicModel[0]['thumb_url'];	
+				}else
+					$ad_thumb = null;
+			}
 			if(isset($_POST['Advertise'])){
 				$model->attributes=$_POST['Advertise'];
+				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
+					$pid = $_SESSION['pid'];
+					$picModel = AdvertisePic::model()->findByPk($pid);
+					$picModel->ad_id = $model->id;
+					$_SESSION['pid'] = null;
+					$old_id = $model->id;
+					$old_data = AdvertisePic::model()->findAll('ad_id =:id',array(':id'=>$old_id));
+
+					if(!empty($old_data)){
+						$cleanOldData = AdvertisePic::model()->deleteAll('ad_id=:id',array('id'=>$old_id));
+						if($cleanOldData>0){
+							$picModel->save();
+						}
+					}else{
+						$picModel->save();
+					}
+							
+				}
 				if($model->save())
-					echo "ok";
+					$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 			}
-			$this->render('update',array('model'=>$model));
+
+			$this->pageTitle = '广告修改';
+			$this->render('update',array('model'=>$model,'adPic'=>$ad_thumb,));
 			
 			
-		}
+		}else
+			$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 	}
+
+	public function actionDelete($id){
+		if(!empty($id) && is_numeric($id)){
+			$adModel = Advertise::model()->findByPk($id);
+			if(!empty($adModel)){
+				$adModel->delete();
+			}
+		}
+		$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
+	}
+
 	
 	public function loadModel($id)
 	{
@@ -89,7 +110,7 @@ class AdvertiseController extends CmsController
 	}
 
 	public function init(){
-		//parent::init();
+		parent::init();
 
 		//$phpsessid = $this->getPost();
 		if(isset($_POST['PHPSESSID']))

@@ -6,52 +6,35 @@ class AdvertiserController extends SqbController
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	
 
 	/**
 	 * @return array action filters
 	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','delete'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin',),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
 
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView()
+	public function actionindex()
 	{
-		echo "hello shequbao!";
+		$criteria = new CDbCriteria;
+		$criteria->select = "advertiser_id,phone,email,balance,ads";
+		$criteria ->order = 'advertiser_id DESC';
+		$criteria->with = array(
+						'baseUser'=>array(
+								'select'=>'nickname',
+							),
+					);
+		$count=Advertiser::model()->count($criteria);
+		$page=new CPagination($count);
+		$page->pageSize=16;
+		$page->applyLimit($criteria);
+		$advertiserData = Advertiser::model()->findAll($criteria);
+		//var_dump($advertiserData);
+		//die();
+		$this->pageTitle = '广告主管理';
+		$this->render('index',array('advertiserData'=>$advertiserData,'pages'=>$page));
 	}
 
 	/**
@@ -69,16 +52,16 @@ class AdvertiserController extends SqbController
 		{
 			$model->attributes=$_POST['Advertiser'];
 			if($model->save()){
-				//$this->redirect(array('view','id'=>$model->advertiser_id));
-				echo "ok";
+				$this->redirect(Yii::app()->createUrl('ad/advertiser/index'));
+				
 			}else {
-				var_dump($model->getErrors());
+				return 400;
 			}
 		}
-
-		/*$this->render('create',array(
+		$this->pageTitle = '广告主添加';
+		$this->render('create',array(
 			'model'=>$model,
-		));*/
+		));
 	}
 
 	/**
@@ -89,23 +72,21 @@ class AdvertiserController extends SqbController
 	public function actionUpdate($id)
 	{
 		if(!empty($id)  && is_numeric($id)){
-			$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+			$model  = Advertiser::model()->with('baseUser')->findByPk($id);
 			if(isset($_POST['Advertiser']))
 			{
 				$model->attributes=$_POST['Advertiser'];
+				$new_password = $model->password;
+				$model->baseUser->changePassword($new_password);
 				if($model->save())
-				//$this->redirect(array('view','id'=>$model->advertiser_id));
-					echo "ok";
+					$this->redirect(Yii::app()->createUrl('ad/advertiser/index'));
 			}
-		}
-		
-		/*$this->render('update',array(
+		}else
+			$this->redirect(Yii::app()->createUrl('ad/advertiser/index'));
+		$this->pageTitle = '信息修改';
+		$this->render('update',array(
 			'model'=>$model,
-		));*/
+		));
 		
 	}
 
@@ -117,24 +98,44 @@ class AdvertiserController extends SqbController
 	public function actionDelete($id)
 	{
 		if(!empty($id) && is_numeric($id)){
-			$this->loadModel($id)->delete();
-			echo "ok";
-		}
+			$userData = UserModel::model()->findByPk($id);
+			if(!empty($userData)){
+				$userData->delete();
+			}
 			
+		}
+		$this->redirect(Yii::app()->createUrl('ad/advertiser/index'));	
+	}
 
-		
+
+	public function actionBalanceAdd($id)
+	{
+		if(!empty($id) && is_numeric($id)){
+			$advertiserData = Advertiser::model()->findByPk($id);
+			if(!empty($advertiserData)){
+				$Balance = $advertiserData->balance;
+			}
+		}
+		if(isset($_POST['balance'])){
+			echo "dfdf";
+			die();
+			$Balance+=$_POST['balance']['balance_add'];
+			$advertiserData->balance = $Balance;
+			if($advertiserData->save())
+				$this->redirect(Yii::app()->createUrl('ad/advertiser/index'));	
+		}
+		$this->pageTitle = '充值';
+		$this->render('balanceAdd',array(
+			'balance'=>$Balance,
+			'id'=>$id,
+		));
+
 	}
 
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Advertiser');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+	
 
 	/**
 	 * Manages all models.
@@ -177,5 +178,15 @@ class AdvertiserController extends SqbController
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+
+	public function init(){
+		parent::init();
+
+		//$phpsessid = $this->getPost();
+		if(isset($_POST['PHPSESSID']))
+			session_id($_POST['PHPSESSID']);
+
 	}
 }
