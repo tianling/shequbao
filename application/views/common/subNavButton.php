@@ -8,5 +8,5 @@
  */
 ?>
 <div class="div-subNav">
-	<input class="form-button" name="submit" type="button" value="<?php echo $text?>" onclick="location.href='<?php echo $url?>'">
+	<input class="form-button" title="<?php echo $title?>" name="submit" type="button" value="<?php echo $text?>" onclick="location.href='<?php echo $url?>'" />
 </div>

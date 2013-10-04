@@ -13,7 +13,7 @@ class ServiceController extends CmsController{
 	public function filters(){
 		$filters = parent::filters();
 		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login,verificationCode,resetPassword';
-		
+		unset($filters['accessControl']);
 		return $filters;
 	}
 	
