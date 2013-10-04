@@ -12,7 +12,8 @@ class ServiceController extends CmsController{
 	
 	public function filters(){
 		$filters = parent::filters();
-		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - verificationCode,resetPassword';
+		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login,verificationCode,resetPassword';
+		
 		return $filters;
 	}
 	
@@ -36,13 +37,6 @@ class ServiceController extends CmsController{
 				'getMyContacts',
 				
 		);
-	}
-	
-	public function filters(){
-		$filters = parent::filters();
-		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login';
-		
-		return $filters;
 	}
 	
 	public function actionLogin(){
