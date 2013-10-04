@@ -7,8 +7,33 @@
  * Encoding UTF-8
  */
 class FrontUserManager extends BaseUserManager{
+
+	private $charge_url = "http://test.jiaofei123.com/service/scan-info.json";
+	private $loginName = "test";
+	private $sec_key = "testKey";
+
+	private $cityId = 2;
+	private $waterType = 5;
+	private $gasType = 6;
+	private $electricityType = 7;
+	private $garbageType = 8;
+
+	private $waterProviter1 = 3;
+	private $waterProviter2 = 4;
+	private $waterProviter3 = 5;
+	private $waterProviter4 = 91;
+	private $waterProviter5 = 93;
+	private $waterProviter6 = 94;
+
+	private $electricityProviter = 6;
+	private $gasProviter1 = 2;
+	private $gasProviter2 = 89;
+
 	public function init(){
 		Yii::import('user.models.*');
+		$this->attachBehavior('curl','CurlBehavior');
+		//$this->attachBehavior('curlMulti','CurlMultiBehavior');
+
 	}
 	
 	public function findAll($criteria=null,$params=array()){
@@ -128,9 +153,263 @@ class FrontUserManager extends BaseUserManager{
 				
 	}
 
+	public function getAddressinfo($uid){
+		if(!empty($uid) && is_numeric($uid)){
+			$addressInfo = UserAddress::model()->findAll('user_id =:uid',array(':uid'=>$uid));
+			if(!empty($addressInfo)){
+				return $addressInfo;
+			}
+		}
+	}
+
+	public function getChargeinfo($number,$type){
+		if(!empty($number) && is_numeric($type)){
+
+			switch ($type) {
+				case 0:
+					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter1."&number=".$number."&key=".$this->sec_key."");
+					$data = array(
+							'loginName' =>$this->loginName,
+							'cityId' =>$this->cityId,
+							'typeId' =>$this->waterType,
+							'providerId'=>$this->waterProviter1,
+							'number'=>$number,
+							'key'=>$key
+							
+						);
+				
+
+					$output = $this->Curlget($this->charge_url,$data);
+					$chargeData = json_decode($output);
+
+					if($chargeData->state == 2){
+						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter2."&number=".$number."&key=".$this->sec_key."");
+						$data = array(
+								'loginName' =>$this->loginName,
+								'cityId' =>$this->cityId,
+								'typeId' =>$this->waterType,
+								'providerId'=>$this->waterProviter2,
+								'number'=>$number,
+								'key'=>$key
+							
+							);
+				
+
+						$output = $this->Curlget($this->charge_url,$data);
+						$chargeData = json_decode($output);
+						if($chargeData->state == 2){
+							$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter3."&number=".$number."&key=".$this->sec_key."");
+							$data = array(
+									'loginName' =>$this->loginName,
+									'cityId' =>$this->cityId,
+									'typeId' =>$this->waterType,
+									'providerId'=>$this->waterProviter3,
+									'number'=>$number,
+									'key'=>$key
+							
+								);
+				
+
+							$output = $this->Curlget($this->charge_url,$data);
+							$chargeData = json_decode($output);
+							if($chargeData->state == 2){
+								$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter4."&number=".$number."&key=".$this->sec_key."");
+								$data = array(
+										'loginName' =>$this->loginName,
+										'cityId' =>$this->cityId,
+										'typeId' =>$this->waterType,
+										'providerId'=>$this->$waterProviter4,
+										'number'=>$number,
+										'key'=>$key
+							
+									);
+				
+
+								$output = $this->Curlget($this->charge_url,$data);
+								$chargeData = json_decode($output);
+								if($chargeData->state == 2){
+									$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter5."&number=".$number."&key=".$this->sec_key."");
+									$data = array(
+											'loginName' =>$this->loginName,
+											'cityId' =>$this->cityId,
+											'typeId' =>$this->waterType,
+											'providerId'=>$this->$waterProviter5,
+											'number'=>$number,
+											'key'=>$key
+							
+										);
+				
+
+									$output = $this->Curlget($this->charge_url,$data);
+									$chargeData = json_decode($output);
+									if($chargeData->state == 2){
+										$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter6."&number=".$number."&key=".$this->sec_key."");
+										$data = array(
+												'loginName' =>$this->loginName,
+												'cityId' =>$this->cityId,
+												'typeId' =>$this->waterType,
+												'providerId'=>$this->$waterProviter6,
+												'number'=>$number,
+												'key'=>$key,
+							
+											);
+				
+
+										$output = $this->Curlget($this->charge_url,$data);
+										$chargeData = json_decode($output);
+										if($chargeData->state == 1){
+											var_dump($chargeData);
+											die();
+										}
+											
+										elseif($chargeData->state == 2) 
+											return 401;
+										else
+											return 400;
+
+									}else if($chargeData->state == 1)
+										return $chargeData;
+									else 
+										return 400;
+								}else if($chargeData->state == 1)
+									return $chargeData;
+								else
+									return 400;
+							}else if($chargeData->state == 1)
+								return $chargeData;
+							else
+								return 400;				
+						}else if($chargeData->state == 1)
+							return $chargeData;
+						else
+							return 400;
+					}
+					else if($chargeData->state == 1){
+						//$chargeData = 400;
+						return $chargeData;
+					}
+						
+					else
+						return 400;
+					
+					break;
+
+				case 1:
+					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->electricityType."&providerId=".$this->electricityProviter."&number=".$number."&key=".$this->sec_key."");
+					$data = array(
+							'loginName' =>$this->loginName,
+							'cityId' =>$this->cityId,
+							'typeId' =>$this->electricityType,
+							'providerId'=>$this->electricityProviter,
+							'number'=>$number,
+							'key'=>$key
+							
+						);
+				
+
+					$output = $this->Curlget($this->charge_url,$data);
+					$chargeData = json_decode($output);
+					if($chargeData->state == 1){
+						return $chargeData;
+					}elseif ($chargeData->state == 2) {
+						return 401;
+					}else
+						return 400;
+
+					break;
+
+				case 2:
+					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
+					$data = array(
+							'loginName' =>$this->loginName,
+							'cityId' =>$this->cityId,
+							'typeId' =>$this->gasType,
+							'providerId'=>$this->gasProviter1,
+							'number'=>$number,
+							'key'=>$key,
+							
+						);
+				
+					$output = $this->Curlget($this->charge_url,$data);
+					$chargeData = json_decode($output);
+					if($chargeData->state == 2){
+						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
+						$data = array(
+								'loginName' =>$this->loginName,
+								'cityId' =>$this->cityId,
+								'typeId' =>$this->gasType,
+								'providerId'=>$this->gasProviter2,
+								'number'=>$number,
+								'key'=>$key,
+							
+							);
+				
+						$output = $this->Curlget($this->charge_url,$data);
+						$chargeData = json_decode($output);
+						if($chargeData->state == 1)
+							return $chargeData;
+						elseif($chargeData->state == 2)
+							return 401;
+						else
+							return 400;
+					}elseif($chargeData->state == 1)	
+						return $chargeData;
+					else
+						return 400;
+
+					break;
+
+				case 3:
+					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->garbageType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
+					$data = array(
+							'loginName' =>$this->loginName,
+							'cityId' =>$this->cityId,
+							'typeId' =>$this->garbageType,
+							'providerId'=>$this->gasProviter1,
+							'number'=>$number,
+							'key'=>$key,
+						);
+					$output = $this->Curlget($this->charge_url,$data);
+					$chargeData = json_decode($output);
+					if($chargeData->state == 2){
+						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
+						$data = array(
+								'loginName' =>$this->loginName,
+								'cityId' =>$this->cityId,
+								'typeId' =>$this->gasType,
+								'providerId'=>$this->gasProviter2,
+								'number'=>$number,
+								'key'=>$key,
+							
+							);
+				
+						$output = $this->Curlget($this->charge_url,$data);
+						$chargeData = json_decode($output);
+						if($chargeData->state == 1)
+							return $chargeData;
+						elseif($chargeData->state == 2)
+							return 401;
+						else
+							return 400;
+					}elseif($chargeData->state == 1)
+						return $chargeData;
+					else
+						return 400;
+
+					break;
+
+				default:
+						return 402;
+					break;
+			}
+				
+		}
+	}
+
 	public function cleanMyplace($uid){
 		if(!empty($uid) && is_numeric($uid)){
 			$userPleaceModel = CloseUser::model()->findAll('uid=:id',array('id'=>$uid));
+			
 			if(!empty($userPleaceModel)){
 				$clear = CloseUser::model()->deleteAll('uid=:id',array('id'=>$uid));
 				if($clear>0)
@@ -188,4 +467,24 @@ class FrontUserManager extends BaseUserManager{
 		$user->save();
 		return $user;
 	}
+
+	public function Curlget($url,$data){
+		if(!empty($url) && !empty($data)){
+			$url =	$url;
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$url);
+			curl_setopt($ch, CURLOPT_POST,1); 
+			$data = http_build_query($data);
+			curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+			ob_start();  
+			curl_exec($ch);  
+			$result = ob_get_contents() ;  
+			ob_end_clean();
+			curl_close($ch) ;   
+			return $result;    
+			 
+		}
+	}
+
+	
 }

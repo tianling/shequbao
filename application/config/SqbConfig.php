@@ -128,6 +128,7 @@ class SqbConfig extends ConfigBase{
 								'tablePrefix' => 'xcms_'
 						),*/
 						
+						
 						'urlManager'=>array(
 								'urlFormat'=>'path',
 								'urlSuffix' => '',

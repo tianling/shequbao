@@ -99,4 +99,10 @@ return array(
 
 		),
 
+		array(
+				'pattern'=>'<_m:(user)>/<_a:(Chargeinfo)>/<uid:\d+>',
+				'<_m>/service/get<_a>',
+				'verb'=>'GET'
+		),
+
 );

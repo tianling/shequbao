@@ -94,16 +94,19 @@ class AdManager extends CApplicationComponent{
 		if(isset($id) && is_numeric($id) && isset($user_id) && is_numeric($user_id)){
 			$model = new AdViewClick;
 			$Admodel = Advertise::model()->findByPk($id);
-			$model->user_id = $user_id;
-			$model->advertise_id = $Admodel->id;
-			$model->type = 1;
-			$model->time = time();
-			$model->cost = $Admodel->cpc;
-			if($model->save())
-				return 200;
-			else{
-				$error = var_dump($model->getErrors());
-				return $error;
+			if(!empty($Admodel)){
+				$model->user_id = $user_id;
+				$model->advertise_id = $Admodel->id;
+				$model->type = 1;
+				$model->time = time();
+				$model->cost = $Admodel->cpc;
+				if($model->save())
+					return 200;
+				else{
+					$error = var_dump($model->getErrors());
+					return $error;
+				}
+			
 			}
 		}		
 	}
@@ -116,14 +119,16 @@ class AdManager extends CApplicationComponent{
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
 			$advertiserModel = Advertiser::model()->with('baseUser')->findByPk($id);
 			
-			$balance = $advertiserModel->getAttribute('balance');
-			$cpc = $advertiseModel->cpc;
-			$advertiserModel->setAttribute('balance',$balance - $cpc);
-			if($advertiserModel->save()){
-				return 200;
-			}else{
-				var_dump($advertiserModel->getErrors());die;
-				return 400;
+			if(!empty($advertiserModel) && !empty($advertiseModel)){
+				$balance = $advertiserModel->getAttribute('balance');
+				$cpc = $advertiseModel->cpc;
+				$advertiserModel->setAttribute('balance',$balance - $cpc);
+				if($advertiserModel->save()){
+					return 200;
+				}else{
+					var_dump($advertiserModel->getErrors());die;
+					return 400;
+				}
 			}
 		}
 	}	
