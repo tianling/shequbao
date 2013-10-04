@@ -7,6 +7,7 @@
  * Encoding UTF-8
  */
 $cssUrl = $this->request->baseUrl.'/css/';
+$jsUrl = $this->request->baseUrl.'/js/';
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ $cssUrl = $this->request->baseUrl.'/css/';
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		
+		<script type="text/javascript" src="<?php echo $jsUrl?>jquery.min.js"></script>
 		<link href="<?php echo $cssUrl?>skin.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $cssUrl?>common.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $cssUrl?>adminList.css" rel="stylesheet" type="text/css" />
@@ -51,7 +53,11 @@ $cssUrl = $this->request->baseUrl.'/css/';
 				<td valign="middle" background="<?php echo $this->imgUrl;?>mail_leftbg.gif">&nbsp;</td>
 				<td valign="top" bgcolor="#F7F8F9">
 					<div class="subnav">
-						<div class="content-menu blue line-x"></div>
+						<div class="content-menu blue line-x"><?php foreach ( $this->subNavs as $subNav):
+							echo $subNav;
+						endforeach;
+						?>
+						</div>
 					</div>
 					<div class="Info">
 						<?php echo $content?>

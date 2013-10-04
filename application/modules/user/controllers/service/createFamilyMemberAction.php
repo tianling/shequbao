@@ -24,6 +24,10 @@ class createFamilyMemberAction extends CmsAction{
 		$user = SqbUser::model()->with('baseUser')->findByPk($loginedId);
 		$member = SqbUser::model()->find('mobile=:m',array(':m'=>$post['mobile']));
 		
+		if ( $user->equals($member) ){
+			$this->response(201,'不能自己邀请自己');
+		}
+		
 		if ( $createdFamily === array() ){
 			$fName = $user->getAttribute('nickname').'的家庭';
 			$groupManager->maxCreation = 1;
@@ -55,7 +59,7 @@ class createFamilyMemberAction extends CmsAction{
 			$chatManager = $this->app->getComponent('chatManager');
 			$chatManager->getPusher()->setTimeToLive(864000);
 			$alias = 'user'.$member->getPrimaryKey();
-			$chatManager->pushNotification(1,$alias,1,'收到一条家庭邀请','社区宝聊天',array('time'=>time()));
+			$chatManager->pushNotification(1,$alias,1,'收到一条家庭邀请，请到家庭查看','社区宝聊天',array('time'=>time()));
 			
 			$this->response(200,'邀请成功');
 		}

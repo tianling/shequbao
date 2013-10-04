@@ -117,20 +117,25 @@ class AdManager extends CApplicationComponent{
 	public function adVerCost($resourceId,$id){
 		if(!empty($resourceId) && is_numeric($id) && !empty($id) &&is_numeric($resourceId)){
 			$advertiseModel = Advertise::model()->findByPk($resourceId);
+<<<<<<< HEAD
 
 			$advertiserModel = Advertiser::model()->findByPk($id);
+=======
+			$advertiserModel = Advertiser::model()->with('baseUser')->findByPk($id);
+			
+>>>>>>> 07b832674d0bca5f97c646dc1cd0df0b159c8090
 			if(!empty($advertiserModel) && !empty($advertiseModel)){
-				$balance = $advertiserModel->balance;
+				$balance = $advertiserModel->getAttribute('balance');
 				$cpc = $advertiseModel->cpc;
-				$advertiserModel->balance = $balance - $cpc;
-				if($advertiserModel->save())
+				$advertiserModel->setAttribute('balance',$balance - $cpc);
+				if($advertiserModel->save()){
 					return 200;
-						
-				else{
+				}else{
+					var_dump($advertiserModel->getErrors());die;
 					return 400;
-
 				}
 			}
+<<<<<<< HEAD
 			
 				
 
@@ -146,6 +151,8 @@ class AdManager extends CApplicationComponent{
 				return 400;
 			}
 
+=======
+>>>>>>> 07b832674d0bca5f97c646dc1cd0df0b159c8090
 		}
 	}	
 

@@ -9,6 +9,6 @@
 ?>
 
 <div class="form-list">
-	<div class="form-title">添加操作</div>
+	<div class="form-title">添加角色</div>
 	<?php echo $form?>
 </div>

@@ -16,6 +16,13 @@ class addAction extends CmsAction{
 			$model->attributes = $post;
 			
 			if ( $model->save() ){
+				$assigner = $this->app->getAuthManager()->getAssigner();
+				$assignData = array(
+						'operation_id' => $model->primaryKey,
+						'permission_name' => $model->operation_name,
+						'description' => $model->description
+				);
+				$assigner->grant(AuthAssigner::ITEM_OPERATION,$assignData)->to(AuthAssigner::ITEM_PERMISSION)->doit();
 				$this->redirect($this->createUrl('operation/view'));
 			}
 		}

@@ -16,16 +16,6 @@ class SiteController extends SqbController{
 		return $filters;
 	}
 	
-	public function accessRules(){
-		$ipAllow = array(
-				array('allow',
-						'ips' => array('127.0.0.1'),
-						'deniedCallback' => array($this,'accessDenied')
-				),
-		);
-		return array_merge($ipAllow,parent::accessRules());
-	}
-	
 	public function actionLogout(){
 		$this->app->getUser()->logout();
 		$this->redirect($this->createUrl('/site'));

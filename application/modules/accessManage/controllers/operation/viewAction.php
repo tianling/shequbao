@@ -26,6 +26,7 @@ class viewAction extends CmsAction{
 			}
 		}
 		
+		$this->getController()->addToSubNav('添加操作','operation/add');
 		$this->setPageTitle('操作管理');
 		$this->render('view',array('list' => $data));
 	}

@@ -10,6 +10,13 @@ class ServiceController extends CmsController{
 	
 	public $actionClassPathAlias = 'application.modules.user.controllers';
 	
+	public function filters(){
+		$filters = parent::filters();
+		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login,verificationCode,resetPassword';
+		unset($filters['accessControl']);
+		return $filters;
+	}
+	
 	public function getActionClass(){
 		return array(
 				'create' => array('class' => 'createUser'),
@@ -18,6 +25,7 @@ class ServiceController extends CmsController{
 				'createFamilyConfirm' => array('class'=>'familyConfirm'),
 				'createMyContacts',
 				'verificationCode',
+				'resetPassword',
 				
 				'update' => array('class' => 'updateUser'),
 				'updateAddress' => array('class' => 'updateUserAddress'),
@@ -29,13 +37,6 @@ class ServiceController extends CmsController{
 				'getMyContacts',
 				
 		);
-	}
-	
-	public function filters(){
-		$filters = parent::filters();
-		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login';
-		
-		return $filters;
 	}
 	
 	public function actionLogin(){

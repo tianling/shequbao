@@ -65,10 +65,17 @@ class SqbConfig extends ConfigBase{
 								'Username'=>'574891711',
 								'Password'=>'lancelot@410',
 								'From'=>'574891711@qq.com',
-								'FromName'=>'ATD Mail',
+								'FromName'=>'社区宝',
 								'Host'=>'smtp.qq.com',
 								'Port'=>'25',
 								'CharSet'=>'UTF-8',
+						),
+						
+						'cache' => array(
+								'class' => 'CDbCache',
+								'connectionID' => 'db',
+								'cacheTableName' => 'xcms_yii_cache',
+								'autoCreateCacheTable' => false
 						),
 						
 						'chatManager' => array(
@@ -95,7 +102,7 @@ class SqbConfig extends ConfigBase{
 						),
 
 						'image'=>array(
-							'class'=>'application.extensions.image.CImageComponent',
+							'class'=>'cms.extensions.image.CImageComponent',
 							'driver'=>'GD',
 							'params'=>array('directory'=>'/opt/local/bin'),
 						),
@@ -127,6 +134,7 @@ class SqbConfig extends ConfigBase{
 								'class' => 'CDbCache',
 								'cacheTableName' => 'xcms_yii_cache',
 								'autoCreateCacheTable' => false
+
 						),
 
 						
@@ -135,7 +143,7 @@ class SqbConfig extends ConfigBase{
 								'urlSuffix' => '',
 								'showScriptName' => false,
 								'rules' => require dirname(__FILE__).'/RestApiRules.php',
-								'cacheID' => false
+								//'cacheID' => false
 						),
 						
 				),
