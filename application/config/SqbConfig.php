@@ -127,15 +127,6 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),
-						
-
-
-						'cache' => array(
-								'class' => 'CDbCache',
-								'cacheTableName' => 'xcms_yii_cache',
-								'autoCreateCacheTable' => false
-
-						),
 
 						
 						'urlManager'=>array(
