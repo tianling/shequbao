@@ -12,14 +12,23 @@ class viewAction extends CmsAction{
 		$data = array();
 		
 		$criteria = new CDbCriteria();
+		$criteria->with = array(
+				'baseUser' => array(
+						'alias' => 'baseUser'
+				)
+		);
+		
+		$search = $this->getQuery('searchUser',null);
+		if ( $search !== null ){
+			$criteria->addSearchCondition('baseUser.nickname', $search['nickname']);
+		}
+		
 		$count = $model->count();
 		$pager = new CPagination($count);
 		$pager->pageSize = 30;
 		$pager->applyLimit($criteria);
 		
-		$criteria->with = array(
-				'baseUser'
-		);
+		
 		$data = $model->findAll($criteria);
 		
 		$this->getController()->addToSubNav('添加用户','manage/add');

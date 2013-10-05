@@ -15,6 +15,7 @@ class AdvertiseController extends SqbController
 		$page->applyLimit($criteria);
 		$advertiseData = Advertise::model()->findAll($criteria);
 		
+		$this->addToSubNav('广告发布','advertise/create');
 		$this->pageTitle = '广告管理';
 		$this->render('index',array('advertiseData'=>$advertiseData,'pages'=>$page));
 
