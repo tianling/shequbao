@@ -17,11 +17,11 @@ class editAction extends CmsAction{
 		$className = get_class($model);
 		
 		$post = $this->getPost($className,null);
-		if ( $post !== null ){
+		if ( $model !== null && $post !== null ){
 			$model->attributes = $post;
 				
 			if ( $model->save() ){
-				$this->redirect($this->createUrl('operation/view'));
+				$this->getController()->showMessage('修改成功','operation/view');
 			}
 		}
 		

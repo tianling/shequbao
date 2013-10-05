@@ -12,6 +12,15 @@ class createUserAddressAction extends CmsAction{
 			$newAttributes['user_id'] = $resourceId;
 			$address->attributes = $newAttributes;
 			if($address->save()){
+				if ( isset($newAttributes['community']) ){
+					$cu = new CommunityUser();
+					$cu->attributes = array(
+							'community_id' => $newAttributes['community'],
+							'user_id' => $resourceId
+					);
+					$cu->save();
+				}
+				
 				$this->response(200,'添加地址成功');
 			}else{
 				$this->response(201,'添加地址失败',$address->getErrors());

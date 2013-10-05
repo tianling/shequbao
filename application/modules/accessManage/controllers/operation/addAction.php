@@ -23,7 +23,7 @@ class addAction extends CmsAction{
 						'description' => $model->description
 				);
 				$assigner->grant(AuthAssigner::ITEM_OPERATION,$assignData)->to(AuthAssigner::ITEM_PERMISSION)->doit();
-				$this->redirect($this->createUrl('operation/view'));
+				$this->getController()->showMessage('添加成功','operation/view');
 			}
 		}
 		

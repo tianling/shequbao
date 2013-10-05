@@ -9,7 +9,7 @@
 class AdminIdentity extends CUserIdentity{
 	public $id;
 	public function authenticate(){
-		$condition = '`email`=:account';
+		$condition = '`phone`=:account OR `email`=:account';
 		$user = Administrators::model()->with('baseUser')->find($condition,array(':account'=>$this->username));
 		
 		if ( $user === null ){

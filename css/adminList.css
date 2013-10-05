@@ -1,3 +1,10 @@
+.yiiPager li{
+	display: inline-block;
+}
+
+.yiiPager li.page-button {
+	padding:0px 5px;
+}
 .div-subNav {
 	display: inline-block;
 	margin: 0px 15px 0px 0px;
@@ -29,6 +36,9 @@
 .table-list tbody tr td {
 	padding:5px 0px;
 	font-size: 12px;
+}
+.table-list tbody tr {
+	text-align: center;
 }
 
 .table-list .levelTwo{

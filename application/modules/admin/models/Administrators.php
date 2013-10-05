@@ -30,12 +30,14 @@ class Administrators extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id', 'length', 'max'=>11),
+			array('id', 'safe'),
+			array('phone,email','required','message'=>'{attribute}不能为空'),
 			array('surname, name', 'length', 'max'=>10),
+			array('phone','unique','message'=>'手机号已经被注册'),
+			array('email','unique','message'=>'邮箱已经被使用'),
+			array('phone','length','is'=>11,'message'=>'手机号码错误'),
 			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
 			array('email', 'email', 'message'=>'邮箱格式不正确'),
-			array('email', 'unique', 'message'=>'邮箱已被注册'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, surname, name', 'safe', 'on'=>'search'),
@@ -63,6 +65,8 @@ class Administrators extends SingleInheritanceModel
 			'id' => 'ID',
 			'surname' => 'Surname',
 			'name' => 'Name',
+			'phone' => '手机号',
+			'email' => '邮箱'
 		);
 	}
 

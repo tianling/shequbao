@@ -1,15 +1,17 @@
 <?php
 /**
- * @name roleAction.php UTF-8
+ * @name groupRoleAction.php UTF-8
  * @author ChenJunAn<lancelot1215@gmail.com>
  * 
  * Date 2013-10-5
  * Encoding UTF-8
+ * 
+ * 将角色授予用户组
  */
-class roleAction extends CmsAction{
+class groupRoleAction extends CmsAction{
 	public function run(){
-		$userId = $this->getQuery('user',null);
-		if ( $userId === null ){
+		$groupId = $this->getQuery('group',null);
+		if ( $groupId === null ){
 			$this->redirect($this->request->urlReferrer);
 		}
 		
@@ -17,17 +19,17 @@ class roleAction extends CmsAction{
 		if ( $submit !== null ){
 			$values = $this->getPost('value',array());
 			$assigner = $this->app->getAuthManager()->getAssigner();
-			$assigner->clear(AuthAssigner::ITEM_ROLE,AuthAssigner::ITEM_USER,'user_id=:u',array(':u'=>$userId));
+			$assigner->clear(AuthAssigner::ITEM_ROLE,AuthAssigner::ITEM_GROUP,'group_id=:g',array(':g'=>$groupId));
 			foreach ( $values as $value ){
-				$assigner->grant(AuthAssigner::ITEM_ROLE,array('user_id'=>$userId,'role_id'=>$value))
-				->to(AuthAssigner::ITEM_USER)->doit();
+				$assigner->grant(AuthAssigner::ITEM_ROLE,array('group_id'=>$groupId,'role_id'=>$value))
+				->to(AuthAssigner::ITEM_GROUP)->doit();
 			}
-			$this->getController()->showMessage('授权成功','/sqbadmin/user/view');
+			$this->getController()->showMessage('授权成功','group/view');
 		}
 		
-		$userRoles = $this->app->getAuthManager()->getCalculator()->findUserRoles($userId);
+		$groupRoles = $this->app->getAuthManager()->getCalculator()->findGroupRoles($groupId);
 		$existRoles = array();
-		foreach ( $userRoles as $r ){
+		foreach ( $groupRoles as $r ){
 			$existRoles[] = $r->primaryKey;
 		}
 		
@@ -42,7 +44,7 @@ class roleAction extends CmsAction{
 			$children = null;
 		}
 		
-		$this->pageTitle = '角色授权';
-		$this->render('role',array('userRoles'=>$existRoles,'items'=>$items,'userId'=>$userId));
+		$this->pageTitle = '用户组角色授权';
+		$this->render('groupRole',array('groupRoles'=>$existRoles,'items'=>$items,'groupId'=>$groupId));
 	}
 }

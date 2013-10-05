@@ -45,7 +45,7 @@
 						$lcDelUrl = $this->createUrl('operation/delete',array('id'=>$lc['parent']->primaryKey));
 					?>
 					<td><?php echo $lc['parent']->primaryKey?></td>
-					<td class="levelTwo"> └─ <?php echo $lc['parent']->operation_name?></td>
+					<td><?php echo $lc['parent']->operation_name?></td>
 					<td><?php echo $lc['parent']->module?></td>
 					<td><?php echo $lc['parent']->controller?></td>
 					<td><?php echo $lc['parent']->action?></td>
@@ -61,7 +61,7 @@
 						$lccDelUrl = $this->createUrl('operation/delete',array('id'=>$lcc->primaryKey));
 					?>
 					<td><?php echo $lcc->primaryKey?></td>
-					<td class="levelThree"> └─ <?php echo $lcc->operation_name?></td>
+					<td><?php echo $lcc->operation_name?></td>
 					<td><?php echo $lcc->module?></td>
 					<td><?php echo $lcc->controller?></td>
 					<td><?php echo $lcc->action?></td>

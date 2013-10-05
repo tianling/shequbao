@@ -29,8 +29,22 @@ $imgUrl = $this->request->baseUrl.'/images/';
 		<tr>
 			<td width="182" valign="top">
 			<div id="container">
+<?php if ( empty($this->menu) ):?>
+				<h1 class="type">
+					<a href="javascript:void(0)">暂无权限</a>
+				</h1>
+				<div class="content">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td><img src="<?php echo $imgUrl;?>menu_topline.gif" width="182" height="5" /></td>
+						</tr>
+					</table>
+					<ul class="submenu">
+					</ul>
+				</div>
+<?php endif?>
 <?php
-	foreach ( $this->menu as $menu ):
+	foreach ( $this->menu as $i => $menu ):
 		$record = $menu['record'];
 		if ( $menu['parent'] === null ):
 ?>
@@ -57,14 +71,15 @@ $imgUrl = $this->request->baseUrl.'/images/';
 						</li>
 					
 <?php 	endif;
-	$next = next($this->menu);
-	if ( ($next===false) || ($menu['parent']!==null&&$next['parent']!==$menu['parent']) || ($menu['parent']===null&&$next['parent']===$menu['parent'])):
+	if ( isset($this->menu[$i+1]) )
+		$next = $this->menu[$i+1];
+	else 
+		$next = false;
+	if ( ($next===false) || ($menu['parent']!==null&&$next['parent']!==$menu['parent']) || ($next['parent']===null) ):
 ?>
 						</ul>
 					</div>
 <?php endif;
-	if ( $next !== false )
-		prev($this->menu);
 endforeach;
 ?>
 <script type="text/javascript">
