@@ -43,7 +43,10 @@ class SqbConfig extends ConfigBase{
 						),
 						'accessManage' => array(
 								'class' => 'application.modules.accessManage.AccessManageModule'
-						)
+						),
+						'community'=>array(
+								'class'=>'application.modules.community.CommunityModule',
+						),
 				),
 				'preloadModels' => array(
 						'area',
@@ -102,7 +105,7 @@ class SqbConfig extends ConfigBase{
 						),
 
 						'image'=>array(
-							'class'=>'cms.extensions.image.CImageComponent',
+							'class'=>'ext.image.CImageComponent',
 							'driver'=>'GD',
 							'params'=>array('directory'=>'/opt/local/bin'),
 						),

@@ -28,8 +28,10 @@ class AdvertiseController extends SqbController
 		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
 			$model->attributes = $_POST['Advertise'];
 			$model->advertiser_id = Yii::app()->user->id;
+
 			if($model->save())
 			{
+				
 				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
 					$pid = $_SESSION['pid'];
 					$picModel = AdvertisePic::model()->findByPk($pid);
@@ -39,7 +41,7 @@ class AdvertiseController extends SqbController
 				}
 				$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 			}else{
-				return 400;
+				$this->redirect(Yii::app()->createUrl('site/index'));
 			}
 		}
 
