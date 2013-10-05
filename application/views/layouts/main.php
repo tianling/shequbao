@@ -23,7 +23,9 @@ $urlPrefix = $this->id.'/';
 		<table width="100%" height="64" border="0" cellpadding="0" cellspacing="0" class="admin_topbg">
 		  <tr>
 		    <td width="61%" height="64" class="logo_text">
+		    	<a href="<?php echo $this->createUrl('/site/welcome')?>" target="main">
 		    	<img src="<?php echo $imgUrl?>logo.png" width="262" height="64" />
+		    	</a>
 		    </td>
 		    <td width="39%" valign="top">
 			    <table width="100%" border="0" cellspacing="0" cellpadding="0">
