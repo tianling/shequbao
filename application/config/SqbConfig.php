@@ -127,7 +127,7 @@ class SqbConfig extends ConfigBase{
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
 						),
-						
+
 						
 						'urlManager'=>array(
 								'urlFormat'=>'path',

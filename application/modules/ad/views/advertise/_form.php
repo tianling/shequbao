@@ -4,9 +4,8 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="form-list">
 <?php
-	
 	$this->widget('application.extensions.swfupload.CSwfUpload', array(
     'jsHandlerUrl'=>Yii::app()->request->baseUrl."/js/handlers.js", //配置swfupload事件的js文件
     'postParams'=>array('PHPSESSID'=>Yii::app()->session->sessionID),//由于flash上传不可以传递cookie只能将session_id用POST方式传递
@@ -54,46 +53,51 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'advertiser_id'); ?>
-		<?php echo $form->textField($model,'advertiser_id'); ?>
-		<?php echo $form->error($model,'advertiser_id'); ?>
-	</div>
-
-	<div class="row">
+	
+	
 		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title'); ?>
+		 <?php echo $form->textField($model,'title',array('class'=>'form-input-text')); ?>
 		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
+	</br>
+	</br>
 		<?php echo $form->labelEx($model,'content'); ?>
-		<?php echo $form->textArea($model,'content'); ?>
+		<?php echo $form->textArea($model,'content',array('class'=>'form-input-textarea')); ?>
 		<?php echo $form->error($model,'content'); ?>
-	</div>
-
-	<div class="row">
+	</br>
 		<?php echo $form->labelEx($model,'direct_to'); ?>
-		<?php echo $form->textField($model,'direct_to'); ?>
+		<?php echo $form->textField($model,'direct_to',array('class'=>'form-input-text'));?>
 		<?php echo $form->error($model,'direct_to'); ?>
-	</div>
-
-	<div calss="row">
+	</br>
+		<?php echo $form->labelEx($model,'cpc'); ?>
+		<?php echo $form->textField($model,'cpc',array('class'=>'form-input-text'));?>
+		<?php echo $form->error($model,'cpc'); ?>
+	</br>
 		<?php echo $form->labelEx($model,'priority'); ?>
+	
 		<?php echo $form->dropDownList($model,'priority',array(
 			'0'=>'低',
 			'1'=>'中',
 			'2'=>'高',
-			'3'=>'非常高'
-		));?>
-	</div>
-	
+			'3'=>'非常高',
+			
+		),array('class'=>'form-input-text'));?>
+	</br>
+	</br>
+	<?php if(isset($adPic) && !empty($adPic)){?>
+		<img src = "<?php echo  Yii::app()->request->baseUrl.$adPic;?>"/>
+	<?php }?>		
+	<br/>
+
+	<?php  if(isset($adPic) && !empty($adPic)){
+				echo "修改图片"; 
+			}else
+				echo "图片上传";
+		?>
+
 	 <div class="swfupload"><span id="swfupload">上传</span>(只可以上传1张,支持格式:png,jpg,gif.)</div>
 
-	<div class="row buttons">
-		 <?php echo CHtml::submitButton($model->isNewRecord ? '提交' : '保存修改',array('id'=>'reply','name'=>'submit')); ?>
-	</div>
+	 <?php echo CHtml::submitButton($model->isNewRecord ? '提交' : '保存修改',array('id'=>'reply','name'=>'submit','class'=>'form-button form-button-submit')); ?>
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+</div>

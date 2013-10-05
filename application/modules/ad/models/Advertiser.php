@@ -32,7 +32,6 @@ class Advertiser extends SingleInheritanceModel
 		return array(
 			array('advertiser_id', 'required','on'=>'update'),
 			array('balance', 'numerical'),
-			array('email','required'),
 			array('advertiser_id, phone', 'length', 'max'=>11),
 			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
 			array('email', 'email', 'message'=>'邮箱格式不正确'),
@@ -63,9 +62,10 @@ class Advertiser extends SingleInheritanceModel
 	{
 		return array(
 			'advertiser_id' => 'Advertiser',
-			'balance' => 'Balance',
-			'phone' => 'Phone',
-			'email' => 'Email'
+			'balance' => '余额',
+			'phone' => ' 电话',
+			'email' => 'Email',
+			'ads' =>'广告数目',
 		);
 	}
 

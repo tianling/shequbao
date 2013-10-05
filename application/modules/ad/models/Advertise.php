@@ -37,7 +37,7 @@ class Advertise extends CmsActiveRecord
 	public function rules()
 	{
 		return array(
-			array('advertiser_id, title, content, direct_to', 'required'),
+			array('advertiser_id, title, content, direct_to,cpc', 'required'),
 			array('advertiser_id','exist','className'=>'Advertiser','attributeName'=>'advertiser_id','message'=>'广告主不存在'),
 			array('pay_type, priority,cpm, cpc', 'numerical', 'integerOnly'=>true),
 			array('view, click','safe'),
@@ -78,9 +78,37 @@ class Advertise extends CmsActiveRecord
 			'direct_to' => '广告链接',
 			'pay_type' => 'Pay Type',
 			'cpm' => 'Cpm',
-			'cpc' => 'Cpc',
+			'cpc' => '扣费额度',
 			'priority' => '广告优先级',
 		);
+	}
+
+	public static function getAdvertisePriority($id){
+		if(isset($id) && is_numeric($id)){
+				switch ($id) {
+					case 0:
+						$priorityName = "低";
+						break;
+					
+					case 1:
+						$priorityName = "中";
+						break;
+
+					case 2:
+						$priorityName = "高";
+						break;
+
+					case 3:
+						$priorityName = "非常高";
+						break;
+
+					default:
+						$priorityName = "未设定";
+						break;
+				}
+				return $priorityName;
+		}		
+			
 	}
 
 	/**
