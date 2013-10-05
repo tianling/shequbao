@@ -30,7 +30,11 @@
 					<td><?php echo $data->groups;?></td>
 					<td><?php echo $data->identity_id;?></td>
 					<td><?php echo date('Y年m月d日',$data->last_login_time);?></td>
-					<td></td>
+					<td>
+						<a href="<?php echo $this->createUrl('manage/edit',array('id'=>$data->id))?>">编辑</a> | 
+						<a href="<?php echo $this->createUrl('/user/userCharge/create',array('id'=>$data->id))?>">欠费添加</a> | 
+						<a href="<?php echo $this->createUrl('/user/userCharge/index',array('id'=>$data->id))?>">缴费查询</a>
+					</td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>

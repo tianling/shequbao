@@ -8,6 +8,9 @@
  */
 class addMultiAction extends CmsAction{
 	public function run(){
-		
+// 		Yii::import('cms.extensions.excelReader.ExcelReader',true);
+// 		$reader = new ExcelReader(Yii::getPathOfAlias('cms.extensions.excelReader').'/example.xls');
+// 		$reader->setUTFEncoder('mb');
+// 		echo $reader->dump(true,true);
 	}
 }

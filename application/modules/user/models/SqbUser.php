@@ -8,7 +8,6 @@
  * @property string $identity_id
  * @property integer $gender
  * @property string $mobile
- * @property string $phone
  * @property string $groups
  * @property string $attention
  * @property string $be_attentioned
@@ -53,7 +52,6 @@ class SqbUser extends SingleInheritanceModel
 			array('email', 'email', 'message'=>'{attribute}格式不正确','on'=>'appReg'),
 			array('email', 'unique', 'message'=>'{attribute}已被注册','on'=>'appReg'),
 			array('identity_id', 'length', 'max'=>18,'message'=>'{attribute}过长'),
-			array('phone', 'length', 'max'=>20,'message'=>'{attribute}过长'),
 			array('mobile,email','unsafe','on'=>'appUpdate'),
 			array('icon','safe','on'=>'appUpdate'),
 			array('online_status,be_attentioned,attention,groups','unsafe'),
@@ -88,7 +86,6 @@ class SqbUser extends SingleInheritanceModel
 			'gender' => '性别',
 			'mobile' => '手机号码',
 			'email' => '邮箱',
-			'phone' => '座机号码',
 			'groups' => '群数量',
 			'attention' => '关注的用户数量',
 			'be_attentioned' => '关注我的用户数量',
@@ -118,7 +115,6 @@ class SqbUser extends SingleInheritanceModel
 		$criteria->compare('identity_id',$this->identity_id,true);
 		$criteria->compare('gender',$this->gender);
 		$criteria->compare('mobile',$this->mobile,true);
-		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('groups',$this->groups,true);
 		$criteria->compare('attention',$this->attention,true);
 		$criteria->compare('be_attentioned',$this->be_attentioned,true);
