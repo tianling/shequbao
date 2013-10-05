@@ -14,6 +14,7 @@ class AdvertiseController extends SqbController
 		$page->pageSize=16;
 		$page->applyLimit($criteria);
 		$advertiseData = Advertise::model()->findAll($criteria);
+		
 		$this->pageTitle = '广告管理';
 		$this->render('index',array('advertiseData'=>$advertiseData,'pages'=>$page));
 

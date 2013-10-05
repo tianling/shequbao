@@ -23,7 +23,10 @@
 					<td><?php echo $value->phone;?></td>
 					<td><?php echo $value->balance;?></td>
 					<td><?php echo $value->ads;?></td>
-					<td><a href="<?php echo Yii::app()->createUrl('ad/advertiser/update',array('id'=>$value['advertiser_id']));?>">修改信息</a>|
+					<td>
+					<a href="<?php echo Yii::app()->createUrl('accessManage/assignment/groupUser/user',array('id'=>$value['advertiser_id']));?>">用户组授权</a>
+					<a href="<?php echo Yii::app()->createUrl('accessManage/assignment/role/user',array('id'=>$value['advertiser_id']));?>">角色授权</a>
+					<a href="<?php echo Yii::app()->createUrl('ad/advertiser/update',array('id'=>$value['advertiser_id']));?>">修改信息</a>|
 					<a href="<?php echo Yii::app()->createUrl('ad/advertiser/delete',array('id'=>$value['advertiser_id']));?>">删除</a>
 					</td>
 				</tr>

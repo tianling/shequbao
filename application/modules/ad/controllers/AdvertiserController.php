@@ -33,6 +33,7 @@ class AdvertiserController extends SqbController
 		$advertiserData = Advertiser::model()->findAll($criteria);
 		//var_dump($advertiserData);
 		//die();
+		$this->addToSubNav('添加广告主','advertiser/create');
 		$this->pageTitle = '广告主管理';
 		$this->render('index',array('advertiserData'=>$advertiserData,'pages'=>$page));
 	}

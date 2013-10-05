@@ -1,25 +1,24 @@
 <div class="form-list">
-	<div class="form-title">缴费管理</div>
+	<div class="form-title">用户反馈管理</div>
 		<div class="table-list">
 			<table width="100%" cellspacing="0" id="tree">
 				<thead>
 					<tr>
-						<th width="30%">费用种类</th>
-						<th width="15%">金额</th>
-						<th width="40%">提交时间</th>
+						<th width="30%">用户昵称</th>
+						<th width="30%">提交时间</th>
 						<th width="40%">管理操作</th>
 					</tr>
 				</thead>
 
 				<tbody align="center">
 					<?php
-					foreach($ChargeData as $key =>$value){
+					foreach($messageData as $key =>$value){
 					?>
 				<tr>
-					<td><?php echo UserChargeInfo::getChargeName($value->type);?></td>
-					<td><?php echo $value->charge;?></td>
-					<td><?php echo date('Y-m-d H:i:s',$value->add_time);?></td>
-					<td><a href="<?php echo Yii::app()->createUrl('user/usercharge/delete',array('id'=>$value->id,'uid'=>$value->uid));?>">删除</a></td>
+					<td><?php echo $value->UserMessage->nickname;?></td>
+					<td><?php echo date('Y:m:d H:i:s',$value->add_time);?></td>
+					<td><a href="<?php echo Yii::app()->createUrl('sqbadmin/usermessage/view',array('id'=>$value->id));?>">查看</a>|
+					<a href="<?php echo Yii::app()->createUrl('sqbadmin/usermessage/delete',array('id'=>$value->id));?>">删除</a></td>
 				</tr>
 				<?php }?>
 
