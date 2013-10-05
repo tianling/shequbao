@@ -11,9 +11,12 @@
 		<table width="100%" cellspacing="0" id="tree">
 			<thead>
 				<tr>
-					<th width="8%">id</th>
-					<th width="15%">用户组名称</th>
-					<th width="20%">用户组描述</th>
+					<th width="10%">昵称</th>
+					<th width="10%">手机号码</th>
+					<th width="15%">邮箱</th>
+					<th width="2%">创建群数</th>
+					<th width="8%">身份证</th>
+					<th width="8%">上次登录时间</th>
 					<th width="20%">管理操作</th>
 				</tr>
 			</thead>
@@ -21,14 +24,13 @@
 			<tbody>
 			<?php foreach ( $list as $data ):?>
 				<tr>
-					<td><?php echo $data->primaryKey;?></td>
-					<td><?php echo $data->group_name;?></td>
-					<td><?php echo $data->description;?></td>
-					<td>
-						<a href="<?php echo $this->createUrl('/accessManage/assignment/groupRole',array('group'=>$data->primaryKey))?>">角色授权</a> | 
-						<a href="<?php echo $this->createUrl('group/edit',array('id'=>$data->primaryKey))?>">编辑</a> | 
-						<a href="<?php echo $this->createUrl('group/delete',array('id'=>$data->primaryKey))?>">删除</a>
-					</td>
+					<td><?php echo $data->nickname;?></td>
+					<td><?php echo $data->mobile;?></td>
+					<td><?php echo $data->email;?></td>
+					<td><?php echo $data->groups;?></td>
+					<td><?php echo $data->identity_id;?></td>
+					<td><?php echo date('Y年m月d日',$data->last_login_time);?></td>
+					<td></td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>

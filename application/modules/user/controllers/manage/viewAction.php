@@ -14,7 +14,7 @@ class viewAction extends CmsAction{
 		$criteria = new CDbCriteria();
 		$count = $model->count();
 		$pager = new CPagination($count);
-		$pager->pageSize = 30;
+		$pager->pageSize = 20;
 		$pager->applyLimit($criteria);
 		
 		$criteria->with = array(
