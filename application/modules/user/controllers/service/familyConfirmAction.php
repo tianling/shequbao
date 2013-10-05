@@ -28,7 +28,13 @@ class familyConfirmAction extends CmsAction{
 			$chatManager = $this->app->getComponent('chatManager');
 			$chatManager->getPusher()->setTimeToLive(864000);
 			$alias = 'user'.$family->master_id;
-			$chatManager->pushNotification(1,$alias,1,'家庭成员同意加入您的家庭','社区宝聊天',array('time'=>time()));
+			
+			$extras[] = time();
+			$extras['ios'] = array(
+					'badge' => 1,
+					'sound' => 'happy'
+			);
+			$chatManager->pushNotification(1,$alias,1,'家庭成员同意加入您的家庭','社区宝聊天',$extras);
 			
 			$this->response(200);
 		}else {

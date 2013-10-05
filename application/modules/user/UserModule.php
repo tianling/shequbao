@@ -10,16 +10,18 @@ class UserModule extends CmsModule{
 	public function init(){
 		Yii::import('application.modules.user.models.*');
 		Yii::import('application.modules.user.components.*');
-		
-		Yii::app()->setComponent('user',array(
-				'stateKeyPrefix' => Yii::app()->params['frontUserStateKeyPrefix'],
-				'allowAutoLogin' => true,
-				'guestName' => '游客',
-				//'authTimeout' => 600
-		));
 	}
 	
 	public static function loadSelfModels(){
 		Yii::import('application.modules.user.models.*');
+	}
+	
+	public function configureUser(){
+		Yii::app()->setComponent('user',array(
+		'stateKeyPrefix' => Yii::app()->params['frontUserStateKeyPrefix'],
+		'allowAutoLogin' => true,
+		'guestName' => '游客',
+		//'authTimeout' => 600
+		));
 	}
 }

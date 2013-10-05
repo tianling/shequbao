@@ -10,6 +10,11 @@ class ServiceController extends CmsController{
 	
 	public $actionClassPathAlias = 'application.modules.user.controllers';
 	
+	public function init(){
+		parent::init();
+		$this->getModule()->configureUser();
+	}
+	
 	public function filters(){
 		$filters = parent::filters();
 		$filters['hasLogined'][0] = $filters['hasLogined'][0].' - create,login,verificationCode,resetPassword';
