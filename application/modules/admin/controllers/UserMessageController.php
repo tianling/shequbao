@@ -25,22 +25,12 @@ class UserMessageController extends SqbController
 					'UserMessage'=>array('select'=>'nickname'),
 				);
 		$count = MessageBoard::model()->count($criteria);
+		$page=new CPagination($count);
+		$page->pageSize=16;
+		$page->applyLimit($criteria);
 		$messageData = MessageBoard::model()->findAll($criteria);
-		if(!empty($messageData)){
-			foreach($messageData as $key =>$value){
-				$nickname = $value->getRelated('UserMessage');
-				$username = $nickname->nickname;
-
-				$messageInfo[] = array(
-							'nickname'=>$username,
-							'id'=>$value->id,
-							'add_time'=>$value->add_time,
-						);
-				
-			}
-		}
 		$this->pageTitle = '反馈管理';
-		$this->render('index',array('messageData'=>$messageInfo,'count'=>$count));
+		$this->render('index',array('messageData'=>$messageData,'pages'=>$page));
 
 	}
 
@@ -116,11 +106,11 @@ class UserMessageController extends SqbController
 			if(!empty($messageData)){
 				$dataM = $messageData->delete();
 				if($dataM>0)
-					$this->redirect(Yii::app()->createUrl('user/usermessage/index'));	
+					$this->showMessage('删除成功','usermessage/index');
 			}
 
 		}
-		$this->redirect(Yii::app()->createUrl('user/UserMessage/index'));	
+		$this->redirect(Yii::app()->createUrl('admin/UserMessage/index'));	
 
 	}
 

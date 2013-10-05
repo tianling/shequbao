@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "{{user_charge_info}}".
+ * This is the model class for table "{{message_board}}".
  *
- * The followings are the available columns in table '{{user_charge_info}}':
+ * The followings are the available columns in table '{{message_board}}':
  * @property string $id
  * @property string $uid
- * @property integer $type
- * @property string $charge
- * @property integer $add_time
+ * @property string $content
+ * @property string $add_time
+ * @property string $add_ip
  *
  * The followings are the available model relations:
- * @property SqbUser $u
+ * @property User $u
  */
-class UserChargeInfo extends CActiveRecord
+class MessageBoard extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{user_charge_info}}';
+		return '{{message_board}}';
 	}
 
 	/**
@@ -31,13 +31,12 @@ class UserChargeInfo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('uid, type, charge, add_time', 'required'),
-			array('type, add_time', 'numerical', 'integerOnly'=>true),
-			array('uid', 'length', 'max'=>11),
-			array('charge', 'length', 'max'=>15),
+			array('uid, content, add_time, add_ip', 'required'),
+			array('uid, add_time', 'length', 'max'=>11),
+			array('add_ip', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, uid, type, charge, add_time', 'safe', 'on'=>'search'),
+			array('id, uid, content, add_time, add_ip', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +48,7 @@ class UserChargeInfo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'u' => array(self::BELONGS_TO, 'SqbUser', 'uid'),
+			'UserMessage' => array(self::BELONGS_TO, 'UserModel', 'uid'),
 		);
 	}
 
@@ -61,47 +60,10 @@ class UserChargeInfo extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'uid' => 'Uid',
-			'type' => 'Type',
-			'charge' => 'Charge',
+			'content' => 'Content',
 			'add_time' => 'Add Time',
+			'add_ip' => 'Add Ip',
 		);
-	}
-
-	public  static function getChargeName($charge){
-		if(!empty($charge) && is_numeric($charge)){
-			switch($charge){
-
-				case 6:
-					$ChargeName = "水费";
-					break;
-
-				case 1:
-					$ChargeName = "电费";
-					break;
-
-				case 2:
-					$ChargeName = "气费";
-					break;
-
-				case 3:
-					$ChargeName = "垃圾处理费";
-					break;
-
-				case 4:
-					$ChargeName = "物管费";
-					break;
-
-				case 5:
-					$ChargeName = "其他费用";
-					break;
-
-				default:
-					$ChargeName = "error";
-					break;
-
-			}
-			return $ChargeName;
-		}
 	}
 
 	/**
@@ -124,9 +86,9 @@ class UserChargeInfo extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('uid',$this->uid,true);
-		$criteria->compare('type',$this->type);
-		$criteria->compare('charge',$this->charge,true);
-		$criteria->compare('add_time',$this->add_time);
+		$criteria->compare('content',$this->content,true);
+		$criteria->compare('add_time',$this->add_time,true);
+		$criteria->compare('add_ip',$this->add_ip,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -137,7 +99,7 @@ class UserChargeInfo extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserChargeInfo the static model class
+	 * @return MessageBoard the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
