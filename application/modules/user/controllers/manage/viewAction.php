@@ -10,6 +10,7 @@ class viewAction extends CmsAction{
 	public function run(){
 		$model = SqbUser::model();
 		$data = array();
+		$searchFromUrlParams = array();
 		
 		$criteria = new CDbCriteria();
 		$criteria->with = array(
@@ -30,12 +31,13 @@ class viewAction extends CmsAction{
 		$pager->pageSize = 30;
 		$pager->applyLimit($criteria);
 		
-		
 		$data = $model->findAll($criteria);
 		
 		$this->getController()->addToSubNav('添加用户','manage/add');
 		$this->getController()->addToSubNav('批量添加用户','manage/addMulti');
 		$this->setPageTitle('用户列表');
-		$this->render('view',array('list' => $data,'pager'=>$pager ,'keyword'=>$keyword));
+		
+		$searchFormAction = $this->createUrl('manage/view',$searchFromUrlParams);
+		$this->render('view',array('list' => $data,'pager'=>$pager ,'keyword'=>$keyword,'searchFormAction'=>$searchFormAction));
 	}
 }

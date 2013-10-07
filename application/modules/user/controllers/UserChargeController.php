@@ -75,7 +75,7 @@ class UserChargeController extends sqbController
 			$page->applyLimit($criteria);
 			$ChargeData = UserChargeInfo::model()->findAll($criteria);
 			if(!empty($ChargeData)){
-					$this->pageTitle = '欠费管理';	
+					$this->pageTitle = '缴费查询';	
 					$this->render('index',array(
 					'ChargeData'=>$ChargeData,
 					'pages'=>$page,
@@ -83,7 +83,7 @@ class UserChargeController extends sqbController
 			}
 				
 		}
-		$this->pageTitle = '欠费管理';	
+		$this->pageTitle = '缴费查询';	
 	}
 
 	

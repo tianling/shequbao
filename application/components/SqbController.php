@@ -24,6 +24,8 @@ class SqbController extends CmsController{
 		$this->jsUrl = $this->request->baseUrl.'/js/';
 		$this->pluginUrl = $this->request->baseUrl.'/plugins/';
 		$this->user = $this->app->getUser();
+		
+		$this->addToSubNav('首页','/site/welcome');
 	}
 	
 	public function accessRules(){
@@ -40,8 +42,8 @@ class SqbController extends CmsController{
 		$this->redirect($this->createUrl('/site/login'));
 	}
 	
-	public function addToSubNav($text,$url,$title=''){
-		$html = $this->renderPartial('//common/subNavButton',array('text'=>$text,'url'=>$this->createUrl($url),'title'=>$title),true);
+	public function addToSubNav($text,$route,$title=''){
+		$html = $this->renderPartial('//common/subNavButton',array('text'=>$text,'url'=>$this->createUrl($route),'title'=>$title),true);
 		$this->subNavs[] = $html;
 	}
 	

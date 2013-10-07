@@ -7,7 +7,7 @@
  * Encoding UTF-8
  */
 ?>
-<form action="<?php echo $this->createUrl('manage/view');?>" method="get" name="searchUser[searchUser]">
+<form action="<?php echo $searchFormAction;?>" method="get" name="searchUser[searchUser]">
 	<div class="searchUser">
 	搜索用户<input type="text" class="form-input-text" value="<?php echo $keyword?>" placeholder="输入昵称查找" name="searchUser[nickname]"/>
 	<input type="submit" value="搜索" name="searchUser[submit]" class="form-button" />

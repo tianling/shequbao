@@ -1,5 +1,4 @@
 <div class="table-list">
-	<div class="form-title">缴费管理</div>
 		<div class="table-list">
 			<table width="100%" cellspacing="0" id="tree">
 				<thead>
