@@ -45,7 +45,7 @@ class SqbConfig extends ConfigBase{
 								'class' => 'application.modules.accessManage.AccessManageModule'
 						),
 						'community'=>array(
-								'class'=>'application.modules.community.CommunityModule',
+								'class'=>'application.modules.community.CommunityModule'
 						),
 				),
 				'preloadModels' => array(

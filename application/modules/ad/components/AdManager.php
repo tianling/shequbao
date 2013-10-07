@@ -20,7 +20,7 @@ class AdManager extends CApplicationComponent{
 	 */
 	public function adGetRandom(){
 		$criteria= new CDbCriteria;
-		$criteria->select = 'advertiser_id,balance,phone';
+		$criteria->select = 'advertiser_id,balance,phone,ads';
 		$criteria->condition = 'balance>0 AND ads>0';
 		$count = Advertiser::model()->count($criteria);
 		$top = rand(0,$count-1);
@@ -28,12 +28,13 @@ class AdManager extends CApplicationComponent{
 		$criteria->offset = $top;
 		$advertiserData = Advertiser::model()->findAll($criteria);
 		$advertiser_id = $advertiserData[0]['advertiser_id'];
+		$advertiser_ads = $advertiserData[0]['ads'];
 		//从该用户发布的广告中随机选取一部分照片，然后按照曝光次数和优先级推送一条
 		$criteria = new CDbCriteria;
 		$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority';
 		$criteria->condition = 'advertiser_id = "'.$advertiser_id.'" ';
-		$adCount = Advertise::model()->count($criteria);
-		$top = rand(0,$count-4);
+		$adCount = $advertiser_ads;
+		$top = rand(0,$adCount-4);
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';

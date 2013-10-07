@@ -25,8 +25,6 @@ class ServiceController extends CmsController{
 		if(!empty($resourceId) && is_numeric($id) && !empty($uid) && is_numeric($uid)){
 			$CostPay = $this->app->AdManager->adVerCost($resourceId,$id);
 			$adClick = $this->app->AdManager->adClick($resourceId,$uid);
-			echo $adClick;
-			die();
 			if($CostPay == 200 && $adClick == 200)
 				$this->response($CostPay,'','扣费操作成功');
 			else
