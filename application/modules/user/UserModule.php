@@ -21,7 +21,7 @@ class UserModule extends CmsModule{
 		'stateKeyPrefix' => Yii::app()->params['frontUserStateKeyPrefix'],
 		'allowAutoLogin' => true,
 		'guestName' => '游客',
-		//'authTimeout' => 600
+		'authTimeout' => 3600
 		));
 	}
 }
