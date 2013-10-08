@@ -1,34 +1,15 @@
 <?php
 
-/**
- * This is the model class for table "{{community}}".
- *
- * The followings are the available columns in table '{{community}}':
- * @property string $id
- * @property string $location
- * @property string $community_name
- *
- * The followings are the available model relations:
- * @property ChatRoom[] $chatRooms
- * @property AuthGroups $id0
- * @property Area $location0
- * @property SqbUser[] $xcmsSqbUsers
- * @property Property[] $xcmsProperties
- * @property UserAddress[] $userAddresses
- */
+
 class Community extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+	
 	public function tableName()
 	{
 		return '{{community}}';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
+	
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
@@ -43,9 +24,7 @@ class Community extends CActiveRecord
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
+	
 	public function relations()
 	{
 		// NOTE: you may need to adjust the relation name and the related
@@ -60,9 +39,8 @@ class Community extends CActiveRecord
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
+
+
 	public function attributeLabels()
 	{
 		return array(
@@ -72,8 +50,7 @@ class Community extends CActiveRecord
 		);
 	}
 
-
-
+	
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -88,7 +65,6 @@ class Community extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
 
 	public static function model($className=__CLASS__)
 	{

@@ -31,7 +31,14 @@ class AdvertiseController extends SqbController
 
 			if($model->save())
 			{
-				
+				$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($model->advertiser_id);
+
+				if(!empty($advertiserAds)){
+					$ads_old = $advertiserAds->ads;
+					$advertiserAds->ads = $ads_old +1;
+					$advertiserAds->save();
+				}
+
 				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
 					$pid = $_SESSION['pid'];
 					$picModel = AdvertisePic::model()->findByPk($pid);
@@ -39,6 +46,7 @@ class AdvertiseController extends SqbController
 					$_SESSION['pid'] = null;
 					$picModel->save();		
 				}
+
 				$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 			}else{
 				$this->redirect(Yii::app()->createUrl('site/index'));
@@ -98,7 +106,20 @@ class AdvertiseController extends SqbController
 		if(!empty($id) && is_numeric($id)){
 			$adModel = Advertise::model()->findByPk($id);
 			if(!empty($adModel)){
-				$adModel->delete();
+				$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($adModel->advertiser_id);
+				if(!empty($advertiserAds)){
+					$ads_old = $advertiserAds->ads;
+					$advertiserAds->ads = $ads_old -1;
+					if($advertiserAds->save()){
+						$adModel->delete();
+						$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
+					}else{
+						$this->redirect(Yii::app()->createUrl('site/index'));
+					}
+					
+				}
+				
+
 			}
 		}
 		$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
@@ -157,17 +178,12 @@ class AdvertiseController extends SqbController
 					$thumbName = "thumbs".$randName.".".$picType;
 					$saveThumb = $thumbDir.$thumbName;
 					$thumbUrl = Tool::getThumb($saveUrl,300,300,$saveThumb);//制作缩略图并放回缩略图存储路径
-					//echo $saveUrl;
-					//echo " ".$saveThumb;
 					$thumbUrl = str_replace(dirname(Yii::app()->basePath),"",$thumbUrl);
-					//echo "</br>".$thumbUrl;
 					//保存信息到数据库
 					$model = new AdvertisePic;
-					$model->ad_id = 3;
 					$model->url = $picUrl;
 					$model->description = $picName;
 					$model->thumb_url = $thumbUrl;
-					//$model->picAddTime = date('Y-m-d H:i:s');
 					$model->save();
 					$id = $model->attributes['id'];
 					$_SESSION['pid'] = $id;
