@@ -45,7 +45,7 @@ class SqbConfig extends ConfigBase{
 								'class' => 'application.modules.accessManage.AccessManageModule'
 						),
 						'community'=>array(
-								'class'=>'application.modules.community.CommunityModule'
+								'class' => 'application.modules.community.CommunityModule',
 						),
 				),
 				'preloadModels' => array(
@@ -142,7 +142,7 @@ class SqbConfig extends ConfigBase{
 						
 				),
 				'params' => array(
-						'copyright' => 'Copyright &copy; 2012-2013 <a href="http://www.caixiao2.com">www.caixiao2.com</a>'
+						'copyright' => 'Copyright &copy; 2012-2013 南工',
 				),
 		);
 	}

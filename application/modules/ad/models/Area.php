@@ -50,19 +50,6 @@ class Area extends CActiveRecord
 		);
 	}
 
-	public static function getAreaName($area){
-		if(!empty($area)){
-			$areaData = Area::model()->findAll('id =:area',array(':area'=>$area));
-			if(!empty($areaData)){
-				$areaName = $areaData[0]['area_name'];
-				return $areaName;
-			}
-			
-
-		}
-	} 
-
-
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.

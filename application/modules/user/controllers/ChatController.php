@@ -12,9 +12,9 @@ class ChatController extends SqbController{
 	public function getActionClass(){
 		return array(
 				'viewChat',
-				'userChat',
-				'groupChat',
-				'roomChat'
+				'user' => array('class'=>'userChat'),
+				'group' => array('class'=>'groupChat'),
+				'room' => array('class'=>'roomChat')
 		);
 	}
 }

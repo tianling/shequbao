@@ -19,11 +19,11 @@
 				?>
 				<tr>
 					<td><?php echo $value->community_name;?></td>
-					<td><?php echo Area::getAreaName($value->location);?></td>
+					<td><?php echo $value->area->area_name;?></td>
 					<td>
-          <a href="<?php echo Yii::app()->createUrl('ad/community/update',array('id'=>$value['id']));?>">修改信息</a>|
-					<a href="<?php echo Yii::app()->createUrl('ad/community/delete',array('id'=>$value['id']));?>">删除</a>|
-          <a href="<?php echo Yii::app()->createUrl('ad/community/view',array('id'=>$value['id']));?>">家庭查看</a>
+          <a href="<?php echo $this->createUrl('community/update',array('id'=>$value['id']));?>">修改信息</a>|
+					<a href="<?php echo $this->createUrl('community/delete',array('id'=>$value['id']));?>">删除</a>|
+          <a href="<?php echo $this->createUrl('community/view',array('id'=>$value['id']));?>">家庭查看</a>
           </td>
 				</tr>
 				<?php }?>

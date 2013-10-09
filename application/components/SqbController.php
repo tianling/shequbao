@@ -42,8 +42,8 @@ class SqbController extends CmsController{
 		$this->redirect($this->createUrl('/site/login'));
 	}
 	
-	public function addToSubNav($text,$route,$title=''){
-		$html = $this->renderPartial('//common/subNavButton',array('text'=>$text,'url'=>$this->createUrl($route),'title'=>$title),true);
+	public function addToSubNav($text,$route,$title='',$urlParams=array()){
+		$html = $this->renderPartial('//common/subNavButton',array('text'=>$text,'url'=>$this->createUrl($route,$urlParams),'title'=>$title),true);
 		$this->subNavs[] = $html;
 	}
 	

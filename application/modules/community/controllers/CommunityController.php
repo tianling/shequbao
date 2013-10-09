@@ -2,14 +2,6 @@
 
 class CommunityController extends SqbController
 {
-	
-	public function filters()
-	{
-		return array(
-		);
-	}
-
-	
 	public function actionView($id)
 	{
 		$this->render('view',array(
@@ -22,14 +14,20 @@ class CommunityController extends SqbController
 		$id = Yii::app()->user->id;
 
 		$criteria = new CDbCriteria;
-		$criteria ->select = 'id,location,community_name';
-		$criteria ->order = 'id DESC';
-
-		$count=Community::model()->count($criteria);
+		$criteria->alias = 'com';
+		$criteria ->select = 'com.id,location,community_name';
+		$criteria ->order = 'com.id DESC';
+		
+		$count = Community::model()->count($criteria);
 		$page=new CPagination($count);
 		$page->pageSize=16;
 		$page->applyLimit($criteria);
 
+		$criteria->with = array(
+				'area' => array(
+						'alias' => 'area'
+				)
+		);
 		$communityData = Community::model()->findAll($criteria);
 		
 		$this->pageTitle = '小区管理';

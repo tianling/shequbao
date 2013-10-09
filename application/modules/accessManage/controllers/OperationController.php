@@ -15,7 +15,8 @@ class OperationController extends SqbController{
 				'add',
 				'view',
 				'edit',
-				'delete'
+				'delete',
+				'scan'
 		);
 	}
 	

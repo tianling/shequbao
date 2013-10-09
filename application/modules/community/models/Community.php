@@ -53,7 +53,7 @@ class Community extends CActiveRecord
 		return array(
 			'chatRooms' => array(self::HAS_MANY, 'ChatRoom', 'community_id'),
 			'id0' => array(self::BELONGS_TO, 'AuthGroups', 'id'),
-			'location0' => array(self::BELONGS_TO, 'Area', 'location'),
+			'area' => array(self::BELONGS_TO, 'Area', 'location'),
 			'xcmsSqbUsers' => array(self::MANY_MANY, 'SqbUser', '{{community_user}}(community_id, user_id)'),
 			'xcmsProperties' => array(self::MANY_MANY, 'Property', '{{property_community}}(community_id, property_id)'),
 			'userAddresses' => array(self::HAS_MANY, 'UserAddress', 'community'),

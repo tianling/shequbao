@@ -1,9 +1,6 @@
 <?php
 class CommunityModule extends CmsModule{
-
 	public function init(){
-		$this->defaultController = 'index';
-		
 		Yii::import('community.components.*');
 		Yii::import('community.models.*');
 		Yii::import('application.helpers.*');
@@ -11,9 +8,8 @@ class CommunityModule extends CmsModule{
 				'CommunityManager' => array(
 						'class' => 'community.components.CommunityManager'
 				),
-				
 		));
 	}
-	
+
 }
 ?>
