@@ -34,7 +34,6 @@ class viewAction extends CmsAction{
 		$data = $model->findAll($criteria);
 		
 		$this->getController()->addToSubNav('添加用户','manage/add');
-		$this->getController()->addToSubNav('批量添加用户','manage/addMulti');
 		$this->setPageTitle('用户列表');
 		
 		$searchFormAction = $this->createUrl('manage/view',$searchFromUrlParams);

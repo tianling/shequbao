@@ -1,24 +1,7 @@
 <?php
 
-class UserChargeController extends sqbController
+class UserChargeController extends SqbController
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	
-
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			
-		);
-	}
-
-
 	public function actionView($id)
 	{
 		$this->render('view',array(
