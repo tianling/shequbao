@@ -28,6 +28,7 @@ class viewAction extends CmsAction{
 		
 		$this->getController()->registerTreePlugin();
 		$this->getController()->addToSubNav('添加操作','operation/add');
+		$this->getController()->addToSubNav('自动扫描','operatioin/scan');
 		$this->setPageTitle('操作管理');
 		$this->render('view',array('list' => $data));
 	}

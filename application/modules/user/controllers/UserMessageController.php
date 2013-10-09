@@ -34,7 +34,9 @@ class UserMessageController extends SqbController
 				$messageInfo[] = array(
 							'nickname'=>$username,
 							'id'=>$value->id,
+							'content' => $value->cotent,
 							'add_time'=>$value->add_time,
+							'ip' => $value->add_ip,
 						);
 				
 			}
@@ -43,20 +45,7 @@ class UserMessageController extends SqbController
 		$this->render('index',array('messageData'=>$messageInfo,'count'=>$count));
 
 	}
-
-	public function actionView($id){
-		if(!empty($id) && is_numeric($id)){
-			$messageData = MessageBoard::model()->findByPk($id);
-			if(!empty($messageData)){
-				$content = $messageData->content;
-			}
-		}
-		$this->pageTitle = '反馈查看';
-		$this->render('view',array('content'=>$content));
-	}
-
 	
-
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.

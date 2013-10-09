@@ -1,30 +1,35 @@
 <?php
-/* @var $this UserMessageController */
-/* @var $model MessageBoard */
-
-$this->breadcrumbs=array(
-	'Message Boards'=>array('index'),
-	$model->id,
-);
-
-$this->menu=array(
-	array('label'=>'List MessageBoard', 'url'=>array('index')),
-	array('label'=>'Create MessageBoard', 'url'=>array('create')),
-	array('label'=>'Update MessageBoard', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete MessageBoard', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage MessageBoard', 'url'=>array('admin')),
-);
+/**
+ * @name view.php UTF-8
+ * @author ChenJunAn<lancelot1215@gmail.com>
+ * 
+ * Date 2013-10-9
+ * Encoding UTF-8
+ */
 ?>
+<div calss="table-list">
+		<table width="100%" cellspacing="0" id="tree">
+				<thead>
+					<tr>
+						
+						<th width="30%">反馈内容</th>
+						<th width="30%">提交时间</th>
+						<th width="40%">管理操作</th>
+					</tr>
+				</thead>
 
-<h1>View MessageBoard #<?php echo $model->id; ?></h1>
+				<tbody align="center">
+					<?php
+					for($i =0 ; $i< $count ;$i++ ){
+					?>
+				<tr>
+					<td><?php echo $messageData[$i]['nickname'];?></td>
+					<td><?php echo date('Y:m:d H:i:s',$messageData[$i]['add_time']);?></td>
+					<td><a href="<?php echo $this->createUrl('usermessage/view',array('id'=>$messageData[$i]['id']));?>">查看</a>|
+					<a href="<?php echo $this->createUrl('usermessage/delete',array($messageData[$i]['id']));?>">删除</a></td>
+				</tr>
+				<?php }?>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'uid',
-		'content',
-		'add_time',
-		'add_ip',
-	),
-)); ?>
+				</tbody>
+		</table>
+</div>
