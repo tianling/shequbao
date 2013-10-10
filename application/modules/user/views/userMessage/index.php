@@ -16,8 +16,8 @@
 					<td><?php echo $messageData['content']?></td>
 					<td><?php echo date('Y:m:d H:i:s',$messageData['add_time']);?></td>
 					<td>
-						<a href="<?php echo $this->createUrl('usermessage/reply',array('id'=>$messageData['id']))?>">回复</a> | 
-						<a href="<?php echo $this->createUrl('usermessage/delete',array('id'=>$messageData['id']));?>">删除</a>
+						<a href="<?php echo $this->createUrl('userMessage/reply',array('id'=>$messageData['id']))?>">回复</a> | 
+						<a href="<?php echo $this->createUrl('userMessage/delete',array('id'=>$messageData['id']));?>">删除</a>
 					</td>
 				</tr>
 				<?php endforeach;?>
