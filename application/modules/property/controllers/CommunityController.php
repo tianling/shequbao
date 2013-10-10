@@ -1,5 +1,4 @@
 <?php
-
 class CommunityController extends SqbController
 {
 	public function actionView($id)
@@ -8,7 +7,6 @@ class CommunityController extends SqbController
 			'model'=>$this->loadModel($id),
 		));
 	}
-
 
 	public function actionIndex(){
 		$id = Yii::app()->user->id;

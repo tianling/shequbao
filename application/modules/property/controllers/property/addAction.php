@@ -3,27 +3,23 @@
  * @name addAction.php UTF-8
  * @author ChenJunAn<lancelot1215@gmail.com>
  * 
- * Date 2013-10-5
+ * Date 2013-10-10
  * Encoding UTF-8
  */
 class addAction extends CmsAction{
 	public function run(){
-		$model = new Administrators();
+		$model = new Property();
 		
-		$post = $this->getPost('Administrators',null);
-		
+		$post = $this->getPost('Property',null);
 		if ( $post !== null ){
-			$post['last_login_ip'] = $this->request->userHostAddress;
-			$post['last_login_time'] = time();
 			$model->attributes = $post;
-				
 			if ( $model->save() ){
-				$this->getController()->showMessage('添加成功','user/view');
+				$this->getController()->showMessage('添加成功','property/view');
 			}
 		}
 		
+		$this->pageTitle = '添加物管';
 		$form = $this->getController()->getForm($model);
-		$this->setPageTitle('添加管理员');
 		$this->render('add',array('form'=>$form));
 	}
 }

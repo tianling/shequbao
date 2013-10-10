@@ -41,7 +41,7 @@ class Advertise extends CmsActiveRecord
 			array('advertiser_id','exist','className'=>'Advertiser','attributeName'=>'advertiser_id','message'=>'广告主不存在'),
 			array('pay_type, priority,cpm, cpc', 'numerical', 'integerOnly'=>true),
 			array('view, click','safe'),
-			array('cpc','length','min'=>0),
+			array('cpc','numerical','min'=>0,'allowEmpty'=>false,'message'=>'{attribute}不能小于0'),
 			array('advertiser_id', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>20),
 			array('direct_to', 'length', 'max'=>255),

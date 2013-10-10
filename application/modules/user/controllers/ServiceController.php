@@ -114,13 +114,16 @@ class ServiceController extends CmsController{
 		}
 	}
 
-	public function actionCreateMessage($uid,$content){
-		if(!empty($uid) && !empty($content) && is_numeric($uid)){
-			$messageAdd = $this->app->UserManager->messageAdd($uid,$content);
-			if($messageAdd == 200)
-				$this->response(200,'','反馈添加成功');
+	public function actionCreateMessage($resourceId){
+		$content = $this->getPost('content',null);
+		if( $content !== null ){
+			$messageAdd = $this->app->UserManager->messageAdd($resourceId,$content);
+			if( $messageAdd->hasErrors() === false )
+				$this->response(200,'反馈添加成功');
 			else
-				$this->response(400,'','发生错误');
+				$this->response(201,'发生错误',$messageAdd->getErrors());
+		}else {
+			$this->response(201);
 		}
 	}
 

@@ -59,12 +59,12 @@ class Administrators extends SingleInheritanceModel
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
+	public function labels()
 	{
 		return array(
 			'id' => 'ID',
-			'surname' => 'Surname',
-			'name' => 'Name',
+			'surname' => '姓氏',
+			'name' => '名字',
 			'phone' => '手机号',
 			'email' => '邮箱'
 		);

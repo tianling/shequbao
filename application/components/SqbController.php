@@ -11,6 +11,10 @@ class SqbController extends CmsController{
 	public $cssUrl;
 	public $jsUrl;
 	public $pluginUrl;
+	/**
+	 * 
+	 * @var AuthUser
+	 */
 	public $user;
 	
 	public $subNavs = array();
@@ -81,6 +85,6 @@ class SqbController extends CmsController{
 	}
 	
 	public function accessDenied(){
-		$this->showMessage('您无权访问此页面','/site/index');
+		$this->showMessage('您无权访问此页面','/site/welcome');
 	}
 }

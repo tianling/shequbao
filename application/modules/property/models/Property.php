@@ -1,25 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "{{advertiser}}".
+ * This is the model class for table "{{property}}".
  *
- * The followings are the available columns in table '{{advertiser}}':
- * @property string $advertiser_id
- * @property double $balance
- * @property string $phone
+ * The followings are the available columns in table '{{property}}':
+ * @property string $id
+ * @property string $property_name
  *
  * The followings are the available model relations:
- * @property Advertise[] $advertises
+ * @property Community[] $xcmsCommunities
+ * @property PropertyPush[] $propertyPushes
  */
-class Advertiser extends SingleInheritanceModel
+class Property extends CmsActiveRecord
 {
-	protected $_parentRelation = 'baseUser';
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{advertiser}}';
+		return '{{property}}';
 	}
 
 	/**
@@ -30,16 +29,11 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email,phone,balance','required','message'=>'{attribute}不能为空'),
-			array('advertiser_id', 'required','on'=>'update'),
-			array('balance','numerical','min'=>0,'message'=>'余额最低为0','tooSmall'=>'余额最低为0','tooBig'=>'余额最低为0'),
-			array('advertiser_id, phone', 'length', 'max'=>11),
-			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
-			array('email', 'email', 'message'=>'邮箱格式不正确'),
-			array('email', 'unique', 'message'=>'邮箱已被注册'),
+			array('property_name', 'required'),
+			array('property_name', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('advertiser_id, balance, phone', 'safe', 'on'=>'search'),
+			array('id, property_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,18 +45,19 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'advertises' => array(self::HAS_MANY, 'Advertise', 'advertiser_id'),
-			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'advertiser_id'),
+			'xcmsCommunities' => array(self::MANY_MANY, 'Community', '{{property_community}}(property_id, community_id)'),
+			'propertyPushes' => array(self::HAS_MANY, 'PropertyPush', 'property_id'),
 		);
 	}
-	
-	public function labels(){
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
 		return array(
-				'advertiser_id' => 'Advertiser',
-				'balance' => '余额',
-				'phone' => ' 电话',
-				'email' => 'Email',
-				'ads' =>'广告数目',
+			'id' => 'ID',
+			'property_name' => 'Property Name',
 		);
 	}
 
@@ -84,9 +79,8 @@ class Advertiser extends SingleInheritanceModel
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('advertiser_id',$this->advertiser_id,true);
-		$criteria->compare('balance',$this->balance);
-		$criteria->compare('phone',$this->phone,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('property_name',$this->property_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,7 +91,7 @@ class Advertiser extends SingleInheritanceModel
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Advertiser the static model class
+	 * @return Property the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
