@@ -22,8 +22,8 @@ class addAction extends CmsAction{
 			}
 		}
 		
-		$action = $this->createUrl('user/add');
+		$form = $this->getController()->getForm($model);
 		$this->setPageTitle('添加管理员');
-		$this->render('add',array('action'=>$action,'model'=>$model));
+		$this->render('add',array('form'=>$form));
 	}
 }

@@ -30,8 +30,9 @@ class Advertiser extends SingleInheritanceModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('email,phone,balance','required','message'=>'{attribute}不能为空'),
 			array('advertiser_id', 'required','on'=>'update'),
-			array('balance', 'numerical'),
+			array('balance','numerical','min'=>0,'message'=>'余额最低为0','tooSmall'=>'余额最低为0','tooBig'=>'余额最低为0'),
 			array('advertiser_id, phone', 'length', 'max'=>11),
 			array('email', 'length', 'max'=>50, 'message'=>'邮箱过长'),
 			array('email', 'email', 'message'=>'邮箱格式不正确'),
@@ -54,18 +55,14 @@ class Advertiser extends SingleInheritanceModel
 			'baseUser' => array(self::BELONGS_TO, 'UserModel', 'advertiser_id'),
 		);
 	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
+	
+	public function labels(){
 		return array(
-			'advertiser_id' => 'Advertiser',
-			'balance' => '余额',
-			'phone' => ' 电话',
-			'email' => 'Email',
-			'ads' =>'广告数目',
+				'advertiser_id' => 'Advertiser',
+				'balance' => '余额',
+				'phone' => ' 电话',
+				'email' => 'Email',
+				'ads' =>'广告数目',
 		);
 	}
 

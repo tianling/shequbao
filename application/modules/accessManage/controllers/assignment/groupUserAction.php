@@ -22,7 +22,7 @@ class groupUserAction extends CmsAction{
 				$assigner->grant(AuthAssigner::ITEM_GROUP,array('user_id'=>$userId,'group_id'=>$value))
 				->to(AuthAssigner::ITEM_USER)->doit();
 			}
-			$this->getController()->showMessage('授权成功','/sqbadmin/user/view');
+			$this->getController()->showMessage('授权成功','');
 		}
 		
 		$userGroups = $this->app->getAuthManager()->getCalculator()->findUserGroups($userId);

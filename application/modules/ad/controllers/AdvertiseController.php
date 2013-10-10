@@ -4,7 +4,7 @@ class AdvertiseController extends SqbController
 
 	public function actionIndex()
 	{	
-		$id = Yii::app()->user->id;
+		$id = $this->user->id;
 		$criteria = new CDbCriteria;
 		$criteria ->select = 'id,advertiser_id,title,cpc,priority';
 		$criteria ->condition = 'advertiser_id = '.$id.'';
@@ -18,25 +18,20 @@ class AdvertiseController extends SqbController
 		$this->addToSubNav('广告发布','advertise/create');
 		$this->pageTitle = '广告管理';
 		$this->render('index',array('advertiseData'=>$advertiseData,'pages'=>$page));
-
 	}
 
 	public function actionCreate()
 	{
-		
-		$model = new Advertise;
+		$model = new Advertise();
 		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
 			$model->attributes = $_POST['Advertise'];
-			$model->advertiser_id = Yii::app()->user->id;
+			$model->advertiser_id = $this->user->id;
 
-			if($model->save())
+			if( $model->validate() )
 			{
-				$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($model->advertiser_id);
-
-				if(!empty($advertiserAds)){
-					$ads_old = $advertiserAds->ads;
-					$advertiserAds->ads = $ads_old +1;
-					$advertiserAds->save();
+				if ( $model->cpc == 0 ){
+					$model->addError('cpc','扣费额度不能是0');
+					goto cpcIsZero;
 				}
 
 				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
@@ -44,18 +39,28 @@ class AdvertiseController extends SqbController
 					$picModel = AdvertisePic::model()->findByPk($pid);
 					$picModel->ad_id = $model->id;
 					$_SESSION['pid'] = null;
-					$picModel->save();		
+					$picModel->save();
+					$model->save(false);
+					
+					$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($model->advertiser_id);
+					
+					if( $advertiserAds !== null ){
+						++$advertiserAds->ads;
+						$advertiserAds->save();
+					}
+					
+					$this->showMessage('发布成功','advertise/index');
+				}else {
+					$model->addError('content','图片保存失败');
 				}
-
-				$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
-			}else{
-				$this->redirect(Yii::app()->createUrl('site/index'));
 			}
+			
 		}
-
+		
+		//goto
+		cpcIsZero:
 		$this->pageTitle = '发布广告';
 		$this->render('create',array('model'=>$model));
-
 	}
 
 	public function actionUpdate($id)
@@ -72,28 +77,36 @@ class AdvertiseController extends SqbController
 			}
 			if(isset($_POST['Advertise'])){
 				$model->attributes=$_POST['Advertise'];
-				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
-					$pid = $_SESSION['pid'];
-					$picModel = AdvertisePic::model()->findByPk($pid);
-					$picModel->ad_id = $model->id;
-					$_SESSION['pid'] = null;
-					$old_id = $model->id;
-					$old_data = AdvertisePic::model()->findAll('ad_id =:id',array(':id'=>$old_id));
-
-					if(!empty($old_data)){
-						$cleanOldData = AdvertisePic::model()->deleteAll('ad_id=:id',array('id'=>$old_id));
-						if($cleanOldData>0){
+				if( $model->validate() ){
+					if ( $model->cpc == 0 ){
+						$model->addError('cpc','扣费额度不能是0');
+						goto cpcIsZero;
+					}
+					
+					if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
+						$pid = $_SESSION['pid'];
+						$picModel = AdvertisePic::model()->findByPk($pid);
+						$picModel->ad_id = $model->id;
+						$_SESSION['pid'] = null;
+						$old_id = $model->id;
+						$old_data = AdvertisePic::model()->findAll('ad_id =:id',array(':id'=>$old_id));
+					
+						if(!empty($old_data)){
+							$cleanOldData = AdvertisePic::model()->deleteAll('ad_id=:id',array('id'=>$old_id));
+							if($cleanOldData>0){
+								$picModel->save();
+							}
+						}else{
 							$picModel->save();
 						}
-					}else{
-						$picModel->save();
-					}
 							
+					}
+					$model->save();
+					$this->showMessage('修改成功','advertise/index');
 				}
-				if($model->save())
-					$this->redirect(Yii::app()->createUrl('ad/advertise/index'));
 			}
 
+			cpcIsZero:
 			$this->pageTitle = '广告修改';
 			$this->render('update',array('model'=>$model,'adPic'=>$ad_thumb,));
 			
@@ -143,8 +156,7 @@ class AdvertiseController extends SqbController
 
 	}
 
-	public function actionUpload()
-		{
+	public function actionUpload(){
 			$typeArray = array('jpg','png','gif','bmp','jpeg');
 			$maxSize = 1024*1024*2; //最大文件大小约为2MB
 			if(isset($_FILES['Filedata'])){
@@ -195,8 +207,25 @@ class AdvertiseController extends SqbController
 					echo  json_encode($backData);
 				}
 			}
+	}
+	
+	public function actionViewAdByAdver(){
+		$adverId = $this->getQuery('id',null);
+		if ( $adverId === null ){
+			$this->redirect($this->createUrl('advertiser/index'));
 		}
-
-
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'advertiser_id=:id';
+		$criteria->params = array(':id'=>$adverId);
+		
+		$count = Advertise::model()->count($criteria);
+		$pager = new CPagination($count);
+		$pager->pageSize = 50;
+		$pager->applyLimit($criteria);
+		
+		$data = Advertise::model()->findAll($criteria);
+		
+		$this->render('viewAdByAdver',array('list'=>$data,'pager'=>$pager));
+	}
 }
 ?>

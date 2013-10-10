@@ -16,22 +16,20 @@ class editAction extends CmsAction{
 		$post = $this->getPost('Administrators',null);
 		
 		if ( $model !== null && $post !== null ){
-			$oldPasswd = $model->password;
 			$model->attributes = $post;
-			if ( $post['password'] !== '' ){
-				$model->baseUser->changePassword($post['password']);
-			}else {
-				$model->password = $oldPasswd;
-			}
-		
-			if ( $model->save() ){
+			if ( $model->validate() ){
+				if ( $post['password'] !== '' ){
+					$model->baseUser->changePassword($post['password']);
+				}
+				
+				$model->save(false);
 				$this->getController()->showMessage('编辑成功','user/view');
 			}
 		}
 		
 		$model->password = '';
-		$action = $this->createUrl('user/edit',array('id'=>$id));
+		$form = $this->getController()->getForm($model);
 		$this->setPageTitle('编辑管理员');
-		$this->render('add',array('action'=>$action,'model'=>$model));
+		$this->render('add',array('form'=>$form));
 	}
 }

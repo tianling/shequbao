@@ -42,38 +42,27 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'advertise-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>true,
 )); ?>
 
-
-	
-
-
 	<?php echo $form->errorSummary($model); ?>
-
-	
-	
+	<div class="errorMessage">
+		<?php echo $form->errorSummary($model); ?>
+	</div>
+	<br />
 		<?php echo $form->labelEx($model,'title'); ?>
-		 <?php echo $form->textField($model,'title',array('class'=>'form-input-text')); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</br>
-	</br>
+		<?php echo $form->textField($model,'title',array('class'=>'form-input-text')); ?>
+	<br />
+	<br />
 		<?php echo $form->labelEx($model,'content'); ?>
 		<?php echo $form->textArea($model,'content',array('class'=>'form-input-textarea')); ?>
-		<?php echo $form->error($model,'content'); ?>
-	</br>
+	<br />
 		<?php echo $form->labelEx($model,'direct_to'); ?>
 		<?php echo $form->textField($model,'direct_to',array('class'=>'form-input-text'));?>
-		<?php echo $form->error($model,'direct_to'); ?>
-	</br>
+	<br />
 		<?php echo $form->labelEx($model,'cpc'); ?>
 		<?php echo $form->textField($model,'cpc',array('class'=>'form-input-text'));?>
-		<?php echo $form->error($model,'cpc'); ?>
-	</br>
+	<br />
 		<?php echo $form->labelEx($model,'priority'); ?>
 	
 		<?php echo $form->dropDownList($model,'priority',array(
@@ -83,8 +72,8 @@
 			'3'=>'非常高',
 			
 		),array('class'=>'form-input-text'));?>
-	</br>
-	</br>
+	<br />
+	<br />
 	<?php if(isset($adPic) && !empty($adPic)){?>
 		<img src = "<?php echo  Yii::app()->request->baseUrl.$adPic;?>"/>
 	<?php }?>		

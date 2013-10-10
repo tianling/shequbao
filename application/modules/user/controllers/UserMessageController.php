@@ -10,21 +10,20 @@ class UserMessageController extends SqbController
 			session_id($_POST['PHPSESSID']);
 
 	}
-
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-
+	
 	public function actionIndex()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->select = "id,uid,add_time";
+		$criteria->select = "id,uid,add_time,content";
 		$criteria ->order = 'add_time DESC';
 		$criteria->with = array(
 					'UserMessage'=>array('select'=>'nickname'),
 				);
 		$count = MessageBoard::model()->count($criteria);
+		$pager = new CPagination($count);
+		$pager->pageSize = 50;
+		$pager->applyLimit($criteria);
+		
 		$messageData = MessageBoard::model()->findAll($criteria);
 		if(!empty($messageData)){
 			foreach($messageData as $key =>$value){
@@ -42,6 +41,7 @@ class UserMessageController extends SqbController
 			}
 		}
 		$this->pageTitle = '反馈管理';
+<<<<<<< HEAD
 		$this->render('index',array('messageData'=>$messageInfo,'count'=>$count));
 
 	}
@@ -72,34 +72,10 @@ class UserMessageController extends SqbController
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
+=======
+		$this->render('index',array('messages'=>$messageInfo,'pager'=>$pager));
+>>>>>>> ccb3987483aa65ce31b9faad2ad187f0da3dfad0
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['MessageBoard']))
-		{
-			$model->attributes=$_POST['MessageBoard'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -110,63 +86,76 @@ class UserMessageController extends SqbController
 	public function actionDelete($id)
 	{
 		if(isset($id) && is_numeric($id)){
-			$messageData = MessageBoard::model()->findByPk($id);
-			if(!empty($messageData)){
-				$dataM = $messageData->delete();
-				if($dataM>0)
-					$this->redirect(Yii::app()->createUrl('user/usermessage/index'));	
-			}
-
+			$messageData = MessageBoard::model()->deleteByPk($id);
 		}
-		$this->redirect(Yii::app()->createUrl('user/UserMessage/index'));	
-
+		$this->showMessage('删除成功','userMessage/index');
 	}
-
-	/**
-	 * Lists all models.
-	 */
 	
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new MessageBoard('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['MessageBoard']))
-			$model->attributes=$_GET['MessageBoard'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return MessageBoard the loaded model
-	 * @throws CHttpException
-	 */
-	public function loadModel($id)
-	{
-		$model=MessageBoard::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param MessageBoard $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='message-board-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
+	public function actionReply(){
+		$id = $this->getQuery('id',null);
+		if ( $id === null ){
+			$this->redirect($this->createUrl('userMessage/index'));
 		}
+		$model = new PushMessageForm();
+		$post = $this->getPost('PushMessageForm',null);
+		
+		if ( $post !== null ){
+			$model->attributes = $post;
+			if ( $model->validate() ){
+				$message = MessageBoard::model()->findByPk($id);
+				if ( $message === null ){
+					$this->showMessage('参数错误','userMessage/index');
+				}
+				
+				$sendTo = 'user'.$message->uid;
+				$extras = array(5,0,$sendTo,time());
+				$extras['ios'] = array(
+						'badge' => 1,
+						'sound' => 'happy'
+				);
+				$chatManager = $this->app->getModule('friends')->getChatManager();
+				$chatManager->getPusher()->setTimeToLive(864000);
+				
+				$title = '社区宝物管回复：'.$model->title;
+				$result = $chatManager->pushNotification(1,$sendTo,1,$model->content,$title,$extras);
+				if ( $result->hasError === false ){
+					$this->showMessage('回复成功','userMessage/index');
+				}else {
+					$model->addError('content','回复失败');
+				}
+			}
+		}
+		
+		$this->pageTitle = '推送消息';
+		$form = $this->getPushForm($model);
+		$this->render('pushMessage',array('form'=>$form));
+	}
+	
+	public function getPushForm($model){
+		$config = array(
+				'elements' => array(
+						'title' => array(
+								'type' => 'text',
+								'label' => '消息标题',
+								'class' => 'form-input-text'
+						),
+						'content' => array(
+								'type' => 'textarea',
+								'label' => '消息内容',
+								'class' => 'form-input-textarea',
+								'placeholder' => '80字以内',
+								'maxLength' => 80
+						)
+				),
+				'buttons' => array(
+						'submit' => array(
+								'type' => 'submit',
+								'label' => '发送',
+								'class' => 'form-button form-button-submit'
+						)
+				)
+		);
+	
+		return new CForm($config,$model);
 	}
 }

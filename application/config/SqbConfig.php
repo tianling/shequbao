@@ -44,15 +44,16 @@ class SqbConfig extends ConfigBase{
 						'accessManage' => array(
 								'class' => 'application.modules.accessManage.AccessManageModule'
 						),
-						'community'=>array(
-								'class' => 'application.modules.community.CommunityModule',
-						),
+						'property' => array(
+								'class' => 'application.modules.property.PropertyModule'
+						)
 				),
 				'preloadModels' => array(
 						'area',
 						'user',
 						'friends',
-						'access'
+						'access',
+						'property'
 				),
 				'import' => array(
 						'application.modules.user.models.*'

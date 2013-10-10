@@ -70,11 +70,16 @@
 }
 
 .form-input-text,
-.form-input-dropdownlist {
+.form-input-dropdownlist,
+.form-input-textarea {
 	line-height: 21px;
 	width: 300px;
 	height: 21px;
 	margin-top: 4px;
+}
+
+.form-input-textarea {
+	height: 100px;
 }
 
 .form-button {

@@ -8,6 +8,11 @@
  */
 class SiteController extends SqbController{
 	public $defaultAction='login';
+	public $identityMap = array(
+			0 => 'sqbadmin',
+			1 => 'ad',
+			2 => 'property'
+	);
 	
 	public function filters(){
 		$filters = parent::filters();
@@ -32,7 +37,7 @@ class SiteController extends SqbController{
 		$post = $this->getPost('SiteLoginForm');
 		
 		if ( $post !== null ){
-			$moduleId = $post['loginType'] == 0 ? 'sqbadmin' : 'ad';
+			$moduleId = isset($this->identityMap[$post['loginType']]) ? $this->identityMap[$post['loginType']] : 'sqbadmin';
 			$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
 			$model->attributes = $post;
 			if ( $model->login() ){

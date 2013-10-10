@@ -28,7 +28,7 @@ return array(
 				'verb'=>'POST'
 		),
  		array(//create resource which belongs to another resource
-				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Address|MyContacts|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
+				'pattern'=>'<_m:(user|friends)>/<resourceId:\d+>:<_a:(Message|Address|MyContacts|FamilyMember|FamilyConfirm|Hello|Friend|Trend|Reply|Support)>',
  				'<_m>/service/create<_a>',
  				'verb'=>'POST'
 		),
