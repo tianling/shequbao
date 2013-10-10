@@ -27,6 +27,8 @@
 					<td><?php echo $data->email;?></td>
 					<td><?php echo $data->property->property_name;?></td>
 					<td>
+						<a href="<?php echo $this->createUrl('/accessManage/assignment/groupUser',array('user'=>$data->primaryKey))?>">用户组授权</a> | 
+						<a href="<?php echo $this->createUrl('/accessManage/assignment/role',array('user'=>$data->primaryKey))?>">角色授权</a> | 
 						<a href="<?php echo $this->createUrl('property/userEdit',array('id'=>$data->primaryKey))?>">编辑</a> | 
 						<a href="<?php echo $this->createUrl('property/userDelete',array('id'=>$data->primaryKey))?>">删除</a>
 					</td>

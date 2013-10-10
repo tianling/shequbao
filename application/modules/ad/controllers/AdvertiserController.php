@@ -95,26 +95,6 @@ class AdvertiserController extends SqbController
 		$this->redirect($this->createUrl('advertiser/index'));	
 	}
 	
-	public function actionAdmin()
-	{
-		$model=new Advertiser('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Advertiser']))
-			$model->attributes=$_GET['Advertiser'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-	
-	public function loadModel($id)
-	{
-		$model=Advertiser::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-	
 	public function getForm($model){
 		$config = array(
 				'elements' => array(

@@ -225,6 +225,7 @@ class AdvertiseController extends SqbController
 		
 		$data = Advertise::model()->findAll($criteria);
 		
+		$this->pageTitle = '浏览广告';
 		$this->render('viewAdByAdver',array('list'=>$data,'pager'=>$pager));
 	}
 }

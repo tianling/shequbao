@@ -25,7 +25,7 @@ class userViewAction extends CmsAction{
 		$data = $model->findAll($criteria);
 		
 		$this->getController()->addToSubNav('添加物管管理员','property/userAdd');
-		$this->pageTitle = '物管管理员列表';
+		$this->pageTitle = '物管管理员';
 		$this->render('userView',array('list'=>$data,'pager'=>$pager));
 	}
 }

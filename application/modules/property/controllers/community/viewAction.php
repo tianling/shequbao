@@ -9,7 +9,6 @@
 class viewAction extends CmsAction{
 	public function run(){
 		$propertyId = $this->app->user->getState('property_id');
-		$propertyId = 1;
 		if ( $propertyId === null ){
 			$this->getController()->showMessage('您不是物管公司成员，不能操作','/site/welcome');
 		}

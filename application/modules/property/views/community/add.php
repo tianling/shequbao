@@ -8,6 +8,5 @@
  */
 ?>
 <div class="form-list">
-	<div class="form-title">添加物管</div>
 	<?php echo $form?>
 </div>
