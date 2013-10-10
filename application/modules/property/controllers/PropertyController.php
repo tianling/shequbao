@@ -42,4 +42,57 @@ class PropertyController extends SqbController{
 		
 		return new CForm($config,$model);
 	}
+	
+	public function getUserForm($model){
+		$properties = Property::model()->findAll();
+		$pData = array();
+		foreach ( $properties as $property ){
+			$pData[$property->primaryKey] = $property->property_name;
+		}
+		$config = array(
+				'elements' => array(
+						'property_id' => array(
+								'type' => 'dropdownlist',
+								'label' => '所属物管',
+								'items' => $pData,
+								'class' => 'form-input-dropdownlist',
+						),
+						'nickname' => array(
+								'type' => 'text',
+								'label' => '昵称',
+								'class' => 'form-input-text',
+								'required' => true
+						),
+						'password' => array(
+								'type' => 'password',
+								'label' => '密码',
+								'class' => 'form-input-text',
+								'required' => true
+						),
+						'realname' => array(
+								'type' => 'text',
+								'label' => '真实姓名',
+								'class' => 'form-input-text'
+						),
+						'phone' => array(
+								'type' => 'text',
+								'label' => '手机号',
+								'class' => 'form-input-text',
+						),
+						'email' => array(
+								'type' => 'text',
+								'label' => '邮箱',
+								'class' => 'form-input-text'
+						)
+				),
+				'buttons' => array(
+						'submit' => array(
+								'type' => 'submit',
+								'label' => '确定',
+								'class' => 'form-button form-button-submit'
+						)
+				)
+		);
+		return new CForm($config,$model);
+	}
 }

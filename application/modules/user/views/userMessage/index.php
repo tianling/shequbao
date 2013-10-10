@@ -2,25 +2,28 @@
 			<table width="100%" cellspacing="0" id="tree">
 				<thead>
 					<tr>
-						<th width="30%">用户昵称</th>
-						<th width="30%">提交时间</th>
-						<th width="40%">管理操作</th>
+						<th width="10%">用户昵称</th>
+						<th width="50%">内容</th>
+						<th width="15%">提交时间</th>
+						<th width="20%">管理操作</th>
 					</tr>
 				</thead>
 
 				<tbody align="center">
-					<?php
-					for($i =0 ; $i< $count ;$i++ ){
-					?>
+				<?php foreach ( $messages as $messageData ):?>
 				<tr>
-					<td><?php echo $messageData[$i]['nickname'];?></td>
-					<td><?php echo date('Y:m:d H:i:s',$messageData[$i]['add_time']);?></td>
-					<td><a href="<?php echo $this->createUrl('usermessage/view',array('id'=>$messageData[$i]['id']));?>">查看</a>|
-					<a href="<?php echo $this->createUrl('usermessage/delete',array($messageData[$i]['id']));?>">删除</a></td>
+					<td><?php echo $messageData['nickname'];?></td>
+					<td><?php echo $messageData['content']?></td>
+					<td><?php echo date('Y:m:d H:i:s',$messageData['add_time']);?></td>
+					<td>
+						<a href="<?php echo $this->createUrl('usermessage/reply',array('id'=>$messageData['id']))?>">回复</a> | 
+						<a href="<?php echo $this->createUrl('usermessage/delete',array('id'=>$messageData['id']));?>">删除</a>
+					</td>
 				</tr>
-				<?php }?>
-
+				<?php endforeach;?>
 				</tbody>
 			</table>
-		</div>
+<?php 
+$this->renderPartial('//common/pager',array('pager'=>$pager));
+?>
 </div>

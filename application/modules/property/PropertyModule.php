@@ -9,10 +9,15 @@
 class PropertyModule extends CmsModule{
 	public function init(){
 		parent::init();
+		Yii::import('application.modules.property.components.*');
 		Yii::import('application.modules.property.models.*');
 	}
 	
 	public static function loadSelfModels(){
 		Yii::import('application.modules.property.models.*');
+	}
+	
+	public function getIdentityName(){
+		return 'PropertyIdentity';
 	}
 }

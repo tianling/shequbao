@@ -116,8 +116,13 @@ $imgUrl = $this->request->baseUrl.'/images/';
 																	<span class="login_txt">
 																	管理员登录<?php echo $form->radioButton($model,'loginType',array('value'=>0));?>
 																	</span>
+																	
 																	<span class="login_txt">
 																	广告主登录<?php echo $form->radioButton($model,'loginType',array('value'=>1));?>
+																	</span>
+																	
+																	<span class="login_txt">
+																	物管登录<?php echo $form->radioButton($model,'loginType',array('value'=>2));?>
 																	</span>
 																</td>
 															</tr>

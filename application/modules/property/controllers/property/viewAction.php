@@ -17,6 +17,7 @@ class viewAction extends CmsAction{
 		$pager->applyLimit($criteria);
 		
 		$data = $model->findAll($criteria);
+		$this->getController()->addToSubNav('添加物管','property/add');
 		$this->pageTitle = '查看物管';
 		$this->render('view',array('list' => $data));
 	}

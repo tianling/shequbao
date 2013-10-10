@@ -26,14 +26,9 @@ class Property extends CmsActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('property_name', 'required'),
 			array('property_name', 'length', 'max'=>15),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, property_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -42,10 +37,8 @@ class Property extends CmsActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-			'xcmsCommunities' => array(self::MANY_MANY, 'Community', '{{property_community}}(property_id, community_id)'),
+			'communities' => array(self::MANY_MANY, 'Community', '{{property_community}}(property_id, community_id)'),
 			'propertyPushes' => array(self::HAS_MANY, 'PropertyPush', 'property_id'),
 		);
 	}
@@ -57,7 +50,7 @@ class Property extends CmsActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'property_name' => 'Property Name',
+			'property_name' => '物管名称',
 		);
 	}
 

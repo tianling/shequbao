@@ -24,7 +24,9 @@
 					<td><?php echo $data->primaryKey;?></td>
 					<td><?php echo $data->property_name;?></td>
 					<td>
-						
+						<a href="<?php echo $this->createUrl('community/view')?>">管理小区</a> | 
+						<a href="<?php echo $this->createUrl('property/edit',array('id'=>$data->primaryKey))?>">编辑</a> | 
+						<a href="<?php echo $this->createUrl('property/delete',array('id'=>$data->primaryKey))?>">删除</a>
 					</td>
 				</tr>
 			<?php endforeach;?>
