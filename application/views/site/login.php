@@ -62,7 +62,7 @@ $imgUrl = $this->request->baseUrl.'/images/';
 								border="0" align="center" cellpadding="0" cellspacing="0">
 								<tr>
 									<td width="4%">&nbsp;</td>
-									<td width="96%" height="38"><span class="login_txt_bt">登录到社区宝</span></td>
+									<td width="96%" height="38"><span class="login_txt_bt">登录到我家信</span></td>
 								</tr>
 								<tr>
 									<td>&nbsp;</td>

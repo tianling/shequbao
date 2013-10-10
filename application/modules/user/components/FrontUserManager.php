@@ -8,25 +8,25 @@
  */
 class FrontUserManager extends BaseUserManager{
 
-	private $charge_url = "http://test.jiaofei123.com/service/scan-info.json";
-	private $loginName = "test";
-	private $sec_key = "testKey";
+	private $charge_url = "http://service.jiaofei123.com/service/scan-info.json";
+	private $loginName = "qin_huang_sj_client";
+	private $sec_key = "NF/f@DL[skCE /nYdD^q?j-<j$`N6}~_";
 
-	private $cityId = 2;
-	private $waterType = 5;
+	private $cityId = '023';
+	private $waterType = 4;
 	private $gasType = 6;
-	private $electricityType = 7;
-	private $garbageType = 8;
+	private $electricityType = 5;
+	private $garbageType = 7;
 
-	private $waterProviter1 = 3;
+	private $waterProviter1 = 20;
 	private $waterProviter2 = 4;
 	private $waterProviter3 = 5;
 	private $waterProviter4 = 91;
 	private $waterProviter5 = 93;
 	private $waterProviter6 = 94;
 
-	private $electricityProviter = 6;
-	private $gasProviter1 = 2;
+	private $electricityProviter = 22;
+	private $gasProviter1 = 21;
 	private $gasProviter2 = 89;
 
 	public function init(){
@@ -165,11 +165,11 @@ class FrontUserManager extends BaseUserManager{
 
 			switch ($type) {
 				case 0:
-					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter1."&number=".$number."&key=".$this->sec_key."");
+					$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter1."&number=".$number."&key=".$this->sec_key."");
 					$data = array(
 							'loginName' =>$this->loginName,
-							'cityId' =>$this->cityId,
-							'typeId' =>$this->waterType,
+							'cityCode' =>$this->cityId,
+							'typeCode' =>$this->waterType,
 							'providerId'=>$this->waterProviter1,
 							'number'=>$number,
 							'key'=>$key
@@ -181,11 +181,11 @@ class FrontUserManager extends BaseUserManager{
 					$chargeData = json_decode($output);
 
 					if($chargeData->state == 2){
-						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter2."&number=".$number."&key=".$this->sec_key."");
+						$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter2."&number=".$number."&key=".$this->sec_key."");
 						$data = array(
 								'loginName' =>$this->loginName,
-								'cityId' =>$this->cityId,
-								'typeId' =>$this->waterType,
+								'cityCode' =>$this->cityId,
+								'typeCode' =>$this->waterType,
 								'providerId'=>$this->waterProviter2,
 								'number'=>$number,
 								'key'=>$key
@@ -196,11 +196,11 @@ class FrontUserManager extends BaseUserManager{
 						$output = $this->Curlget($this->charge_url,$data);
 						$chargeData = json_decode($output);
 						if($chargeData->state == 2){
-							$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter3."&number=".$number."&key=".$this->sec_key."");
+							$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter3."&number=".$number."&key=".$this->sec_key."");
 							$data = array(
 									'loginName' =>$this->loginName,
-									'cityId' =>$this->cityId,
-									'typeId' =>$this->waterType,
+									'cityCode' =>$this->cityId,
+									'typeCode' =>$this->waterType,
 									'providerId'=>$this->waterProviter3,
 									'number'=>$number,
 									'key'=>$key
@@ -211,11 +211,11 @@ class FrontUserManager extends BaseUserManager{
 							$output = $this->Curlget($this->charge_url,$data);
 							$chargeData = json_decode($output);
 							if($chargeData->state == 2){
-								$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter4."&number=".$number."&key=".$this->sec_key."");
+								$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter4."&number=".$number."&key=".$this->sec_key."");
 								$data = array(
 										'loginName' =>$this->loginName,
-										'cityId' =>$this->cityId,
-										'typeId' =>$this->waterType,
+										'cityCode' =>$this->cityId,
+										'typeCode' =>$this->waterType,
 										'providerId'=>$this->$waterProviter4,
 										'number'=>$number,
 										'key'=>$key
@@ -226,11 +226,11 @@ class FrontUserManager extends BaseUserManager{
 								$output = $this->Curlget($this->charge_url,$data);
 								$chargeData = json_decode($output);
 								if($chargeData->state == 2){
-									$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter5."&number=".$number."&key=".$this->sec_key."");
+									$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter5."&number=".$number."&key=".$this->sec_key."");
 									$data = array(
 											'loginName' =>$this->loginName,
-											'cityId' =>$this->cityId,
-											'typeId' =>$this->waterType,
+											'cityCode' =>$this->cityId,
+											'typeCode' =>$this->waterType,
 											'providerId'=>$this->$waterProviter5,
 											'number'=>$number,
 											'key'=>$key
@@ -241,11 +241,11 @@ class FrontUserManager extends BaseUserManager{
 									$output = $this->Curlget($this->charge_url,$data);
 									$chargeData = json_decode($output);
 									if($chargeData->state == 2){
-										$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->waterType."&providerId=".$this->waterProviter6."&number=".$number."&key=".$this->sec_key."");
+										$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->waterType."&providerId=".$this->waterProviter6."&number=".$number."&key=".$this->sec_key."");
 										$data = array(
 												'loginName' =>$this->loginName,
-												'cityId' =>$this->cityId,
-												'typeId' =>$this->waterType,
+												'cityCode' =>$this->cityId,
+												'typeCode' =>$this->waterType,
 												'providerId'=>$this->$waterProviter6,
 												'number'=>$number,
 												'key'=>$key,
@@ -293,11 +293,11 @@ class FrontUserManager extends BaseUserManager{
 					break;
 
 				case 1:
-					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->electricityType."&providerId=".$this->electricityProviter."&number=".$number."&key=".$this->sec_key."");
+					$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->electricityType."&providerId=".$this->electricityProviter."&number=".$number."&key=".$this->sec_key."");
 					$data = array(
 							'loginName' =>$this->loginName,
-							'cityId' =>$this->cityId,
-							'typeId' =>$this->electricityType,
+							'cityCode' =>$this->cityId,
+							'typeCode' =>$this->electricityType,
 							'providerId'=>$this->electricityProviter,
 							'number'=>$number,
 							'key'=>$key
@@ -308,7 +308,8 @@ class FrontUserManager extends BaseUserManager{
 					$output = $this->Curlget($this->charge_url,$data);
 					$chargeData = json_decode($output);
 					if($chargeData->state == 1){
-						return $chargeData;
+						var_dump($chargeData->items);
+						die();
 					}elseif ($chargeData->state == 2) {
 						return 401;
 					}else
@@ -317,11 +318,11 @@ class FrontUserManager extends BaseUserManager{
 					break;
 
 				case 2:
-					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
+					$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->gasType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
 					$data = array(
 							'loginName' =>$this->loginName,
-							'cityId' =>$this->cityId,
-							'typeId' =>$this->gasType,
+							'cityCode' =>$this->cityId,
+							'typeCode' =>$this->gasType,
 							'providerId'=>$this->gasProviter1,
 							'number'=>$number,
 							'key'=>$key,
@@ -331,11 +332,11 @@ class FrontUserManager extends BaseUserManager{
 					$output = $this->Curlget($this->charge_url,$data);
 					$chargeData = json_decode($output);
 					if($chargeData->state == 2){
-						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
+						$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
 						$data = array(
 								'loginName' =>$this->loginName,
-								'cityId' =>$this->cityId,
-								'typeId' =>$this->gasType,
+								'cityCode' =>$this->cityId,
+								'typeCode' =>$this->gasType,
 								'providerId'=>$this->gasProviter2,
 								'number'=>$number,
 								'key'=>$key,
@@ -358,11 +359,11 @@ class FrontUserManager extends BaseUserManager{
 					break;
 
 				case 3:
-					$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->garbageType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
+					$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->garbageType."&providerId=".$this->gasProviter1."&number=".$number."&key=".$this->sec_key."");
 					$data = array(
 							'loginName' =>$this->loginName,
-							'cityId' =>$this->cityId,
-							'typeId' =>$this->garbageType,
+							'cityCode' =>$this->cityId,
+							'typeCode' =>$this->garbageType,
 							'providerId'=>$this->gasProviter1,
 							'number'=>$number,
 							'key'=>$key,
@@ -370,11 +371,11 @@ class FrontUserManager extends BaseUserManager{
 					$output = $this->Curlget($this->charge_url,$data);
 					$chargeData = json_decode($output);
 					if($chargeData->state == 2){
-						$key = md5("loginName=".$this->loginName."&cityId=".$this->cityId."&typeId=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
+						$key = md5("loginName=".$this->loginName."&cityCode=".$this->cityId."&typeCode=".$this->gasType."&providerId=".$this->gasProviter2."&number=".$number."&key=".$this->sec_key."");
 						$data = array(
 								'loginName' =>$this->loginName,
-								'cityId' =>$this->cityId,
-								'typeId' =>$this->gasType,
+								'cityCode' =>$this->cityId,
+								'typeCode' =>$this->gasType,
 								'providerId'=>$this->gasProviter2,
 								'number'=>$number,
 								'key'=>$key,

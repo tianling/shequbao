@@ -243,6 +243,8 @@ class ServiceController extends CmsController{
 							$garbagecharge = $this->app->UserManager->getChargeinfo($gasNumber,3);
 
 							if(!empty($watercharge) && is_object($watercharge)){
+								var_dump($watercharge);
+								die();
 								$info = $watercharge->userInfo->items;
 
 								foreach($info as $key =>$value){

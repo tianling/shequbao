@@ -49,11 +49,10 @@
 	'enableAjaxValidation'=>true,
 )); ?>
 
-<<<<<<< HEAD
-=======
+
 	
 
->>>>>>> 4150470ecd613eab5a839bb64fc34a3231cc2d42
+
 	<?php echo $form->errorSummary($model); ?>
 
 	
