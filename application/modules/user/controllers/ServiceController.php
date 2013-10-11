@@ -127,7 +127,10 @@ class ServiceController extends CmsController{
 		}
 	}
 
-	public function actionGetChargeinfo($uid){
+
+
+	public function actionGetChargeinfo($uid){//缴费查询
+
 		if(!empty($uid) && is_numeric($uid)){
 			$addressData = $this->app->UserManager->getAddressinfo($uid);
 			$chargeInfo = array();
@@ -175,48 +178,10 @@ class ServiceController extends CmsController{
 								$gascharge = $this->app->UserManager->getChargeinfo($gasNumber,2);
 								$garbagecharge = $this->app->UserManager->getChargeinfo($gasNumber,3);
 
-								if(!empty($watercharge) && is_object($watercharge)){
-									$info = $watercharge->userInfo->items;
-
-									foreach($info as $key =>$value){
-										if($value->pay == 'false'){
-											$waterFee += $value->amount;
-										}
-									}	
-								
-								}
-								if(!empty($electricitycharge) && is_object($electricitycharge)){
-									$info = $electricitycharge->userInfo->items;
-
-									foreach($info as $key =>$value){
-										if($value->pay == 'flase'){
-											$electricityFee += $value->amount;
-										}
-									}
-								
-								}
-
-								if(!empty($gascharge) && is_object($gascharge)){
-									$info = $gascharge->userInfo->items;
-									foreach($info as $key =>$value){
-										if($value->pay == 'flase'){
-											$gasFee += $value->amount;
-										}
-
-									}
-								
-								}
-
-								if(!empty($garbagecharge) && is_object($garbagecharge)){
-									$info = $garbagecharge->userInfo->items;
-									foreach($info as $key =>$value){
-										if($value->pay == 'flase'){
-											$garbageFee += $value->amount;
-										}
-
-									}
-								
-								}
+								$waterFee += $watercharge;
+								$electricityFee += $electricityFee;
+								$gasFee += $gascharge;
+								$garbageFee += $garbagecharge;
 							}
 
 					}
@@ -241,57 +206,19 @@ class ServiceController extends CmsController{
 							$gasNumber = $value->gas;
 							$garbageNumber = $value->garbage;
 							$watercharge = $this->app->UserManager->getChargeinfo($waterNumber,0);
-							$electricitycharge = $this->app->UserManager->getChargeinfo($gasNumber,1);
-							$gascharge = $this->app->UserManager->getChargeinfo($gasNumber,2);
 							$garbagecharge = $this->app->UserManager->getChargeinfo($gasNumber,3);
-
-							if(!empty($watercharge) && is_object($watercharge)){
-								$info = $watercharge->userInfo->items;
-
-								foreach($info as $key =>$value){
-									if($value->pay == 'false'){
-										$waterFee += $value->amount;
-									}
-								}	
-								
-							}
-							if(!empty($electricitycharge) && is_object($electricitycharge)){
-								$info = $electricitycharge->userInfo->items;
-
-								foreach($info as $key =>$value){
-									if($value->pay == 'flase'){
-										$electricityFee += $value->amount;
-									}
-								}
-								
-							}
-
-							if(!empty($gascharge) && is_object($gascharge)){
-								$info = $gascharge->userInfo->items;
-								foreach($info as $key =>$value){
-									if($value->pay == 'flase'){
-										$gasFee += $value->amount;
-									}
-
-								}
-								
-
-							}
-
-							if(!empty($garbagecharge) && is_object($garbagecharge)){
-								$info = $gascharge->userInfo->items;
-								foreach($info as $key =>$value){
-									if($value->pay == 'flase'){
-										$garbageFee += $value->amount;
-									}
-
-								}
-								
-							}
+							$gascharge = $this->app->UserManager->getChargeinfo($gasNumber,2);
+							$electricitycharge = $this->app->UserManager->getChargeinfo($gasNumber,1);
 							
 							
-							//var_dump($watercharge['userInfo']['items'][0]['amount']);
-							$chargeInfo = array(
+							$waterFee += $watercharge;
+							$gasFee += $gascharge;
+							$garbageFee += $garbageFee;
+							$electricityFee += $electricitycharge;	
+
+						}
+
+						$chargeInfo = array(
 							'waterFee' =>$waterFee,
 							'electricityFee'=>$electricityFee,
 							'gasFee'=>$gasFee,
@@ -300,8 +227,6 @@ class ServiceController extends CmsController{
 							'otherFee'=>$otherFee,
 
 						);
-
-						}
 
 						$this->response('200','',$chargeInfo);
 				}

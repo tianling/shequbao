@@ -80,6 +80,7 @@ class Advertise extends CmsActiveRecord
 			'cpm' => 'Cpm',
 			'cpc' => '扣费额度',
 			'priority' => '广告优先级',
+			'community'=>'小区'
 		);
 	}
 

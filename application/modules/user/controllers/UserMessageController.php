@@ -41,7 +41,40 @@ class UserMessageController extends SqbController
 			}
 		}
 		$this->pageTitle = '反馈管理';
+
+		$this->render('index',array('messageData'=>$messageInfo,'count'=>$count));
+
+	}
+
+	public function actionView($id){
+		if(!empty($id) && is_numeric($id)){
+			
+			$messageData = MessageBoard::model()->with('UserMessage')->findByPk($id);
+			if(!empty($messageData)){	
+				$this->pageTitle = '反馈查看';
+				$this->render('view',array('messageData'=>$messageData));
+			}
+		}
+	}
+	
+	
+	
+	public function actionCreate()
+	{
+		$model=new MessageBoard;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['MessageBoard']))
+		{
+			$model->attributes=$_POST['MessageBoard'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->id));
+		}
+=======
 		$this->render('index',array('messages'=>$messageInfo,'pager'=>$pager));
+
 
 	}
 

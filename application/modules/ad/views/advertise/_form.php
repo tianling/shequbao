@@ -44,6 +44,8 @@
 	'id'=>'advertise-form',
 	'enableAjaxValidation'=>true,
 )); ?>
+
+	<?php echo $form->errorSummary($model); ?>
 	<div class="errorMessage">
 		<?php echo $form->errorSummary($model); ?>
 	</div>

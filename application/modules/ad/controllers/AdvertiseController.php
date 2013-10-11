@@ -23,6 +23,10 @@ class AdvertiseController extends SqbController
 	public function actionCreate()
 	{
 		$model = new Advertise();
+		$criteria = new CDbCriteria;
+		$criteria ->select = 'id,community_name';
+		$criteria ->order = 'id DESC';
+		$communityData = Community::model()->findAll($criteria);
 		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
 			$model->attributes = $_POST['Advertise'];
 			$model->advertiser_id = $this->user->id;
@@ -58,9 +62,9 @@ class AdvertiseController extends SqbController
 		}
 		
 		//goto
-		cpcIsZero:
+		cpcIsZero: 
 		$this->pageTitle = '发布广告';
-		$this->render('create',array('model'=>$model));
+		$this->render('create',array('model'=>$model,''));
 	}
 
 	public function actionUpdate($id)
