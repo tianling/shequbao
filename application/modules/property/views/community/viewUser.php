@@ -9,9 +9,11 @@
 ?>
 
 <div class="table-list">
+<?php echo $form?>
 		<table width="100%" cellspacing="0" id="tree">
   			<thead>
 				<tr>
+					<th width="10%">用户手机号</th>
 					<th width="30%">用户昵称</th>
 					<th width="30%">上次登录时间</th>
 					<th width="30%">管理操作</th>
@@ -21,10 +23,13 @@
 			<tbody align="center">
 			<?php foreach ( $list as $data ):?>
 				<tr>
-					<td><?php echo $data->user->nickname?></td>
-					<td><?php echo date('Y年m月d日',$data->user->last_login_time)?></td>
+					<td><?php echo $data->user->mobile?>
+					<td><?php echo $data->user->baseUser->nickname?></td>
+					<td><?php echo date('Y年m月d日',$data->user->baseUser->last_login_time)?></td>
 					<td>
-						<a href="<?php echo $this->createUrl('community/pushMessageToUser',array('user'=>$data->user->id,'community'=>$data->community_id))?>">推送消息</a>
+						<a href="<?php echo $this->createUrl('community/pushMessageToUser',array('user'=>$data->user->id,'community'=>$data->community_id))?>">推送消息</a> | 
+						<a href="<?php echo $this->createUrl('/user/userCharge/create',array('id'=>$data->user->id))?>">欠费添加</a> | 
+						<a href="<?php echo $this->createUrl('/user/userCharge/index',array('id'=>$data->user->id))?>">缴费查询</a>
 					</td>
 				</tr>
 			<?php endforeach;?>

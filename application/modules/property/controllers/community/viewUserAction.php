@@ -23,23 +23,56 @@ class viewUserAction extends CmsAction{
 			$this->getController()->showMessage('您无权向该小区推送','/site/welcome');
 		}
 		
+		$searchModel = new SearchUserForm();
+		$search = $this->getQuery('SearchUserForm',null);
 		$data = array();
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'community_id=:cid';
 		$criteria->params[':cid'] = $communityId;
+		$criteria->with = array(
+				'user' => array(
+						'alias' => 'front',
+						'select' => 'front.id,front.mobile',
+				)
+		);
 		$model = CommunityUser::model();
+		
+		if ( $search !== null ){
+			$searchModel->attributes = $search;
+			if ( $searchModel->validate() ){
+				$criteria->addSearchCondition('front.mobile',$searchModel->keyword);
+			}
+		}
 		
 		$count = $model->count($criteria);
 		if ( $count !== 0 ){
-			$criteria->with = array(
-					'user' => array(
-							'select' => 'id,nickname'
-					)
+			$criteria->with['user']['with'] = array(
+						'baseUser' => array(
+								'select' => 'nickname'
+						)
 			);
 			$data = $model->findAll($criteria);
 		}
 		
+		$searchFormConfig = array(
+				'elements' => array(
+						'keyword' => array(
+								'type' => 'text',
+								'label' => '用户手机号',
+								'class' => 'form-input-text'
+						)
+				),
+				'buttons' => array(
+						'submit' => array(
+								'type' => 'submit',
+								'label' => '搜索',
+								'class' => 'form-button'
+						)
+				)
+		);
+		$form = new CForm($searchFormConfig,$searchModel);
+		$form->method = 'get';
 		$this->pageTitle = '小区用户';
-		$this->render('viewUser',array('list'=>$data));
+		$this->render('viewUser',array('list'=>$data,'form'=>$form));
 	}
 }
