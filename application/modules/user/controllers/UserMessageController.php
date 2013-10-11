@@ -41,7 +41,7 @@ class UserMessageController extends SqbController
 			}
 		}
 		$this->pageTitle = '反馈管理';
-<<<<<<< HEAD
+
 		$this->render('index',array('messageData'=>$messageInfo,'count'=>$count));
 
 	}
@@ -74,7 +74,7 @@ class UserMessageController extends SqbController
 		}
 =======
 		$this->render('index',array('messages'=>$messageInfo,'pager'=>$pager));
->>>>>>> ccb3987483aa65ce31b9faad2ad187f0da3dfad0
+
 
 	}
 

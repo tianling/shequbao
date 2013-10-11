@@ -48,25 +48,62 @@ class UserChargeController extends SqbController
 	public function actionIndex($id)
 	{
 		if(!empty($id) && is_numeric($id)){
-			$criteria = new CDbCriteria;
-			$criteria->select = "id,uid,add_time,type,charge";
-			$criteria->condition = 'uid = '.$id.'';
-			$criteria ->order = 'add_time DESC';
-			$count = UserChargeInfo::model()->count($criteria);
-			$page=new CPagination($count);
-			$page->pageSize=11;
-			$page->applyLimit($criteria);
-			$ChargeData = UserChargeInfo::model()->findAll($criteria);
-			if(!empty($ChargeData)){
-					$this->pageTitle = '缴费查询';	
+
+			$waterFee = 0;
+			$electricityFee = 0;
+			$gasFee = 0;
+			$garbageFee = 0;
+
+			$userAddressData = UserAddress::model()->findAll('user_id =:id',array(':id'=>$id));
+			if(!empty($userAddressData)){
+				$criteria = new CDbCriteria;
+				$criteria->select = "id,uid,add_time,type,charge";
+				$criteria->condition = 'uid = '.$id.'';
+				$criteria ->order = 'add_time DESC';
+				$count = UserChargeInfo::model()->count($criteria);
+				$page=new CPagination($count);
+				$page->pageSize=11;
+				$page->applyLimit($criteria);
+				$ChargeData = UserChargeInfo::model()->findAll($criteria);
+				if(!empty($ChargeData)){
+						$this->pageTitle = '缴费查询';	
+						$this->render('index',array(
+						'ChargeData'=>$ChargeData,
+						'pages'=>$page,
+						'type'=>1
+					));
+				}else{
+					foreach($ChargeData as $value){
+						$waterFee += $this->app->UserManager->getChargeinfo($value->water,0);
+						$electricityFee += $this->app->UserManager->getChargeinfo($value->electricity,1);
+						$gasFee += $this->app->UserManager->getChargeinfo($value->gas,2);
+						$garbageFee += $this->app->UserManager->getChargeinfo($value->garbage,3);
+
+					}
+					$this->pageTitle = '缴费查询';
 					$this->render('index',array(
-					'ChargeData'=>$ChargeData,
-					'pages'=>$page,
-				));
+												"waterFee"=>$waterFee,
+												"electricityFee"=>$electricityFee,
+												"gasFee"=>$gasFee,
+												"garbageFee"=>$garbageFee,
+												"type"=>2
+
+											));
+				}
+
+			}else{
+				$this->pageTitle = '缴费查询';
+				$this->render('index',array(
+											"data"=>"该用户无房产",
+											"type"=>3
+
+										));
 			}
-				
+					
 		}
+
 		$this->pageTitle = '缴费查询';	
+			
 	}
 
 	
