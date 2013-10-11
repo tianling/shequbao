@@ -120,7 +120,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),/*
 						'db' => array(
 								'class' => 'system.db.CDbConnection',
 								'autoConnect' => false,
@@ -130,7 +130,7 @@ class SqbConfig extends ConfigBase{
 								'password' => 'sqb-sandbox@aliyun',
 								'charset' => 'utf8',
 								'tablePrefix' => 'xcms_'
-						),
+						),*/
 
 						
 						'urlManager'=>array(
