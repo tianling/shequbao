@@ -56,27 +56,6 @@ class UserMessageController extends SqbController
 			}
 		}
 	}
-	
-	
-	
-	public function actionCreate()
-	{
-		$model=new MessageBoard;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['MessageBoard']))
-		{
-			$model->attributes=$_POST['MessageBoard'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-=======
-		$this->render('index',array('messages'=>$messageInfo,'pager'=>$pager));
-
-
-	}
 
 	/**
 	 * Deletes a particular model.

@@ -37,11 +37,13 @@ class SiteController extends SqbController{
 		$post = $this->getPost('SiteLoginForm');
 		
 		if ( $post !== null ){
-			$moduleId = isset($this->identityMap[$post['loginType']]) ? $this->identityMap[$post['loginType']] : 'sqbadmin';
-			$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
-			$model->attributes = $post;
-			if ( $model->login() ){
-				$this->redirect($this->createUrl('/site/index'));
+			$moduleId = isset($this->identityMap[$post['loginType']]) ? $this->identityMap[$post['loginType']] : null;
+			if ( $moduleId !== null ){
+				$model->setIdentityName($this->app->getModule($moduleId)->getIdentityName());
+				$model->attributes = $post;
+				if ( $model->login() ){
+					$this->redirect($this->createUrl('/site/index'));
+				}
 			}
 		}
 		$model->password = '';
