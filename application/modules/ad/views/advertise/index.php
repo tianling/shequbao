@@ -8,7 +8,8 @@
 					<th width="15%">广告标题</th>
 					<th width="30%">每次点击扣费额度</th>
 					<th width="10%">优先级</th>
-					<th width="40%">管理操作</th>
+					<th width="35%">投放小区</th>
+					<th width="35%">管理操作</th>
 				</tr>
 			</thead>
 
@@ -20,6 +21,7 @@
 					<td><?php echo $value->title;?></td>
 					<td><?php echo $value->cpc."元";?></td>
 					<td><?php echo Advertise::getAdvertisePriority($value->priority);?></td>
+					<td><?php echo Advertise::getCommunityName($value->community);?></td>
 					<td><a href="<?php echo Yii::app()->createUrl('ad/advertise/update',array('id'=>$value['id']));?>">修改信息</a>|
 					<a href="<?php echo Yii::app()->createUrl('ad/advertise/delete',array('id'=>$value['id']));?>">删除</a></td>
 				</tr>

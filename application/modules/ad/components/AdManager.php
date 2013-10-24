@@ -8,12 +8,7 @@
  */
 class AdManager extends CApplicationComponent{
 	
-	/**
-	 * 发布广告
-	 */
-	public function adPublish(){
-		
-	}
+	
 	
 	/**
 	 * 随机获取广告
@@ -22,6 +17,7 @@ class AdManager extends CApplicationComponent{
 		$criteria= new CDbCriteria;
 		$criteria->select = 'advertiser_id,balance,phone,ads';
 		$criteria->condition = 'balance>0 AND ads>0';
+		
 		$count = Advertiser::model()->count($criteria);
 		$top = rand(0,$count-1);
 		$criteria->limit = 1;
@@ -38,12 +34,14 @@ class AdManager extends CApplicationComponent{
 		$criteria->limit = 4;
 		$criteria->offset = $top;
 		$criteria->order = 'view,priority DESC';
+
 		$advertiseData = Advertise::model()->findAll($criteria);
 		if(!empty($advertiseData)){
 			$adData = array();
 			$adData = $advertiseData[0]->getAttributes();
 			$adId = $adData['id'];
 			$adPic = AdvertisePic::model()->findAll('ad_id=:adId',array(':adId'=>$adId));
+
 			if(!empty($adPic)){
 				$picData = $adPic[0]->getAttributes();
 				$adData['adPic'] = $picData['thumb_url'];
@@ -53,6 +51,7 @@ class AdManager extends CApplicationComponent{
 				$adView->save();
 				$putData = $adData;
 				return $putData;
+				
 			}else{
 				$adData['adPic'] = " ";
 				$adView = Advertise::model()->findByPk($advertiseData[0]['id']);
@@ -153,27 +152,132 @@ class AdManager extends CApplicationComponent{
 		}
 	}	
 
-	
-	
-	
-	/**
-	 * 广告主充值
-	 */
-	public function adVerRecharge(){
-		
+	/*
+	**根据用户id获取用户小区
+	*/
+
+	public function getUserCommunity($uid){
+		if(isset($uid) && is_numeric($uid)){
+			$userCommunity = array();
+			$userAddressData = UserAddress::model()->findAll('user_id =:uid',array('uid'=>$uid));
+			if(!empty($userAddressData)){
+				
+				foreach ($userAddressData as $key =>$value) {
+					$userCommunity[] = array(
+							'community'=>$userAddressData[$key]->community
+						);
+				}
+				return $userCommunity;
+			}else
+				return 400;
+		}
 	}
 	
-	/**
-	 * 添加广告主
-	 */
-	public function addAdVer($data){
-		
+	/*
+	**根据小区推送相应广告
+	*/
+
+	public function getAdByCommunity($community){
+		if(!empty($community)){
+			$criteria= new CDbCriteria;
+			$adsModel = Advertise::model();
+			$criteria->select = 'id,advertiser_id,title,content,view,direct_to,priority,community,cpc';
+			$criteria->condition = 'community = '.$community.'';
+			$advertiseData = $adsModel->findAll($criteria);
+
+			if(!empty($advertiseData)){
+				$adsData = $this->getAdsOrder($advertiseData);
+
+				if(is_object($adsData) && !empty($adsData)){
+					$advertiseData = array();
+					$advertiseData = $adsData->getAttributes();
+					$adId = $advertiseData['id'];
+					$adPic = AdvertisePic::model()->findAll('ad_id =:aid',array('aid'=>$adId));
+					if(!empty($adPic)){
+						$advertiseData['adPic'] = $adPic[0]->thumb_url;
+					}
+					return $advertiseData;
+				}else
+					return 400;
+				
+
+			}
+
+		}
 	}
+
 	
-	/**
-	 * 移除广告主
-	 */
-	public function removeAdVer($a){
-		
+	/*
+	**按曝光度，竞价，优先级投放广告
+	*/
+
+	public function getAdsOrder($adsData){
+		if(!empty($adsData)){
+			$num = count($adsData);
+
+			for($i = 0;$i<$num-1;$i++){
+				for($m = 0;$m<$num-1;$m++){
+					if($adsData[$m]->view > $adsData[$m+1]->view){
+						$temp = $adsData[$m];
+						$adsData[$m] = $adsData[$m+1];
+						$adsData[$m+1] = $temp;
+
+					}else if($adsData[$m]->view == $adsData[$m+1]->view){
+						if($adsData[$m]->cpc < $adsData[$m+1]->cpc){
+							$temp = $adsData[$m];
+							$adsData[$m] = $adsData[$m+1];
+							$adsData[$m+1] = $temp;
+
+						}else if($adsData[$m]->cpc == $adsData[$m+1]->cpc){
+							if($adsData[$m]->priority < $adsData[$m+1]->priority){
+								$temp = $adsData[$m];
+								$adsData[$m] = $adsData[$m+1];
+								$adsData[$m+1] = $temp;
+
+							}
+						}
+					}
+				}
+			}
+
+			$balance = $this->getAdvertiserBalance($adsData[0]);
+
+			while($balance == 400){
+				
+				array_splice($adsData, 0,1);
+				if(empty($adsData))
+					break;	
+				$balance = $this->getAdvertiserBalance($adsData[0]);
+			}
+			
+			if($balance == 200)
+				return $adsData[0];
+			else
+				return 400;
+		}
+			
 	}
+
+
+	/*
+	**判断广告主余额是否足够进行本次投放
+	*/
+	public function getAdvertiserBalance($adsData){
+		if(!empty($adsData)){
+			$advertiser = Advertiser::model()->findAll('advertiser_id =:aid',array('aid'=>$adsData->advertiser_id));
+			$balance = $advertiser[0]->balance;
+		
+			if($balance>$adsData->cpc)
+				return 200;
+			else
+				return 400;
+			
+		}else
+			return 401;
+
+	}
+
+
+
+	
 }

@@ -34,7 +34,7 @@ class AdvertiserController extends SqbController
 	public function actionCreate()
 	{
 		$model=new Advertiser();
-		
+
 		if(isset($_POST['Advertiser']))
 		{
 			$_POST['Advertiser']['last_login_ip'] = 'N/A';
@@ -49,6 +49,8 @@ class AdvertiserController extends SqbController
 		$this->pageTitle = '添加广告主';
 		$this->render('create',array('form'=>$form));
 	}
+
+
 	
 	public function actionUpdate()
 	{

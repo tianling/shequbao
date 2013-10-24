@@ -74,6 +74,25 @@
 		),array('class'=>'form-input-text'));?>
 	<br />
 	<br />
+		<?php echo $form->labelEx($model,"广告投放小区");?>
+		<?php echo $form->dropDownList($model,'Location',$model->getLocation(),
+                      array(
+                        'empty' => '所有区域',
+                        'ajax' => array(
+                        	'type' => 'POST',
+                       		'url' => Yii::app()->createUrl('ad/advertise/list'),
+                        	'update' => '#Advertise_community',     //这里需要极其注意 其由model_字段组成
+                        	'data'=>array('Location'=>'js:this.value')
+                        )
+         ));?>
+
+		
+
+		<?php echo $form->dropDownList($model,'community',$model->getCommunity($model->Location),array(
+						'empty'=>'全部小区'
+						),array('class'=>'form-input-text')); ?>
+	<br />
+
 	<?php if(isset($adPic) && !empty($adPic)){?>
 		<img src = "<?php echo  Yii::app()->request->baseUrl.$adPic;?>"/>
 	<?php }?>		

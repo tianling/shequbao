@@ -39,12 +39,13 @@ class Advertise extends CmsActiveRecord
 		return array(
 			array('advertiser_id, title, content, direct_to,cpc', 'required'),
 			array('advertiser_id','exist','className'=>'Advertiser','attributeName'=>'advertiser_id','message'=>'广告主不存在'),
-			array('pay_type, priority,cpm, cpc', 'numerical', 'integerOnly'=>true),
+			array('pay_type, priority,cpm, cpc,community', 'numerical', 'integerOnly'=>true),
 			array('view, click','safe'),
 			array('cpc','numerical','min'=>0,'allowEmpty'=>false,'message'=>'{attribute}不能小于0'),
 			array('advertiser_id', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>20),
 			array('direct_to', 'length', 'max'=>255),
+			array('id, advertiser_id, title, content, view, click, direct_to, pay_type, cpm, cpc, priority, community', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -111,19 +112,50 @@ class Advertise extends CmsActiveRecord
 		}		
 			
 	}
+	/*
+	**获取投放小区对应的地域
+	*/
+	public static function getLocation(){
+		$area = Area::model()->findAll('fid =:id',array(':id'=>2449));
+		$areaData = array();
+		$areaData = CHtml::listData($area,'id','area_name');
+		return $areaData;
+	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+	
+	/*
+	**获取该地域内的所有小区
+	*/
+	public static function getCommunity($location){
+		$communityData= array();
+		if(!empty($location) && is_numeric($location)){
+			$community = Community::model()->findAll('location =:location',array(':location'=>$location));
+			if(!empty($community)){
+				$communityData = CHtml::listData($community,'id','community_name');
+				return $communityData;
+			}
+			
+		}else {
+			return $communityData;
+		}
+	}
+
+	/*
+	**获取投放小区名称
+	*/
+	public static function getCommunityName($communityId){
+		if(isset($communityId) && is_numeric($communityId)){
+			$community = Community::model()->findAll('id =:id',array(':id'=>$communityId));
+			if(!empty($community)){
+				$communityName = $community[0]->community_name;
+				return $communityName;
+			}
+		}else
+			return "全部小区";
+	}
+
+
+	
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -141,6 +173,7 @@ class Advertise extends CmsActiveRecord
 		$criteria->compare('cpm',$this->cpm);
 		$criteria->compare('cpc',$this->cpc);
 		$criteria->compare('priority',$this->priority);
+		$criteria->compare('community',$this->community,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

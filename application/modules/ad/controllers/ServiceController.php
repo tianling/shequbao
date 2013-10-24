@@ -11,13 +11,73 @@ class ServiceController extends CmsController{
 		return array();
 	}
 	
-
-	public function actionGetAd(){ //随机获取广告
+	/*
+	**随机获取广告
+	*/
+	public function actionGetAd(){ 
 		$adData = $this->app->AdManager->adGetRandom();
 		if(!empty($adData)){
 			$this->response(200,'',$adData);
 		}
 
+	}
+
+	/*
+	**根据用户小区定点推送广告
+	*/
+
+	public function actionGetAdWithCommunity($uid){
+		if(isset($uid) && is_numeric($uid)){
+			$communityData = $this->app->AdManager->getUserCommunity($uid);
+			if(!is_array($communityData)){
+				$adData = $this->app->AdManager->adGetRandom();
+				if(!empty($adData)){
+					$this->response(200,'',$adData);
+				}
+
+			}else if(!empty($communityData)){
+				$adData = array();
+				foreach($communityData as $value){
+					$advertise = $this->app->AdManager->getAdByCommunity($value['community']);
+
+					if(is_array($advertise) && !empty($advertise)){
+
+						if(isset($advertise['adPic'])){
+							$adData[] = array(
+								'id'=>$advertise['id'],
+								'advertiser_id'=>$advertise['advertiser_id'],
+								'title'=>$advertise['title'],
+								'content'=>$advertise['content'],
+								'direct_to'=>$advertise['direct_to'],
+								'adPic'=>$advertise['adPic']
+							);
+
+						}else{
+							$adData[] = array(
+								'id'=>$advertise['id'],
+								'advertiser_id'=>$advertise['advertiser_id'],
+								'title'=>$advertise['title'],
+								'content'=>$advertise['content'],
+								'direct_to'=>$advertise['direct_to'],
+							);
+						}
+
+						
+					}
+					
+				}
+				$adNum = count($adData);
+				if($adNum>0){
+					$adPush = rand(0,$adNum-1);
+					$advertiseData = $adData[$adPush];
+					$this->response(200,'',$advertiseData);
+				}else
+					$this->response(400,'该小区暂无广告可以投放');
+				
+				
+			}
+
+		}
 	}
 
 

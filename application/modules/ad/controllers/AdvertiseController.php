@@ -6,7 +6,7 @@ class AdvertiseController extends SqbController
 	{	
 		$id = $this->user->id;
 		$criteria = new CDbCriteria;
-		$criteria ->select = 'id,advertiser_id,title,cpc,priority';
+		$criteria ->select = 'id,advertiser_id,title,cpc,priority,community';
 		$criteria ->condition = 'advertiser_id = '.$id.'';
 		$criteria ->order = 'id DESC';
 		$count=Advertise::model()->count($criteria);
@@ -20,6 +20,10 @@ class AdvertiseController extends SqbController
 		$this->render('index',array('advertiseData'=>$advertiseData,'pages'=>$page));
 	}
 
+	/*
+	**广告投放
+	*/
+
 	public function actionCreate()
 	{
 		$model = new Advertise();
@@ -28,7 +32,14 @@ class AdvertiseController extends SqbController
 		$criteria ->order = 'id DESC';
 		$communityData = Community::model()->findAll($criteria);
 		if(isset($_POST['Advertise']) && isset($_POST['submit'])){
+			
 			$model->attributes = $_POST['Advertise'];
+			if(!empty( $_POST['Advertise']['community']))
+					$model->community = $_POST['Advertise']['community'];
+				else
+					$model->community = null;
+
+			
 			$model->advertiser_id = $this->user->id;
 
 			if( $model->validate() )
@@ -41,21 +52,31 @@ class AdvertiseController extends SqbController
 				if(isset($_SESSION['pid']) && is_numeric($_SESSION['pid'])){
 					$pid = $_SESSION['pid'];
 					$picModel = AdvertisePic::model()->findByPk($pid);
+					$model->save(false);
+
 					$picModel->ad_id = $model->id;
 					$_SESSION['pid'] = null;
 					$picModel->save();
-					$model->save(false);
-					
+
 					$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($model->advertiser_id);
-					
 					if( $advertiserAds !== null ){
 						++$advertiserAds->ads;
 						$advertiserAds->save();
 					}
 					
 					$this->showMessage('发布成功','advertise/index');
-				}else {
-					$model->addError('content','图片保存失败');
+				}elseif($model->save()) {
+						$advertiserAds = Advertiser::model()->with('baseUser')->findByPk($model->advertiser_id);
+						if( $advertiserAds !== null ){
+							++$advertiserAds->ads;
+							$advertiserAds->save();
+						
+						$this->showMessage('发布成功','advertise/index');
+					}
+						
+					
+				}else{
+					$this->showMessage('发生错误','advertise/index');
 				}
 			}
 			
@@ -64,7 +85,21 @@ class AdvertiseController extends SqbController
 		//goto
 		cpcIsZero: 
 		$this->pageTitle = '发布广告';
-		$this->render('create',array('model'=>$model,''));
+		$this->render('create',array('model'=>$model));
+	}
+
+
+	public function actionList(){
+		$LocationId = $_POST['Location'];
+		$Location = Advertise::model()->getCommunity($LocationId);
+		if(!empty($Location)){
+			unset($_POST['Location']);
+			foreach($Location as $value=>$name)
+    		{
+     			echo CHtml::tag('option',
+                array('value'=>$value),CHtml::encode($name),true);
+    		}	
+		}
 	}
 
 	public function actionUpdate($id)
@@ -80,7 +115,13 @@ class AdvertiseController extends SqbController
 					$ad_thumb = null;
 			}
 			if(isset($_POST['Advertise'])){
+			
 				$model->attributes=$_POST['Advertise'];
+				if(!empty( $_POST['Advertise']['community']))
+					$model->community = $_POST['Advertise']['community'];
+				else
+					$model->community = null;
+				
 				if( $model->validate() ){
 					if ( $model->cpc == 0 ){
 						$model->addError('cpc','扣费额度不能是0');
